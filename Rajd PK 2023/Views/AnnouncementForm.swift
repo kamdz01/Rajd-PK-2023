@@ -24,13 +24,18 @@ struct AnnouncementForm: View {
             Form {
                 Group{
                     Section(header: Text("Ogłoszenie:")){
-                        TextField("Tytuł", text: $title)
-                        TextField("Podtytuł", text: $subTitle)
-                        if #available(iOS 16.0, *) {
-                            TextField("Treść", text: $content, axis: .vertical)
-                        } else {
-                            TextField("Treść", text: $content)
-                        }
+                        FloatingTextField(title: "Tytuł", text: $title)
+                        FloatingTextField(title: "Podtytuł", text: $subTitle)
+                        FloatingTextField(title: "Treść", text: $content)
+//                        if #available(iOS 16.0, *) {
+//                            TextField("Tytuł", text: $title, axis: .vertical)
+//                            TextField("Podtytuł", text: $subTitle, axis: .vertical)
+//                            TextField("Treść", text: $content, axis: .vertical)
+//                        } else {
+//                            TextField("Tytuł", text: $title)
+//                            TextField("Podtytuł", text: $subTitle)
+//                            TextField("Treść", text: $content)
+//                        }
                         Toggle("Wyróżnione", isOn: $priority)
                             .onTapGesture {
                                 hideKeyboard()
