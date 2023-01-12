@@ -18,90 +18,85 @@ struct AnnouncementForm: View {
     @State var content: String = ""
     @State var priority: Bool = false
     
-    init() {
-        UITableView.appearance().backgroundColor = .clear
-    }
-    
     var body: some View {
-        Form {
-            Section(header: Text("Ogłoszenie:")){
-                TextField("Tytuł", text: $title)
-                TextField("Podtytuł", text: $subTitle)
-                if #available(iOS 16.0, *) {
-                    TextField("Treść", text: $content, axis: .vertical)
-                } else {
-                    TextField("Treść", text: $content)
+        ZStack {
+            LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
+            Form {
+                Group{
+                    Section(header: Text("Ogłoszenie:")){
+                        TextField("Tytuł", text: $title)
+                        TextField("Podtytuł", text: $subTitle)
+                        if #available(iOS 16.0, *) {
+                            TextField("Treść", text: $content, axis: .vertical)
+                        } else {
+                            TextField("Treść", text: $content)
+                        }
+                        Toggle("Wyróżnione", isOn: $priority)
+                            .onTapGesture {
+                                hideKeyboard()
+                            }
+                    }
+                    HStack{
+                        Button("Usuń zdjęcie"){
+                            inputImage = nil
+                        }
+                        .foregroundColor(Color.red)
+                        Spacer()
+                        if(image == nil){
+                            Button("Dodaj zdjęcie"){}
+                                .onTapGesture {
+                                    hideKeyboard()
+                                    showingImagePicker = true
+                                }
+                        }
+                        else{
+                            Button("Zmień zdjęcie"){}
+                                .onTapGesture {
+                                    hideKeyboard()
+                                    showingImagePicker = true
+                                }
+                        }
+                    }
+                    if(image != nil){
+                        image?
+                            .resizable()
+                            .scaledToFit()
+                    }
+                    
+                    Toggle("Gotowe", isOn: $showingAdvancedOptions.animation())
+                        .onTapGesture {
+                            hideKeyboard()
+                        }
+                        .disabled(!(!title.isEmpty && !subTitle.isEmpty && !content.isEmpty))
+                    if showingAdvancedOptions{
+                        
+                            Button("Dodaj") {
+                                showSheet.toggle()
+                            }
+                            .sheet(isPresented: $showSheet) {
+                                AnnouncementDetailForm(showingAdvancedOptions: $showingAdvancedOptions, inputImage: $inputImage, title: $title, subTitle: $subTitle, content: $content, priority: $priority)
+                            }
+                    }
                 }
-                Toggle("Wyróżnione", isOn: $priority)
-                    .onTapGesture {
+                .listRowBackground(Color("FieldColor"))
+            }
+            .gesture(DragGesture().onChanged{_ in hideKeyboard()})
+            .onChange(of: inputImage) { _ in loadImage() }
+            .sheet(isPresented: $showingImagePicker) {
+                ImagePicker(image: $inputImage)
+            }
+            .navigationTitle("Dodaj ogłoszenie")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button{
                         hideKeyboard()
                     }
-            }
-            HStack{
-                Button("Usuń zdjęcie"){
-                    inputImage = nil
+                label: {
+                    Image(systemName: "keyboard.chevron.compact.down")
                 }
-                .foregroundColor(Color.red)
-                Spacer()
-                if(image == nil){
-                    Button("Dodaj zdjęcie"){}
-                        .onTapGesture {
-                            hideKeyboard()
-                            showingImagePicker = true
-                        }
                 }
-                else{
-                    Button("Zmień zdjęcie"){}
-                        .onTapGesture {
-                            hideKeyboard()
-                            showingImagePicker = true
-                        }
-                }
-            }
-            if(image != nil){
-                image?
-                    .resizable()
-                    .scaledToFit()
-            }
-            
-            Toggle("Gotowe", isOn: $showingAdvancedOptions.animation())
-                .onTapGesture {
-                    hideKeyboard()
-                }
-                .disabled(!(!title.isEmpty && !subTitle.isEmpty && !content.isEmpty))
-            if showingAdvancedOptions{
-                
-                if #available(iOS 15.0, *) {
-                    Button("Dodaj") {
-                        showSheet.toggle()
-                    }
-                    .sheet(isPresented: $showSheet) {
-                        AnnouncementDetailForm(showingAdvancedOptions: $showingAdvancedOptions, inputImage: $inputImage, title: $title, subTitle: $subTitle, content: $content, priority: $priority)
-                    }
-                } else {
-                    NavigationLink(destination: AnnouncementDetailForm(showingAdvancedOptions: $showingAdvancedOptions, inputImage: $inputImage, title: $title, subTitle: $subTitle, content: $content, priority: $priority))
-                    {
-                        Button("Dodaj") {}
-                    }
-                }
-            }
         }
-        .gesture(DragGesture().onChanged{_ in hideKeyboard()})
-        .onChange(of: inputImage) { _ in loadImage() }
-        .sheet(isPresented: $showingImagePicker) {
-            ImagePicker(image: $inputImage)
-        }
-        .navigationTitle("Dodaj ogłoszenie")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar{
-            ToolbarItem(placement: .navigationBarTrailing){
-                Button{
-                    hideKeyboard()
-                }
-            label: {
-                Image(systemName: "keyboard.chevron.compact.down")
-            }
-            }
         }
     }
     func loadImage() {
@@ -122,6 +117,8 @@ struct AnnouncementFormContainer: View{
                     .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
             } else {
                 AnnouncementForm()
+                //Text("test")
+                    .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
             }
         }
     }

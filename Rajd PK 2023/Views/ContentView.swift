@@ -15,14 +15,19 @@ struct ContentView: View {
     @AppStorage("password") var password = ""
     
     init() {
+        UITabBar.appearance().backgroundColor = UIColor(Color("TabColor"))
         UITabBar.appearance().barTintColor = UIColor(Color("TabColor"))
         UINavigationBar.appearance().barTintColor = UIColor(Color("TabColor"))
         if #available(iOS 16.0, *) {}
         else{
             UITableView.appearance().backgroundColor = .clear
         }
+        let tabBarAppearance = UITabBarAppearance()
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        }
     }
-
+    
     
     var body: some View {
         MainView(loggedIn: $loggedIn, email: $email, password: $password)

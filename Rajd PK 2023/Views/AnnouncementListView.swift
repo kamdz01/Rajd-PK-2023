@@ -87,7 +87,7 @@ struct AnnouncementList: View{
                     
                 }
                 .padding(.bottom)
-                .listRowBackground(Color("NavItem"))
+                .listRowBackground(Color("FieldColor"))
             }
         }
     }
@@ -100,9 +100,9 @@ struct AnnouncementListView: View {
     @EnvironmentObject var viewModel: AnnouncementViewModel
     
     var body: some View {
+        ZStack{
+            LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
         NavigationView {
-            ZStack{
-                LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
                 VStack {
                     if #available(iOS 16.0, *) {
                         AnnouncementList(loggedIn: $loggedIn)
@@ -120,7 +120,6 @@ struct AnnouncementListView: View {
                         AnnouncementList(loggedIn: $loggedIn)
                             .onAppear() {
                                 self.viewModel.fetchData()
-                                UITableView.appearance().backgroundColor = .clear
                             }
                             .refreshable {
                                 self.viewModel.fetchData()
@@ -131,14 +130,13 @@ struct AnnouncementListView: View {
                         AnnouncementList(loggedIn: $loggedIn)
                             .onAppear() {
                                 self.viewModel.fetchData()
-                                UITableView.appearance().backgroundColor = .clear
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     }
                 }
+                .navigationTitle("Ogłoszenia")
+                .navigationBarTitleDisplayMode(.inline)
             }
-            .navigationTitle("Ogłoszenia")
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

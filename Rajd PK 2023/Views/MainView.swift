@@ -72,31 +72,9 @@ struct MainView: View {
                 print("LoggedIn: \(loggedIn)")
             }
             
-            UITabBar.appearance().backgroundColor = UIColor(Color("TabColor"))
-            
-//            let tabBarAppearance = UITabBarAppearance()
-//            //tabBarAppearance.configureWithOpaqueBackground()
-//            if #available(iOS 15.0, *) {
-//                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-//            } else {
-//            }
-//            let navigationBarAppearance = UINavigationBarAppearance()
-//            navigationBarAppearance.configureWithOpaqueBackground()
-//            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-//            tabBarAppearance.backgroundColor = UIColor(Color("TabColor"))
+
             
         }
-        //                .onAppear {
-        //                    let tabBarAppearance = UITabBarAppearance()
-        //                    tabBarAppearance.configureWithOpaqueBackground()
-        //                    if #available(iOS 15.0, *) {
-        //                        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-        //                    } else {
-        //                    }
-        //                    let navigationBarAppearance = UINavigationBarAppearance()
-        //                    navigationBarAppearance.configureWithOpaqueBackground()
-        //                    UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-        //                }
     }
 }
 
