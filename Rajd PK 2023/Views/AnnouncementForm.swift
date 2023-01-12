@@ -17,9 +17,11 @@ struct AnnouncementForm: View {
     @State var subTitle: String = ""
     @State var content: String = ""
     @State var priority: Bool = false
+    
     init() {
         UITableView.appearance().backgroundColor = .clear
     }
+    
     var body: some View {
         Form {
             Section(header: Text("Ogłoszenie:")){
@@ -84,6 +86,7 @@ struct AnnouncementForm: View {
                 }
             }
         }
+        .gesture(DragGesture().onChanged{_ in hideKeyboard()})
         .onChange(of: inputImage) { _ in loadImage() }
         .sheet(isPresented: $showingImagePicker) {
             ImagePicker(image: $inputImage)

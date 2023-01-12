@@ -71,8 +71,6 @@ class AnnouncementViewModel: ObservableObject {
             formatter.timeZone = TimeZone.current
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             let date = formatter.string(from: now)
-            print(date)
-            print ("1")
             ref = await db.collection("Announcements").addDocument(data: ["title": title, "subTitle": subTitle, "content": content, "hidden": hidden, "date": date, "isImage": isImage, "priority": priority])
             { err in
                 if let err = err {
@@ -80,7 +78,6 @@ class AnnouncementViewModel: ObservableObject {
                     ifOk = "-1"
                 } else {
                     print("Document added with ID: \(ref!.documentID)")
-                    print ("2")
                     if (ref?.documentID != nil && ifOk == "1"){
                         ifOk = ref!.documentID
                     }
@@ -88,14 +85,12 @@ class AnnouncementViewModel: ObservableObject {
             }
             if (ref?.documentID != nil && ifOk == "1"){
                 ifOk = ref!.documentID
-                print("tuuu o")
             }
         }
         else{
             print("text field empty!")
             ifOk = "-1"
         }
-        print ("3")
         return ifOk
        }
 }

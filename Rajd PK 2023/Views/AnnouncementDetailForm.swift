@@ -212,7 +212,6 @@ struct AnnouncementDetailForm: View {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    print("______________________________________________")
                     sender.sendPushNotification(to: document.documentID, title: "\(title_l)", body: "\(content_l)", viewModel: viewModel)
                     print(document.documentID)
                 }
@@ -237,7 +236,6 @@ struct AnnouncementDetailForm: View {
             }
         }
         uploadTask.observe(.progress) { snapshot in
-            print(snapshot.progress?.fractionCompleted ?? "Error reading progress")
             uploadProgressImg = snapshot.progress?.fractionCompleted ?? 0
         }
         uploadTask.observe(.resume) { snapshot in
