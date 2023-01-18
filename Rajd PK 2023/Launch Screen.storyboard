@@ -23,7 +23,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" name="launch-bg-color"/>
+                        <color key="backgroundColor" name="TabColor"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -33,8 +33,8 @@
     </scenes>
     <resources>
         <image name="Logo" width="341.33334350585938" height="341.33334350585938"/>
-        <namedColor name="launch-bg-color">
-            <color red="1" green="0.51800000667572021" blue="0.23000000417232513" alpha="0.59999989509582519" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="TabColor">
+            <color red="1" green="0.7686274509803922" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

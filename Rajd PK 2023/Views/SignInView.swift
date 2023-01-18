@@ -61,6 +61,7 @@ struct SignInView: View {
                             .padding()
                         SignInCredentialFields(email: $email, password: $password)
                         Button(action: {
+                            hideKeyboard()
                             signInUser(userEmail: email, userPassword: password)
                         }) {
                             if #available(iOS 15.0, *) {
