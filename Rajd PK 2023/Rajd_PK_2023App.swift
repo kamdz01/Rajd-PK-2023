@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import UserNotifications
+import FirebaseMessaging
 
 @main
 struct Rajd_PK_2023App: App {
