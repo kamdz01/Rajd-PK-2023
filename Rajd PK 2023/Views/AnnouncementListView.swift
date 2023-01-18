@@ -148,6 +148,7 @@ struct AnnouncementsView_Previews: PreviewProvider {
     static var previews: some View {
         AnnouncementListView(loggedIn: .constant(true))
             .environmentObject(viewModel)
-        MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
+        ContentView()
+            .previewDisplayName(/*@START_MENU_TOKEN@*/"ContentView"/*@END_MENU_TOKEN@*/)
     }
 }

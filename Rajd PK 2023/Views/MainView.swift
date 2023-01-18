@@ -15,6 +15,8 @@ struct MainView: View {
     @StateObject var viewModel = AnnouncementViewModel()
     @State var selectedTab = 1
     
+    @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             AnnouncementListView(loggedIn: $loggedIn)
@@ -59,8 +61,8 @@ struct MainView: View {
                 }
                 .tag(5)
         }
-        .onChange(of: ActiveAnnouncement.shared.isActive){ isActive in
-            if (ActiveAnnouncement.shared.isActive){
+        .onChange(of: activeAnnouncement.isActive){ isActive in
+            if (activeAnnouncement.isActive){
                 selectedTab = 1
             }
         }
@@ -82,7 +84,7 @@ struct MainView: View {
                 }
                 print("LoggedIn: \(loggedIn)")
             }
-            if (ActiveAnnouncement.shared.isActive){
+            if (activeAnnouncement.isActive){
                 selectedTab = 1
             }
         }
