@@ -14,6 +14,8 @@ struct ContentView: View {
     @AppStorage("email") var email = ""
     @AppStorage("password") var password = ""
     
+    @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
+    
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color("TabColor"))
         UITabBar.appearance().barTintColor = UIColor(Color("TabColor"))

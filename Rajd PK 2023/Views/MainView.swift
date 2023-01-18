@@ -13,15 +13,17 @@ struct MainView: View {
     @Binding var email: String
     @Binding var password: String
     @StateObject var viewModel = AnnouncementViewModel()
+    @State var selectedTab = 1
     
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             AnnouncementListView(loggedIn: $loggedIn)
                 .tabItem {
                     //Image(systemName: "megaphone.fill")
                     Image("notifications-icon")
                     Text("Ogłoszenia")
                 }
+                .tag(1)
             
             if loggedIn{
                 AnnouncementFormContainer()
@@ -30,6 +32,7 @@ struct MainView: View {
                         Image("routes-icon")
                         Text("Napisz coś")
                     }
+                    .tag(2)
             }
             
             TimetableView()
@@ -38,6 +41,7 @@ struct MainView: View {
                     Image("schedule-icon")
                     Text("Harmonogram")
                 }
+                .tag(3)
             
             ContactsView()
                 .tabItem {
@@ -45,6 +49,7 @@ struct MainView: View {
                     //Image("Contact-icon")
                     Text("Kontakty")
                 }
+                .tag(4)
             
             SignInView(loggedIn: $loggedIn, email: $email, password: $password)
                 .tabItem {
@@ -52,6 +57,12 @@ struct MainView: View {
                     Image("FAQ-icon")
                     Text("Logowanie")
                 }
+                .tag(5)
+        }
+        .onChange(of: ActiveAnnouncement.shared.isActive){ isActive in
+            if (ActiveAnnouncement.shared.isActive){
+                selectedTab = 1
+            }
         }
         .environmentObject(viewModel)
         .onAppear{
@@ -71,10 +82,11 @@ struct MainView: View {
                 }
                 print("LoggedIn: \(loggedIn)")
             }
-            
-
-            
+            if (ActiveAnnouncement.shared.isActive){
+                selectedTab = 1
+            }
         }
+
     }
 }
 

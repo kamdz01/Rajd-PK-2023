@@ -31,6 +31,7 @@
 		AA72873B296F5DE6000C573F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA72873A296F5DE6000C573F /* GoogleService-Info.plist */; };
 		AAEA49352970016A004A740F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAEA49342970016A004A740F /* Assets.xcassets */; };
 		AAF83C0429782D17000EDDB1 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAF83C0329782D17000EDDB1 /* Launch Screen.storyboard */; };
+		AAF83C0629784070000EDDB1 /* ActiveAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF83C0529784070000EDDB1 /* ActiveAnnouncement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		AA9CF8A6296F63F200920C2A /* Rajd PK 2023.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rajd PK 2023.entitlements"; sourceTree = "<group>"; };
 		AAEA49342970016A004A740F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAF83C0329782D17000EDDB1 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "Rajd PK 2023/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
+		AAF83C0529784070000EDDB1 /* ActiveAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveAnnouncement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				AA32A045296F4FB6002E321B /* Views */,
 				AA32A042296F4FB6002E321B /* ViewModels */,
 				AA32A03F296F4FB6002E321B /* Structs */,
+				AAF83C0729784077000EDDB1 /* Classes */,
 				AA32A035296F4F62002E321B /* Preview Content */,
 			);
 			path = "Rajd PK 2023";
@@ -149,6 +152,14 @@
 				AA32A04D296F4FB6002E321B /* SignInView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AAF83C0729784077000EDDB1 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				AAF83C0529784070000EDDB1 /* ActiveAnnouncement.swift */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,6 +252,7 @@
 				AA32A057296F4FB6002E321B /* ImagePicker.swift in Sources */,
 				AA32A060296F4FB6002E321B /* SignInView.swift in Sources */,
 				AA32A062296F4FB6002E321B /* MainView.swift in Sources */,
+				AAF83C0629784070000EDDB1 /* ActiveAnnouncement.swift in Sources */,
 				AA32A05C296F4FB6002E321B /* FirebaseImage.swift in Sources */,
 				AA32A063296F4FB6002E321B /* ContentView.swift in Sources */,
 				AA32A05E296F4FB6002E321B /* AnnouncementListView.swift in Sources */,

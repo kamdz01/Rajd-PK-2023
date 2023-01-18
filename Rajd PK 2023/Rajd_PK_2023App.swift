@@ -108,8 +108,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
       print("Message ID from userNotificationCenter didReceive: \(messageID)")
     }
 
-    print(userInfo)
-
+    //print(userInfo)
+      
+      ActiveAnnouncement.shared.getAnnouncement(id: userInfo["gcm.notification.announcementID"] as! String){announcement in
+          ActiveAnnouncement.shared.isActive = true
+          ActiveAnnouncement.shared.announcement = announcement
+      }
     completionHandler()
   }
 }

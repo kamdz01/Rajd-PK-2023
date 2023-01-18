@@ -90,14 +90,14 @@ struct AnnouncementDetailForm: View {
                                         let sender = PushNotificationSender()
                                         let title_l = title
                                         let content_l = content
-                                        sender.sendToTopic(title: title_l, body: content_l, viewModel: viewModel)
+                                        sender.sendToTopic(title: title_l, body: content_l, id: lastID, viewModel: viewModel)
                                         ifAdded = 2
                                     }
                                     else{
                                         let sender = PushNotificationSender()
                                         let title_l = title
                                         let content_l = content
-                                        sender.sendToTopic(title: title_l, body: content_l, viewModel: viewModel)
+                                        sender.sendToTopic(title: title_l, body: content_l, id: lastID, viewModel: viewModel)
                                         ifAdded = 1
                                     }
                                     
@@ -170,14 +170,14 @@ struct AnnouncementDetailForm: View {
         
         
         
-        func sendToTopic(title: String, body: String, viewModel: AnnouncementViewModel) {
+        func sendToTopic(title: String, body: String, id: String, viewModel: AnnouncementViewModel) {
             var serverKey = ""
             viewModel.getKey(){key in
                 serverKey = key
                 let urlString = "https://fcm.googleapis.com/fcm/send"
                 let url = NSURL(string: urlString)!
                 let paramString: [String : Any] = ["to" : "/topics/test_topic",
-                                                   "notification" : ["title" : title, "body" : body, "sound": "default"],
+                                                   "notification" : ["title" : title, "body" : body,"announcementID": id , "sound": "default"],
                                                    "data" : ["user" : "test_id"],
                 ]
                 let request = NSMutableURLRequest(url: url as URL)

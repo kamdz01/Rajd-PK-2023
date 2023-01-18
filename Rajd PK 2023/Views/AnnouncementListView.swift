@@ -75,7 +75,7 @@ struct AnnouncementList: View{
                             }
                         }
                         Spacer()
-                        //                                Image(systemName: "forward.frame.fill")
+                        //Image(systemName: "forward.frame.fill")
                     }
                     
                     NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: announcement))
@@ -98,12 +98,14 @@ struct AnnouncementListView: View {
     
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: AnnouncementViewModel
+    @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
     
     var body: some View {
         ZStack{
             LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
-        NavigationView {
+            NavigationView {
                 VStack {
+                        NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: activeAnnouncement.announcement), isActive: $activeAnnouncement.isActive) { EmptyView() }
                     if #available(iOS 16.0, *) {
                         AnnouncementList(loggedIn: $loggedIn)
                             .onAppear() {

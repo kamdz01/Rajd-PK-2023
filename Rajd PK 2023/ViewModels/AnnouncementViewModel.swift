@@ -53,12 +53,12 @@ class AnnouncementViewModel: ObservableObject {
     func hideData(id: String) {
         db.collection("Announcements").document(id).setData([
             "hidden": true], merge: true) { err in
-            if let err = err {
-                print("Error writing document: \(err)")
-            } else {
-                print("Document successfully written!")
+                if let err = err {
+                    print("Error writing document: \(err)")
+                } else {
+                    print("Document successfully written!")
+                }
             }
-        }
     }
     
     func addData(title: String, subTitle: String, content: String, hidden: Bool, isImage: Bool, priority: Bool) async -> String {
@@ -71,7 +71,7 @@ class AnnouncementViewModel: ObservableObject {
             formatter.timeZone = TimeZone.current
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             let date = formatter.string(from: now)
-            ref = await db.collection("Announcements").addDocument(data: ["title": title, "subTitle": subTitle, "content": content, "hidden": hidden, "date": date, "isImage": isImage, "priority": priority])
+            ref = db.collection("Announcements").addDocument(data: ["title": title, "subTitle": subTitle, "content": content, "hidden": hidden, "date": date, "isImage": isImage, "priority": priority])
             { err in
                 if let err = err {
                     print("Error adding document: \(err)")
@@ -92,5 +92,5 @@ class AnnouncementViewModel: ObservableObject {
             ifOk = "-1"
         }
         return ifOk
-       }
+    }
 }
