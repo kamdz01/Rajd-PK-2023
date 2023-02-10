@@ -17,77 +17,12 @@ struct AnnouncementList: View{
             if(!(announcement.content ?? "").isEmpty && !(announcement.title ?? "").isEmpty &&
                !(announcement.hidden ?? false)) {
                 let dateArr = announcement.date?.components(separatedBy: " ")
-                ZStack(alignment: .leading) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            if (announcement.priority ?? false){
-                                Group{
-                                    HStack {
-                                        VStack {
-                                            Text(announcement.title!)
-                                                .font(.title)
-                                                .fontWeight(.semibold)
-                                            Spacer()
-                                        }
-                                        Spacer()
-                                        VStack {
-                                            Text(dateArr?[0] ?? "")
-                                                .font(.footnote)
-                                                .foregroundColor(.secondary)
-                                            Text(dateArr?[1] ?? "")
-                                                .font(.footnote)
-                                                .foregroundColor(.secondary)
-                                            Spacer()
-                                        }
-                                        
-                                    }
-                                    Text(announcement.subTitle!).font(.title3)
-                                        .fontWeight(.medium)
-                                    Text(announcement.content!)
-                                        .fontWeight(.medium)
-                                        .lineLimit(2)
-                                }
-                            }
-                            else {
-                                Group{
-                                    HStack {
-                                        VStack {
-                                            Text(announcement.title!)
-                                                .font(.title)
-                                            Spacer()
-                                        }
-                                        Spacer()
-                                        VStack {
-                                            Text(dateArr?[0] ?? "")
-                                                .font(.footnote)
-                                                .foregroundColor(.secondary)
-                                            Text(dateArr?[1] ?? "")
-                                                .font(.footnote)
-                                                .foregroundColor(.secondary)
-                                            Spacer()
-                                        }
-                                        
-                                    }
-                                    Text(announcement.subTitle!).font(.title3)
-                                    Text(announcement.content!)
-                                        .lineLimit(2)
-                                }
-                            }
-                        }
-                        Spacer()
-                        //Image(systemName: "forward.frame.fill")
-                    }
-                    
-                    NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: announcement))
-                    {
-                        EmptyView()
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .opacity(0.0)
-                    
+                if #available(iOS 15.0, *) {
+                    AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
+                        .listRowSeparatorTint(Color("NavItem"))
+                } else {
+                    AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
                 }
-                .padding(.bottom)
-                .listRowBackground(Color("FieldColor"))
             }
         }
     }
@@ -140,6 +75,92 @@ struct AnnouncementListView: View {
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
+    }
+}
+
+
+struct AnnouncementViewItem: View {
+    
+    @Binding var loggedIn: Bool
+    let announcement: Announcement
+    let dateArr: [String]?
+    var body: some View {
+        ZStack(alignment: .leading) {
+            HStack {
+                if (announcement.priority ?? true){
+                    Rectangle()
+                        .fill(.red)
+                        .frame(width: 4)
+                }
+                VStack(alignment: .leading) {
+                    if (announcement.priority ?? false){
+                        Group{
+                            HStack {
+                                VStack {
+                                    Text(announcement.title!)
+                                        .font(.title)
+                                        .fontWeight(.semibold)
+                                    Spacer()
+                                }
+                                Spacer()
+                                VStack {
+                                    Text(dateArr?[0] ?? "")
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
+                                    Text(dateArr?[1] ?? "")
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
+                                    Spacer()
+                                }
+
+                            }
+                            Text(announcement.subTitle!).font(.title3)
+                                .fontWeight(.medium)
+                            Text(announcement.content!)
+                                .fontWeight(.medium)
+                                .lineLimit(2)
+                        }
+                    }
+                    else {
+                        Group{
+                            HStack {
+                                VStack {
+                                    Text(announcement.title!)
+                                        .font(.title)
+                                    Spacer()
+                                }
+                                Spacer()
+                                VStack {
+                                    Text(dateArr?[0] ?? "")
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
+                                    Text(dateArr?[1] ?? "")
+                                        .font(.footnote)
+                                        .foregroundColor(.secondary)
+                                    Spacer()
+                                }
+                                
+                            }
+                            Text(announcement.subTitle!).font(.title3)
+                            Text(announcement.content!)
+                                .lineLimit(2)
+                        }
+                    }
+                }
+                Spacer()
+                //Image(systemName: "forward.frame.fill")
+            }
+            
+            NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: announcement))
+            {
+                EmptyView()
+            }
+            .buttonStyle(PlainButtonStyle())
+            .opacity(0.0)
+            
+        }
+        .padding(.bottom)
+        .listRowBackground(Color("FieldColor"))
     }
 }
 
