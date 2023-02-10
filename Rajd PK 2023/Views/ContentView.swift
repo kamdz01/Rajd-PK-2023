@@ -33,6 +33,7 @@ struct ContentView: View {
     
     var body: some View {
         MainView(loggedIn: $loggedIn, email: $email, password: $password)
+            //.foregroundColor(/*@START_MENU_TOKEN@*/Color("TextColor")/*@END_MENU_TOKEN@*/)
     }
 }
 

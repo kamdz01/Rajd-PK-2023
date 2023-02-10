@@ -15,13 +15,15 @@ struct AnnouncementDetailForm: View {
     @State var ifAdded = 0
     @State var uploadProgressImg = 0.0
     @State var uploadProgressDoc = 0.0
-    @EnvironmentObject var viewModel: AnnouncementViewModel
+    @EnvironmentObject var viewModel: FirebaseViewModel
     @Binding var showingAdvancedOptions: Bool
     @Binding var inputImage: UIImage?
     @Binding var title: String
     @Binding var subTitle: String
     @Binding var content: String
     @Binding var priority: Bool
+    @Binding var sendNotification: Bool
+    
     var body: some View {
         ZStack{
             LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
@@ -81,23 +83,27 @@ struct AnnouncementDetailForm: View {
                         .padding(/*@START_MENU_TOKEN@*/.all, 10.0/*@END_MENU_TOKEN@*/)
                         Button("Dodaj") {
                             Task{
-                                let lastID = await self.viewModel.addData(title: title, subTitle: subTitle, content: content, hidden: false, isImage: (inputImage != nil), priority: priority)
+                                let lastID = await self.viewModel.addAnnouncement(title: title, subTitle: subTitle, content: content, hidden: false, isImage: (inputImage != nil), priority: priority)
                                 
                                 if lastID != "-1"{
                                     uploadProgressDoc = 1
                                     if inputImage != nil{
                                         uploadImage(imageId: lastID)
-                                        let sender = PushNotificationSender()
-                                        let title_l = title
-                                        let content_l = content
-                                        sender.sendToTopic(title: title_l, body: content_l, id: lastID, viewModel: viewModel)
+                                        if (sendNotification){
+                                            let sender = PushNotificationSender()
+                                            let title_l = title
+                                            let content_l = content
+                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, viewModel: viewModel)
+                                        }
                                         ifAdded = 2
                                     }
                                     else{
-                                        let sender = PushNotificationSender()
-                                        let title_l = title
-                                        let content_l = content
-                                        sender.sendToTopic(title: title_l, body: content_l, id: lastID, viewModel: viewModel)
+                                        if (sendNotification){
+                                            let sender = PushNotificationSender()
+                                            let title_l = title
+                                            let content_l = content
+                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, viewModel: viewModel)
+                                        }
                                         ifAdded = 1
                                     }
                                     
@@ -138,7 +144,7 @@ struct AnnouncementDetailForm: View {
     }
     
     class PushNotificationSender {
-        func sendPushNotification(to token: String, title: String, body: String, viewModel: AnnouncementViewModel) {
+        func sendPushNotification(to token: String, title: String, body: String, viewModel: FirebaseViewModel) {
             var serverKey = ""
             viewModel.getKey(){key in
                 serverKey = key
@@ -170,19 +176,19 @@ struct AnnouncementDetailForm: View {
         
         
         
-        func sendToTopic(title: String, body: String, id: String, viewModel: AnnouncementViewModel) {
+        func sendToTopic(title: String, body: String, id: String, viewModel: FirebaseViewModel) {
             var serverKey = ""
             viewModel.getKey(){key in
                 serverKey = key
                 let urlString = "https://fcm.googleapis.com/fcm/send"
                 let url = NSURL(string: urlString)!
                 let paramString_ios: [String : Any] = ["to" : "/topics/announcements_ios",
-                                                   "notification" : ["title" : title, "body" : body,"announcementID": id , "sound": "default"],
-                                                   "data" : ["announcementID" : id],
+                                                       "notification" : ["title" : title, "body" : body,"announcementID": id , "sound": "default"],
+                                                       "data" : ["announcementID" : id],
                 ]
                 
                 let paramString_android: [String : Any] = ["to" : "/topics/announcements_android",
-                                                   "data" : ["title" : title, "body" : body,"announcementID": id]
+                                                           "data" : ["title" : title, "body" : body,"announcementID": id]
                 ]
                 let request_ios = NSMutableURLRequest(url: url as URL)
                 request_ios.httpMethod = "POST"
@@ -223,7 +229,7 @@ struct AnnouncementDetailForm: View {
         }
     }
     
-    func sendtoDevices(vievModel: AnnouncementViewModel){
+    func sendtoDevices(vievModel: FirebaseViewModel){
         let title_l = title
         let content_l = content
         
@@ -240,7 +246,7 @@ struct AnnouncementDetailForm: View {
             }
         }
     }
-
+    
     
     func uploadImage(imageId: String){
         let imageData = inputImage?.jpegData(compressionQuality: 0.8)
@@ -275,15 +281,15 @@ struct AnnouncementDetailForm: View {
             uploadProgressImg = 0.0
             uploadProgressDoc = 0
             inputImage = nil
-            self.viewModel.hideData(id: imageId )
+            self.viewModel.hideAnnouncement(id: imageId )
         }
     }
 }
 
 struct AnnouncementDetailForm_Previews: PreviewProvider {
-    static let viewModel = AnnouncementViewModel()
+    static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        AnnouncementDetailForm(showingAdvancedOptions: .constant(false), inputImage: .constant(UIImage()), title: .constant("title"), subTitle: .constant("subTitle"), content: .constant("content"), priority: .constant(true))
+        AnnouncementDetailForm(showingAdvancedOptions: .constant(false), inputImage: .constant(UIImage()), title: .constant("title"), subTitle: .constant("subTitle"), content: .constant("content"), priority: .constant(true), sendNotification: .constant(true))
             .environmentObject(viewModel)
     }
 }

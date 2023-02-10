@@ -8,16 +8,35 @@
 import Foundation
 import FirebaseFirestore
 
-class AnnouncementViewModel: ObservableObject {
+class FirebaseViewModel: ObservableObject {
     
     @Published var announcements = [Announcement]()
+    @Published var enrollments = [Enrollment]()
     var lastID = ""
     var db = Firestore.firestore()
     
     func fetchData() {
+        db.collection("Enrollments").addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No enrollments")
+                return
+            }
+            
+            self.enrollments = documents.map { (queryDocumentSnapshot) -> Enrollment in
+                let data = queryDocumentSnapshot.data()
+                let id = queryDocumentSnapshot.documentID
+                let title = data["title"] as? String ?? ""
+                let content = data["content"] as? String ?? ""
+                let date = data["date"] as? String ?? ""
+                let link = data["link"] as? String ?? ""
+                return Enrollment(id: id, title: title, content: content, link: link, date: date)
+            }
+            self.enrollments.sort(by: {$0.date! > $1.date!})
+        }
+        
         db.collection("Announcements").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
-                print("No documents")
+                print("No announcements")
                 return
             }
             
@@ -50,7 +69,7 @@ class AnnouncementViewModel: ObservableObject {
         }
     }
     
-    func hideData(id: String) {
+    func hideAnnouncement(id: String) {
         db.collection("Announcements").document(id).setData([
             "hidden": true], merge: true) { err in
                 if let err = err {
@@ -61,7 +80,7 @@ class AnnouncementViewModel: ObservableObject {
             }
     }
     
-    func addData(title: String, subTitle: String, content: String, hidden: Bool, isImage: Bool, priority: Bool) async -> String {
+    func addAnnouncement(title: String, subTitle: String, content: String, hidden: Bool, isImage: Bool, priority: Bool) async -> String {
         var ifOk = "1"
         var ref: DocumentReference? = nil
         if(!title.isEmpty && !subTitle.isEmpty && !content.isEmpty)

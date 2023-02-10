@@ -17,6 +17,7 @@ struct AnnouncementForm: View {
     @State var subTitle: String = ""
     @State var content: String = ""
     @State var priority: Bool = false
+    @State var sendNotification: Bool = true
     
     var body: some View {
         ZStack {
@@ -37,6 +38,10 @@ struct AnnouncementForm: View {
 //                            TextField("Treść", text: $content)
 //                        }
                         Toggle("Wyróżnione", isOn: $priority)
+                            .onTapGesture {
+                                hideKeyboard()
+                            }
+                        Toggle("Wyślij z powiadomieniem", isOn: $sendNotification)
                             .onTapGesture {
                                 hideKeyboard()
                             }
@@ -79,7 +84,7 @@ struct AnnouncementForm: View {
                                 showSheet.toggle()
                             }
                             .sheet(isPresented: $showSheet) {
-                                AnnouncementDetailForm(showingAdvancedOptions: $showingAdvancedOptions, inputImage: $inputImage, title: $title, subTitle: $subTitle, content: $content, priority: $priority)
+                                AnnouncementDetailForm(showingAdvancedOptions: $showingAdvancedOptions, inputImage: $inputImage, title: $title, subTitle: $subTitle, content: $content, priority: $priority, sendNotification: $sendNotification)
                             }
                     }
                 }

@@ -12,7 +12,7 @@ struct MainView: View {
     @Binding var loggedIn: Bool
     @Binding var email: String
     @Binding var password: String
-    @StateObject var viewModel = AnnouncementViewModel()
+    @StateObject var viewModel = FirebaseViewModel()
     @State var selectedTab = 1
     
     @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
@@ -26,7 +26,13 @@ struct MainView: View {
                     Text("Ogłoszenia")
                 }
                 .tag(1)
-            
+            EnrollmentListView(loggedIn: $loggedIn)
+                .tabItem {
+                    //Image(systemName: "megaphone.fill")
+                    Image("notifications-icon")
+                    Text("Zapisy")
+                }
+                .tag(6)
             if loggedIn{
                 AnnouncementFormContainer()
                     .tabItem {

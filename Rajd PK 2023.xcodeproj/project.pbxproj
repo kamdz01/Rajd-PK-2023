@@ -12,7 +12,7 @@
 		AA32A037296F4F62002E321B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA32A036296F4F62002E321B /* Preview Assets.xcassets */; };
 		AA32A055296F4FB6002E321B /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A040296F4FB6002E321B /* Announcement.swift */; };
 		AA32A057296F4FB6002E321B /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A043296F4FB6002E321B /* ImagePicker.swift */; };
-		AA32A058296F4FB6002E321B /* AnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A044296F4FB6002E321B /* AnnouncementViewModel.swift */; };
+		AA32A058296F4FB6002E321B /* FirebaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A044296F4FB6002E321B /* FirebaseViewModel.swift */; };
 		AA32A059296F4FB6002E321B /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A046296F4FB6002E321B /* ContactsView.swift */; };
 		AA32A05A296F4FB6002E321B /* TimetableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A047296F4FB6002E321B /* TimetableView.swift */; };
 		AA32A05B296F4FB6002E321B /* AnnouncementDetailForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A048296F4FB6002E321B /* AnnouncementDetailForm.swift */; };
@@ -29,6 +29,8 @@
 		AA32A06C296F51A0002E321B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A06B296F51A0002E321B /* FirebaseMessaging */; };
 		AA32A06E296F51A0002E321B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A06D296F51A0002E321B /* FirebaseStorage */; };
 		AA72873B296F5DE6000C573F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA72873A296F5DE6000C573F /* GoogleService-Info.plist */; };
+		AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB862996E8C50056AB1B /* Enrollment.swift */; };
+		AA8FBB892996EAD20056AB1B /* EnrollmentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */; };
 		AAEA49352970016A004A740F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAEA49342970016A004A740F /* Assets.xcassets */; };
 		AAF83C0429782D17000EDDB1 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAF83C0329782D17000EDDB1 /* Launch Screen.storyboard */; };
 		AAF83C0629784070000EDDB1 /* ActiveAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF83C0529784070000EDDB1 /* ActiveAnnouncement.swift */; };
@@ -41,7 +43,7 @@
 		AA32A036296F4F62002E321B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AA32A040296F4FB6002E321B /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		AA32A043296F4FB6002E321B /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		AA32A044296F4FB6002E321B /* AnnouncementViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementViewModel.swift; sourceTree = "<group>"; };
+		AA32A044296F4FB6002E321B /* FirebaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseViewModel.swift; sourceTree = "<group>"; };
 		AA32A046296F4FB6002E321B /* ContactsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		AA32A047296F4FB6002E321B /* TimetableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimetableView.swift; sourceTree = "<group>"; };
 		AA32A048296F4FB6002E321B /* AnnouncementDetailForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailForm.swift; sourceTree = "<group>"; };
@@ -55,6 +57,8 @@
 		AA32A050296F4FB6002E321B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA32A06F296F5321002E321B /* Rajd-PK-2023-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rajd-PK-2023-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AA72873A296F5DE6000C573F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AA8FBB862996E8C50056AB1B /* Enrollment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enrollment.swift; sourceTree = "<group>"; };
+		AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentListView.swift; sourceTree = "<group>"; };
 		AA9CF8A6296F63F200920C2A /* Rajd PK 2023.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rajd PK 2023.entitlements"; sourceTree = "<group>"; };
 		AAEA49342970016A004A740F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAF83C0329782D17000EDDB1 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "Rajd PK 2023/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
@@ -121,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				AA32A040296F4FB6002E321B /* Announcement.swift */,
+				AA8FBB862996E8C50056AB1B /* Enrollment.swift */,
 			);
 			path = Structs;
 			sourceTree = "<group>";
@@ -129,7 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				AA32A043296F4FB6002E321B /* ImagePicker.swift */,
-				AA32A044296F4FB6002E321B /* AnnouncementViewModel.swift */,
+				AA32A044296F4FB6002E321B /* FirebaseViewModel.swift */,
 				AA160E4629703E1B004B5605 /* FloatingTextField.swift */,
 			);
 			path = ViewModels;
@@ -141,6 +146,7 @@
 				AAF83C0329782D17000EDDB1 /* Launch Screen.storyboard */,
 				AA32A050296F4FB6002E321B /* ContentView.swift */,
 				AA32A04F296F4FB6002E321B /* MainView.swift */,
+				AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */,
 				AA32A04B296F4FB6002E321B /* AnnouncementListView.swift */,
 				AA32A04E296F4FB6002E321B /* AnnouncementDetailView.swift */,
 				AA32A048296F4FB6002E321B /* AnnouncementDetailForm.swift */,
@@ -243,8 +249,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA32A061296F4FB6002E321B /* AnnouncementDetailView.swift in Sources */,
+				AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */,
 				AA32A05F296F4FB6002E321B /* AnnouncementForm.swift in Sources */,
-				AA32A058296F4FB6002E321B /* AnnouncementViewModel.swift in Sources */,
+				AA32A058296F4FB6002E321B /* FirebaseViewModel.swift in Sources */,
 				AA32A055296F4FB6002E321B /* Announcement.swift in Sources */,
 				AA32A05B296F4FB6002E321B /* AnnouncementDetailForm.swift in Sources */,
 				AA32A030296F4F61002E321B /* Rajd_PK_2023App.swift in Sources */,
@@ -253,6 +260,7 @@
 				AA32A060296F4FB6002E321B /* SignInView.swift in Sources */,
 				AA32A062296F4FB6002E321B /* MainView.swift in Sources */,
 				AAF83C0629784070000EDDB1 /* ActiveAnnouncement.swift in Sources */,
+				AA8FBB892996EAD20056AB1B /* EnrollmentListView.swift in Sources */,
 				AA32A05C296F4FB6002E321B /* FirebaseImage.swift in Sources */,
 				AA32A063296F4FB6002E321B /* ContentView.swift in Sources */,
 				AA32A05E296F4FB6002E321B /* AnnouncementListView.swift in Sources */,

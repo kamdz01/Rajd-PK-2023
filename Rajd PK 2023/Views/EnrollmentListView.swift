@@ -1,48 +1,43 @@
 //
-//  AnnouncementsView.swift
+//  EnrollmentListView.swift
 //  Rajd PK 2023
 //
-//  Created by Kamil Dziedzic on 12/12/2022.
+//  Created by Kamil Dziedzic on 10/02/2023.
 //
 
 import SwiftUI
 
-struct AnnouncementList: View{
+struct EnrollmentList: View{
     
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
     
     var body: some View{
-        List(viewModel.announcements) { announcement in
-            if(!(announcement.content ?? "").isEmpty && !(announcement.title ?? "").isEmpty &&
-               !(announcement.hidden ?? false)) {
-                let dateArr = announcement.date?.components(separatedBy: " ")
+        List(viewModel.enrollments) { enrollment in
+            if(!(enrollment.link ?? "").isEmpty && !(enrollment.title ?? "").isEmpty) {
+                let dateArr = enrollment.date?.components(separatedBy: " ")
                 if #available(iOS 15.0, *) {
-                    AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
+                    EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
                         .listRowSeparator(.hidden)
                 } else {
-                    AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
+                    EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
                 }
             }
         }
     }
 }
 
-
-struct AnnouncementListView: View {
-    
+struct EnrollmentListView: View {
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
-    @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
     
     var body: some View {
         ZStack{
             LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
             NavigationView {
                 VStack {
-                    NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: activeAnnouncement.announcement), isActive: $activeAnnouncement.isActive) { EmptyView() }
                     if #available(iOS 16.0, *) {
-                        AnnouncementList(loggedIn: $loggedIn)
+                        EnrollmentList(loggedIn: $loggedIn)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -54,7 +49,7 @@ struct AnnouncementListView: View {
                             .scrollContentBackground(.hidden)
                     }
                     else if #available(iOS 15.0, *) {
-                        AnnouncementList(loggedIn: $loggedIn)
+                        EnrollmentList(loggedIn: $loggedIn)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -64,43 +59,34 @@ struct AnnouncementListView: View {
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
-                        AnnouncementList(loggedIn: $loggedIn)
+                        EnrollmentList(loggedIn: $loggedIn)
                             .onAppear() {
+                                self.viewModel.fetchData()
                                 UITableView.appearance().backgroundColor = UIColor.clear
                                 UITableViewCell.appearance().backgroundColor = UIColor.clear
-                                self.viewModel.fetchData()
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     }
                 }
-                .navigationTitle("Ogłoszenia")
+                .navigationTitle("Zapisy")
                 .navigationBarTitleDisplayMode(.inline)
             }
         }
     }
 }
 
-
-struct AnnouncementViewItem: View {
+struct EnrollmentViewItem: View {
     
     @Binding var loggedIn: Bool
-    let announcement: Announcement
+    let enrollment: Enrollment
     let dateArr: [String]?
     var body: some View {
-        ZStack(alignment: .leading) {
             HStack {
-                if (announcement.priority ?? true){
-                    Rectangle()
-                        .fill(.red)
-                        .frame(width: 4)
-                        .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                }
                 VStack(alignment: .leading) {
-                    if (announcement.priority ?? false){
                         Group{
                             HStack {
                                 VStack {
-                                    Text(announcement.title!)
+                                    Text(enrollment.title!)
                                         .font(.title)
                                         .fontWeight(.semibold)
                                     Spacer()
@@ -115,54 +101,21 @@ struct AnnouncementViewItem: View {
                                         .foregroundColor(.secondary)
                                     Spacer()
                                 }
-                                
+
                             }
-                            Text(announcement.subTitle!).font(.title3)
-                                .fontWeight(.medium)
-                            Text(announcement.content!)
-                                .fontWeight(.medium)
-                                .lineLimit(2)
-                        }
-                    }
-                    else {
-                        Group{
-                            HStack {
-                                VStack {
-                                    Text(announcement.title!)
-                                        .font(.title)
-                                    Spacer()
-                                }
-                                Spacer()
-                                VStack {
-                                    Text(dateArr?[0] ?? "")
-                                        .font(.footnote)
-                                        .foregroundColor(.secondary)
-                                    Text(dateArr?[1] ?? "")
-                                        .font(.footnote)
-                                        .foregroundColor(.secondary)
-                                    Spacer()
-                                }
-                                
+                            if (enrollment.content != ""){
+                                Text(enrollment.content!)
+                                    .fontWeight(.medium)
                             }
-                            Text(announcement.subTitle!).font(.title3)
-                            Text(announcement.content!)
-                                .lineLimit(2)
+                            Link(destination: URL(string: enrollment.link ?? "")!, label: {
+                                Text("Link do formularza")
+                                    .underline()
+                                    .fontWeight(.medium)
+                            })
                         }
-                    }
                 }
                 Spacer()
-                //Image(systemName: "forward.frame.fill")
             }
-            
-            
-            NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: announcement))
-            {
-                EmptyView()
-            }
-            .buttonStyle(PlainButtonStyle())
-            .opacity(0.0)
-            
-        }
         .padding(.vertical, 5.0)
         .padding(.horizontal, -7.0)
         .padding(7.0)
@@ -170,10 +123,10 @@ struct AnnouncementViewItem: View {
     }
 }
 
-struct AnnouncementsView_Previews: PreviewProvider {
+struct EnrollmentListView_Previews: PreviewProvider {
     static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        AnnouncementListView(loggedIn: .constant(true))
+        EnrollmentListView(loggedIn: .constant(true))
             .environmentObject(viewModel)
         ContentView()
             .previewDisplayName(/*@START_MENU_TOKEN@*/"ContentView"/*@END_MENU_TOKEN@*/)

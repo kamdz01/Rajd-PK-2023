@@ -14,7 +14,7 @@ struct AnnouncementDetailView: View {
     @State private var chosenDelete = false
     @State private var deleted = 0
     @Binding var loggedIn: Bool
-    @ObservedObject private var viewModel = AnnouncementViewModel()
+    @ObservedObject private var viewModel = FirebaseViewModel()
     
     @State var announcement: Announcement
     var body: some View {
@@ -53,7 +53,7 @@ struct AnnouncementDetailView: View {
                         title: Text("Czy na pewno chcesz usunąć to ogłoszenie?"),
                         buttons: [
                             .destructive(Text("Usuń")) {
-                                self.viewModel.hideData(id: announcement.id ?? "ERROR")
+                                self.viewModel.hideAnnouncement(id: announcement.id ?? "ERROR")
                                 chosenDelete = false
                                 deleted = 1
                             },
