@@ -35,7 +35,11 @@ class ActiveAnnouncement: ObservableObject {
                 let date = data?["date"] as? String ?? ""
                 let isImage = data?["isImage"] as? Bool ?? false
                 let priority = data?["priority"] as? Bool ?? false
-                announcement =  Announcement(id: id, title: title, subTitle: subTitle, content: content, hidden: hidden, date: date, isImage: isImage, priority: priority)
+                announcement = Announcement(id: id, title: title, subTitle: subTitle, content: content, hidden: hidden, date: date, isImage: isImage, priority: priority)
+            }
+            else {
+                print("Document does not exist")
+                announcement = Announcement(id: "-1")
             }
             completion(announcement)
         }

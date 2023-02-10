@@ -54,7 +54,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         print("Message ID: \(messageID)")
       }
 
-      //print(userInfo)
+      print(userInfo)
 
       completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -66,8 +66,8 @@ extension AppDelegate: MessagingDelegate {
       let deviceToken:[String: String] = ["token": fcmToken ?? ""]
         print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
         
-        Messaging.messaging().subscribe(toTopic: "test_topic") { error in
-          print("Subscribed to test topic")
+        Messaging.messaging().subscribe(toTopic: "announcements_ios") { error in
+          print("Subscribed to announcements_ios topic")
         }
     }
 }
@@ -85,7 +85,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print("Message ID: \(messageID)")
     }
 
-    //print(userInfo)
+    print(userInfo)
 
     // Change this to your preferred presentation option
     completionHandler([[.banner, .badge, .sound]])
@@ -108,11 +108,15 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
       print("Message ID from userNotificationCenter didReceive: \(messageID)")
     }
 
-    //print(userInfo)
-      
-      ActiveAnnouncement.shared.getAnnouncement(id: userInfo["gcm.notification.announcementID"] as! String){announcement in
-          ActiveAnnouncement.shared.isActive = true
-          ActiveAnnouncement.shared.announcement = announcement
+    print(userInfo)
+      let announcementID = userInfo["gcm.notification.announcementID"]
+      if announcementID != nil{
+          ActiveAnnouncement.shared.getAnnouncement(id: announcementID as! String){announcement in
+              if announcement.id != "-1"{
+                  ActiveAnnouncement.shared.isActive = true
+                  ActiveAnnouncement.shared.announcement = announcement
+              }
+          }
       }
     completionHandler()
   }
