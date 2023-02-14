@@ -93,7 +93,7 @@ struct AnnouncementDetailForm: View {
                                             let sender = PushNotificationSender()
                                             let title_l = title
                                             let content_l = content
-                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, viewModel: viewModel)
+                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel)
                                         }
                                         ifAdded = 2
                                     }
@@ -102,7 +102,7 @@ struct AnnouncementDetailForm: View {
                                             let sender = PushNotificationSender()
                                             let title_l = title
                                             let content_l = content
-                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, viewModel: viewModel)
+                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel)
                                         }
                                         ifAdded = 1
                                     }
@@ -138,110 +138,6 @@ struct AnnouncementDetailForm: View {
                     Text("Błąd podczas dodawania ogłoszenia")
                         .font(.title2)
                         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                }
-            }
-        }
-    }
-    
-    class PushNotificationSender {
-        func sendPushNotification(to token: String, title: String, body: String, viewModel: FirebaseViewModel) {
-            var serverKey = ""
-            viewModel.getKey(){key in
-                serverKey = key
-                let urlString = "https://fcm.googleapis.com/fcm/send"
-                let url = NSURL(string: urlString)!
-                let paramString: [String : Any] = ["to" : token,
-                                                   "notification" : ["title" : title, "body" : body, "sound": "default"],
-                                                   "data" : ["user" : "test_id"]
-                ]
-                let request = NSMutableURLRequest(url: url as URL)
-                request.httpMethod = "POST"
-                request.httpBody = try? JSONSerialization.data(withJSONObject:paramString, options: [.prettyPrinted])
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                request.setValue("key=\(serverKey)", forHTTPHeaderField: "Authorization")
-                let task =  URLSession.shared.dataTask(with: request as URLRequest)  { (data, response, error) in
-                    do {
-                        if let jsonData = data {
-                            if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
-                                NSLog("Received data:\n\(jsonDataDict))")
-                            }
-                        }
-                    } catch let err as NSError {
-                        print(err.debugDescription)
-                    }
-                }
-                task.resume()
-            }
-        }
-        
-        
-        
-        func sendToTopic(title: String, body: String, id: String, viewModel: FirebaseViewModel) {
-            var serverKey = ""
-            viewModel.getKey(){key in
-                serverKey = key
-                let urlString = "https://fcm.googleapis.com/fcm/send"
-                let url = NSURL(string: urlString)!
-                let paramString_ios: [String : Any] = ["to" : "/topics/announcements_ios",
-                                                       "notification" : ["title" : title, "body" : body,"announcementID": id , "sound": "default"],
-                                                       "data" : ["announcementID" : id],
-                ]
-                
-                let paramString_android: [String : Any] = ["to" : "/topics/announcements_android",
-                                                           "data" : ["title" : title, "body" : body,"announcementID": id]
-                ]
-                let request_ios = NSMutableURLRequest(url: url as URL)
-                request_ios.httpMethod = "POST"
-                request_ios.httpBody = try? JSONSerialization.data(withJSONObject:paramString_ios, options: [.prettyPrinted])
-                request_ios.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                request_ios.setValue("key=\(serverKey)", forHTTPHeaderField: "Authorization")
-                let task_ios =  URLSession.shared.dataTask(with: request_ios as URLRequest)  { (data, response, error) in
-                    do {
-                        if let jsonData = data {
-                            if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
-                                NSLog("Received data:\n\(jsonDataDict))")
-                            }
-                        }
-                    } catch let err as NSError {
-                        print(err.debugDescription)
-                    }
-                }
-                task_ios.resume()
-                
-                let request_android = NSMutableURLRequest(url: url as URL)
-                request_android.httpMethod = "POST"
-                request_android.httpBody = try? JSONSerialization.data(withJSONObject:paramString_android, options: [.prettyPrinted])
-                request_android.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                request_android.setValue("key=\(serverKey)", forHTTPHeaderField: "Authorization")
-                let task_android =  URLSession.shared.dataTask(with: request_android as URLRequest)  { (data, response, error) in
-                    do {
-                        if let jsonData = data {
-                            if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
-                                NSLog("Received data:\n\(jsonDataDict))")
-                            }
-                        }
-                    } catch let err as NSError {
-                        print(err.debugDescription)
-                    }
-                }
-                task_android.resume()
-            }
-        }
-    }
-    
-    func sendtoDevices(vievModel: FirebaseViewModel){
-        let title_l = title
-        let content_l = content
-        
-        let sender = PushNotificationSender()
-        let devRef = viewModel.db.collection("Devices")
-        devRef.getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    sender.sendPushNotification(to: document.documentID, title: "\(title_l)", body: "\(content_l)", viewModel: viewModel)
-                    print(document.documentID)
                 }
             }
         }

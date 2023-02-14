@@ -16,6 +16,7 @@ struct MainView: View {
     @State var selectedTab = 1
     
     @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
+    @ObservedObject var activeEnrollment = ActiveEnrollment.shared
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -32,32 +33,15 @@ struct MainView: View {
                     Image("notifications-icon")
                     Text("Zapisy")
                 }
-                .tag(6)
-            if loggedIn{
-                AnnouncementFormContainer()
-                    .tabItem {
-                        //Image(systemName: "pencil")
-                        Image("routes-icon")
-                        Text("Napisz coś")
-                    }
-                    .tag(2)
-            }
+                .tag(2)
             
-            TimetableView()
+            InfoView()
                 .tabItem {
                     //Image(systemName: "mappin.circle.fill")
                     Image("schedule-icon")
-                    Text("Harmonogram")
+                    Text("Informacje")
                 }
                 .tag(3)
-            
-            ContactsView()
-                .tabItem {
-                    Image(systemName: "mappin.circle.fill")
-                    //Image("Contact-icon")
-                    Text("Kontakty")
-                }
-                .tag(4)
             
             SignInView(loggedIn: $loggedIn, email: $email, password: $password)
                 .tabItem {
@@ -70,6 +54,12 @@ struct MainView: View {
         .onChange(of: activeAnnouncement.isActive){ isActive in
             if (activeAnnouncement.isActive){
                 selectedTab = 1
+            }
+        }
+        .onChange(of: activeEnrollment.isActive){ isActive in
+            if (activeEnrollment.isActive){
+                selectedTab = 2
+                activeEnrollment.isActive = false
             }
         }
         .environmentObject(viewModel)
@@ -93,8 +83,12 @@ struct MainView: View {
             if (activeAnnouncement.isActive){
                 selectedTab = 1
             }
+            else if (activeEnrollment.isActive){
+                selectedTab = 2
+                activeEnrollment.isActive = false
+            }
         }
-
+        
     }
 }
 

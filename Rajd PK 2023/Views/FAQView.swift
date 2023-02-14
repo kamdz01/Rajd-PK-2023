@@ -7,21 +7,20 @@
 
 import SwiftUI
 
-struct ContactsView: View {
+struct FAQView: View {
     var body: some View {
         NavigationView{
             ZStack {
                 LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
-                Text("Tu będą kontakty")
+                Text("Tu będzie FAQ")
             }
-            .navigationTitle("Kontakty")
-            .navigationBarTitleDisplayMode(.inline)
+            .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
         }
     }
 }
 
 struct ContactsView_Previews: PreviewProvider {
     static var previews: some View {
-        ContactsView()
+        FAQView()
     }
 }

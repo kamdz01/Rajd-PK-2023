@@ -15,6 +15,7 @@ struct ContentView: View {
     @AppStorage("password") var password = ""
     
     @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
+    @ObservedObject var activeEnrollment = ActiveEnrollment.shared
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color("TabColor"))
@@ -38,6 +39,7 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    @AppStorage("loggedIn") var loggedIn = true
     static var previews: some View {
         ContentView()
     }

@@ -11,6 +11,8 @@ struct AnnouncementList: View{
     
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
+    @State private var chosenDelete = false
+    @State private var announcementToDeleteID = ""
     
     var body: some View{
         List(viewModel.announcements) { announcement in
@@ -19,11 +21,47 @@ struct AnnouncementList: View{
                 let dateArr = announcement.date?.components(separatedBy: " ")
                 if #available(iOS 15.0, *) {
                     AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
+                        .contextMenu {
+                            if (loggedIn){
+                                Button(role: .destructive) {
+                                    chosenDelete = true
+                                    announcementToDeleteID = announcement.id ?? ""
+                                } label: {
+                                    Label("Usuń", systemImage: "trash.fill")
+                                }
+                            }
+                        }
                         .listRowSeparator(.hidden)
                 } else {
                     AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
+                        .contextMenu {
+                            if (loggedIn){
+                                Button() {
+                                    chosenDelete = true
+                                    announcementToDeleteID = announcement.id ?? ""
+                                } label: {
+                                    Label("Usuń", systemImage: "trash.fill")
+                                }
+                                .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
+                            }
+                        }
+                        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
                 }
             }
+        }
+        .actionSheet(isPresented: $chosenDelete) {
+            ActionSheet(
+                title: Text("Czy na pewno chcesz usunąć to ogłoszenie?"),
+                buttons: [
+                    .destructive(Text("Usuń")) {
+                        self.viewModel.hideAnnouncement(id: announcementToDeleteID)
+                        chosenDelete = false
+                    },
+                    .default(Text("Anuluj")) {
+                        chosenDelete = false
+                    },
+                ]
+            )
         }
     }
 }
@@ -34,6 +72,7 @@ struct AnnouncementListView: View {
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
     @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
+    @State var ifAdding = false
     
     var body: some View {
         ZStack{
@@ -41,6 +80,9 @@ struct AnnouncementListView: View {
             NavigationView {
                 VStack {
                     NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: activeAnnouncement.announcement), isActive: $activeAnnouncement.isActive) { EmptyView() }
+                    NavigationLink(destination: AnnouncementFormContainer(ifAdding: $ifAdding), isActive: $ifAdding) {
+                        EmptyView()
+                    }
                     if #available(iOS 16.0, *) {
                         AnnouncementList(loggedIn: $loggedIn)
                             .onAppear() {
@@ -75,6 +117,15 @@ struct AnnouncementListView: View {
                 }
                 .navigationTitle("Ogłoszenia")
                 .navigationBarTitleDisplayMode(.inline)
+                .toolbar{
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        if (loggedIn){
+                            Button("Dodaj"){
+                                ifAdding = true
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -175,7 +226,7 @@ struct AnnouncementsView_Previews: PreviewProvider {
     static var previews: some View {
         AnnouncementListView(loggedIn: .constant(true))
             .environmentObject(viewModel)
-        ContentView()
-            .previewDisplayName(/*@START_MENU_TOKEN@*/"ContentView"/*@END_MENU_TOKEN@*/)
+        MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
+            .previewDisplayName("MainView")
     }
 }

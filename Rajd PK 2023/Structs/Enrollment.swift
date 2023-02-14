@@ -14,4 +14,5 @@ struct Enrollment: Codable, Identifiable {
     var content: String?
     var link: String?
     var date: String?
+    var hidden: Bool?
 }

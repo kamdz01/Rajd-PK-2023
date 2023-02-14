@@ -15,8 +15,9 @@ struct AnnouncementDetailView: View {
     @State private var deleted = 0
     @Binding var loggedIn: Bool
     @ObservedObject private var viewModel = FirebaseViewModel()
-    
+    @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
     @State var announcement: Announcement
+    
     var body: some View {
         ZStack{
             LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom)
@@ -63,6 +64,12 @@ struct AnnouncementDetailView: View {
                         ]
                     )
                 }
+            }
+        }
+        .onAppear{
+            if (activeAnnouncement.isActive)
+            {
+                activeAnnouncement.isActive = false
             }
         }
     }

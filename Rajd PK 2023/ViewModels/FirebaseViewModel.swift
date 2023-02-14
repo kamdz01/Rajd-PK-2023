@@ -29,7 +29,8 @@ class FirebaseViewModel: ObservableObject {
                 let content = data["content"] as? String ?? ""
                 let date = data["date"] as? String ?? ""
                 let link = data["link"] as? String ?? ""
-                return Enrollment(id: id, title: title, content: content, link: link, date: date)
+                let hidden = data["hidden"] as? Bool ?? true
+                return Enrollment(id: id, title: title, content: content, link: link, date: date, hidden: hidden)
             }
             self.enrollments.sort(by: {$0.date! > $1.date!})
         }
@@ -111,5 +112,49 @@ class FirebaseViewModel: ObservableObject {
             ifOk = "-1"
         }
         return ifOk
+    }
+    
+    func addEnrollment(title: String, content: String, link: String, hidden: Bool) async -> String {
+        var ifOk = "1"
+        var ref: DocumentReference? = nil
+        if(!title.isEmpty && !link.isEmpty && !content.isEmpty)
+        {
+            let now = Date()
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let date = formatter.string(from: now)
+            ref = db.collection("Enrollments").addDocument(data: ["title": title, "content": content, "link": link, "hidden": hidden, "date": date])
+            { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                    ifOk = "-1"
+                } else {
+                    print("Document added with ID: \(ref!.documentID)")
+                    if (ref?.documentID != nil && ifOk == "1"){
+                        ifOk = ref!.documentID
+                    }
+                }
+            }
+            if (ref?.documentID != nil && ifOk == "1"){
+                ifOk = ref!.documentID
+            }
+        }
+        else{
+            print("text field empty!")
+            ifOk = "-1"
+        }
+        return ifOk
+    }
+    
+    func hideEnrollment(id: String) {
+        db.collection("Enrollments").document(id).setData([
+            "hidden": true], merge: true) { err in
+                if let err = err {
+                    print("Error writing document: \(err)")
+                } else {
+                    print("Document successfully written!")
+                }
+            }
     }
 }

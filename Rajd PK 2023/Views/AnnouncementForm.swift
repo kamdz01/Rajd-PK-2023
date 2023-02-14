@@ -18,25 +18,27 @@ struct AnnouncementForm: View {
     @State var content: String = ""
     @State var priority: Bool = false
     @State var sendNotification: Bool = true
+    @Binding var ifAdding: Bool
     
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
+            LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea(.all)
             Form {
                 Group{
                     Section(header: Text("Ogłoszenie:")){
                         FloatingTextField(title: "Tytuł", text: $title)
                         FloatingTextField(title: "Podtytuł", text: $subTitle)
                         FloatingTextField(title: "Treść", text: $content)
-//                        if #available(iOS 16.0, *) {
-//                            TextField("Tytuł", text: $title, axis: .vertical)
-//                            TextField("Podtytuł", text: $subTitle, axis: .vertical)
-//                            TextField("Treść", text: $content, axis: .vertical)
-//                        } else {
-//                            TextField("Tytuł", text: $title)
-//                            TextField("Podtytuł", text: $subTitle)
-//                            TextField("Treść", text: $content)
-//                        }
+                        //                        if #available(iOS 16.0, *) {
+                        //                            TextField("Tytuł", text: $title, axis: .vertical)
+                        //                            TextField("Podtytuł", text: $subTitle, axis: .vertical)
+                        //                            TextField("Treść", text: $content, axis: .vertical)
+                        //                        } else {
+                        //                            TextField("Tytuł", text: $title)
+                        //                            TextField("Podtytuł", text: $subTitle)
+                        //                            TextField("Treść", text: $content)
+                        //                        }
                         Toggle("Wyróżnione", isOn: $priority)
                             .onTapGesture {
                                 hideKeyboard()
@@ -80,18 +82,23 @@ struct AnnouncementForm: View {
                         .disabled(!(!title.isEmpty && !subTitle.isEmpty && !content.isEmpty))
                     if showingAdvancedOptions{
                         
-                            Button("Dodaj") {
-                                showSheet.toggle()
-                            }
-                            .sheet(isPresented: $showSheet) {
-                                AnnouncementDetailForm(showingAdvancedOptions: $showingAdvancedOptions, inputImage: $inputImage, title: $title, subTitle: $subTitle, content: $content, priority: $priority, sendNotification: $sendNotification)
-                            }
+                        Button("Dodaj") {
+                            showSheet.toggle()
+                        }
+                        .sheet(isPresented: $showSheet) {
+                            AnnouncementDetailForm(showingAdvancedOptions: $showingAdvancedOptions, inputImage: $inputImage, title: $title, subTitle: $subTitle, content: $content, priority: $priority, sendNotification: $sendNotification)
+                        }
                     }
                 }
                 .listRowBackground(Color("FieldColor"))
             }
             .gesture(DragGesture().onChanged{_ in hideKeyboard()})
             .onChange(of: inputImage) { _ in loadImage() }
+            .onChange(of: showSheet) { newValue in
+                if(showingAdvancedOptions == false){
+                    ifAdding = newValue
+                }
+            }
             .sheet(isPresented: $showingImagePicker) {
                 ImagePicker(image: $inputImage)
             }
@@ -106,7 +113,7 @@ struct AnnouncementForm: View {
                     Image(systemName: "keyboard.chevron.compact.down")
                 }
                 }
-        }
+            }
         }
     }
     func loadImage() {
@@ -119,17 +126,15 @@ struct AnnouncementForm: View {
 }
 
 struct AnnouncementFormContainer: View{
+    @Binding var ifAdding: Bool
     var body: some View{
-        NavigationView{
-            if #available(iOS 16.0, *) {
-                AnnouncementForm()
-                    .scrollContentBackground(.hidden)
-                    .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
-            } else {
-                AnnouncementForm()
-                //Text("test")
-                    .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
-            }
+        if #available(iOS 16.0, *) {
+            AnnouncementForm(ifAdding: $ifAdding)
+                .scrollContentBackground(.hidden)
+                .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
+        } else {
+            AnnouncementForm(ifAdding: $ifAdding)
+                .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
         }
     }
 }
@@ -145,8 +150,10 @@ extension View {
 }
 #endif
 
-struct FormView_Previews: PreviewProvider {
+struct AnnouncementForm_Previews: PreviewProvider {
     static var previews: some View {
-        AnnouncementFormContainer()
+        AnnouncementFormContainer(ifAdding: .constant(true))
+        MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
+            .previewDisplayName("MainView")
     }
 }
