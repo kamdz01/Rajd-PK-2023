@@ -15,6 +15,9 @@ struct EnrollmentForm: View {
     @State var link: String = ""
     @State var sendNotification: Bool = true
     @Binding var ifAdding: Bool
+    @AppStorage("loggedIn") var loggedIn = false
+    
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -66,6 +69,9 @@ struct EnrollmentForm: View {
                 }
                 }
             }
+        }
+        .onChange(of: loggedIn){ loggedIn in
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }

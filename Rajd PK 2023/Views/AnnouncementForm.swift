@@ -19,6 +19,9 @@ struct AnnouncementForm: View {
     @State var priority: Bool = false
     @State var sendNotification: Bool = true
     @Binding var ifAdding: Bool
+    @AppStorage("loggedIn") var loggedIn = false
+    
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -114,6 +117,9 @@ struct AnnouncementForm: View {
                 }
                 }
             }
+        }
+        .onChange(of: loggedIn){ loggedIn in
+            presentationMode.wrappedValue.dismiss()
         }
     }
     func loadImage() {

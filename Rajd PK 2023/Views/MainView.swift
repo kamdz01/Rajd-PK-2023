@@ -72,21 +72,23 @@ struct MainView: View {
         }
         .environmentObject(viewModel)
         .onAppear{
-            Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-                guard error == nil else {
-                    print("Could not sign in user.")
-                    loggedIn = false
-                    return
+            if (loggedIn == true){
+                Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+                    guard error == nil else {
+                        print("Could not sign in user.")
+                        loggedIn = false
+                        return
+                    }
+                    switch authResult {
+                    case .none:
+                        print("Could not sign in user.")
+                        loggedIn = false
+                    case .some(_):
+                        print("User signed in")
+                        loggedIn = true
+                    }
+                    print("LoggedIn: \(loggedIn)")
                 }
-                switch authResult {
-                case .none:
-                    print("Could not sign in user.")
-                    loggedIn = false
-                case .some(_):
-                    print("User signed in")
-                    loggedIn = true
-                }
-                print("LoggedIn: \(loggedIn)")
             }
             if (activeAnnouncement.isActive){
                 selectedTab = 1

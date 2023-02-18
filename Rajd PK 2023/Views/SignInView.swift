@@ -122,6 +122,7 @@ struct SignInView: View {
             case .some(_):
                 print("User signed in")
                 signInProcessing = false
+                signInErrorMessage = ""
                 loggedIn = true
             }
             
