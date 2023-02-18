@@ -15,6 +15,7 @@ struct AnnouncementDetailForm: View {
     @State var ifAdded = 0
     @State var uploadProgressImg = 0.0
     @State var uploadProgressDoc = 0.0
+    @State var lastID = ""
     @EnvironmentObject var viewModel: FirebaseViewModel
     @Binding var showingAdvancedOptions: Bool
     @Binding var inputImage: UIImage?
@@ -51,6 +52,13 @@ struct AnnouncementDetailForm: View {
                         .frame(width: 150.0, height: 150.0)
                     Text("Poprawnie dodano twoje ogłoszenie")
                 }
+                .onAppear{
+                    title = ""
+                    subTitle = ""
+                    content = ""
+                    showingAdvancedOptions = false
+                    priority = false
+                }
             }
             else if ifAdded == 0{
                 ScrollView{
@@ -70,31 +78,34 @@ struct AnnouncementDetailForm: View {
                                 .scaledToFit()
                         }
                         VStack(alignment: .leading){
-                            Text("Tytuł: \n\(title)")
+                                Text("Tytuł:")
                                 .multilineTextAlignment(.leading)
-                                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                            Text("Podtytuł: \n\(subTitle)")
+                                .padding(/*@START_MENU_TOKEN@*/[.top, .leading, .trailing]/*@END_MENU_TOKEN@*/)
+                                Text(title)
                                 .multilineTextAlignment(.leading)
-                                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                            Text("Zawartość: \n\(content)")
-                                .multilineTextAlignment(.leading)
-                                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                                .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
+                            Text("Podtytuł:")
+                            .multilineTextAlignment(.leading)
+                            .padding(/*@START_MENU_TOKEN@*/[.top, .leading, .trailing]/*@END_MENU_TOKEN@*/)
+                            Text(subTitle)
+                            .multilineTextAlignment(.leading)
+                            .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
+                            Text("Zawartość:")
+                            .multilineTextAlignment(.leading)
+                            .padding(/*@START_MENU_TOKEN@*/[.top, .leading, .trailing]/*@END_MENU_TOKEN@*/)
+                            Text(content)
+                            .multilineTextAlignment(.leading)
+                            .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
                         }
                         .padding(/*@START_MENU_TOKEN@*/.all, 10.0/*@END_MENU_TOKEN@*/)
                         Button("Dodaj") {
                             Task{
-                                let lastID = await self.viewModel.addAnnouncement(title: title, subTitle: subTitle, content: content, hidden: false, isImage: (inputImage != nil), priority: priority)
+                                lastID = await self.viewModel.addAnnouncement(title: title, subTitle: subTitle, content: content, hidden: false, isImage: (inputImage != nil), priority: priority)
                                 
                                 if lastID != "-1"{
                                     uploadProgressDoc = 1
                                     if inputImage != nil{
                                         uploadImage(imageId: lastID)
-                                        if (sendNotification){
-                                            let sender = PushNotificationSender()
-                                            let title_l = title
-                                            let content_l = content
-                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel)
-                                        }
                                         ifAdded = 2
                                     }
                                     else{
@@ -109,13 +120,8 @@ struct AnnouncementDetailForm: View {
                                     
                                 }
                                 else {
-                                    ifAdded = 3
+                                    ifAdded = -1
                                 }
-                                title = ""
-                                subTitle = ""
-                                content = ""
-                                showingAdvancedOptions = false
-                                priority = false
                             }
                         }
                         .padding(.horizontal, 20.0)
@@ -167,13 +173,19 @@ struct AnnouncementDetailForm: View {
         }
         uploadTask.observe(.success) { snapshot in
             print("Upload finished successfully")
+            if (sendNotification){
+                let sender = PushNotificationSender()
+                let title_l = title
+                let content_l = content
+                sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel)
+            }
             ifAdded = 1
             uploadProgressImg = 0.0
             inputImage = nil
         }
         uploadTask.observe(.failure) { snapshot in
             print("Upload error")
-            ifAdded = 3
+            ifAdded = -1
             uploadProgressImg = 0.0
             uploadProgressDoc = 0
             inputImage = nil

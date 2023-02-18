@@ -10,9 +10,9 @@ import Firebase
 
 struct SignInView: View {
     
-    @Binding var loggedIn: Bool
-    @Binding var email: String
-    @Binding var password: String
+    @AppStorage("loggedIn") var loggedIn = false
+    @AppStorage("email") var email = ""
+    @AppStorage("password") var password = ""
     
     @State var signOutProcessing = false
     @State var signInProcessing = false
@@ -21,87 +21,83 @@ struct SignInView: View {
     var body: some View {
         
         if loggedIn{
-            NavigationView{
-                ZStack {
-                    LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom)
-                        .ignoresSafeArea(.all)
-                    VStack{
-                        Text("Zalogowano jako: \n\(email)")
-                            .font(.title2)
-                        Button(action: {
-                            signOutUser()
-                        }) {
-                            if #available(iOS 15.0, *) {
-                                Text("Wyloguj")
-                                    .bold()
-                                    .frame(width: 360, height: 50)
-                                    .background(.thinMaterial)
-                                    .cornerRadius(10)
-                            } else {
-                                Text("Wyloguj")
-                                    .bold()
-                                    .padding()
-                                    .frame(width: 360, height: 50)
-                                    .background(Color("FieldColor"))
-                                    .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                            }
+            ZStack {
+                LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea(.all)
+                VStack{
+                    Text("Zalogowano jako: \n\(email)")
+                        .font(.title2)
+                    Button(action: {
+                        signOutUser()
+                    }) {
+                        if #available(iOS 15.0, *) {
+                            Text("Wyloguj")
+                                .bold()
+                                .frame(width: 360, height: 50)
+                                .background(.thinMaterial)
+                                .cornerRadius(10)
+                        } else {
+                            Text("Wyloguj")
+                                .bold()
+                                .padding()
+                                .frame(width: 360, height: 50)
+                                .background(Color("FieldColor"))
+                                .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                         }
                     }
-                    .navigationTitle("Logowanie")
-                    .navigationBarTitleDisplayMode(.inline)
                 }
+                .navigationTitle("Logowanie")
+                .navigationBarTitleDisplayMode(.inline)
             }
         }
         else{
-            NavigationView {
-                ZStack {
-                    LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
-                    VStack(spacing: 15) {
-                        Text("Uwaga! Opcja logowania dostępna jest tylko dla Kadry Rajdu. Jeżeli jesteś uczestnikiem, nie musisz się logować.")
-                            .padding()
-                        SignInCredentialFields(email: $email, password: $password)
-                        Button(action: {
-                            hideKeyboard()
-                            signInUser(userEmail: email, userPassword: password)
-                        }) {
-                            if #available(iOS 15.0, *) {
-                                Text("Zaloguj")
-                                    .bold()
-                                    .frame(width: 360, height: 50)
-                                    .background(.thinMaterial)
-                                    .cornerRadius(10)
-                            } else {
-                                Text("Zaloguj")
-                                    .bold()
-                                    .padding()
-                                    .frame(width: 360, height: 50)
-                                    .background(Color("FieldColor"))
-                                    .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                                    .disabled(email.isEmpty || password.isEmpty || signInProcessing)
-                            }
-                        }
-                        .disabled(email.isEmpty || password.isEmpty || signInProcessing)
-                        if signInProcessing {
-                            ProgressView()
-                        }
-                        if !signInErrorMessage.isEmpty {
-                            Text("Failed signing in: \(signInErrorMessage)")
-                                .foregroundColor(.red)
+            ZStack {
+                LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
+                VStack(spacing: 15) {
+                    Text("Uwaga! Opcja logowania dostępna jest tylko dla Kadry Rajdu. Jeżeli jesteś uczestnikiem, nie musisz się logować.")
+                        .padding()
+                    SignInCredentialFields(email: $email, password: $password)
+                    Button(action: {
+                        hideKeyboard()
+                        signInUser(userEmail: email, userPassword: password)
+                    }) {
+                        if #available(iOS 15.0, *) {
+                            Text("Zaloguj")
+                                .bold()
+                                .frame(width: 360, height: 50)
+                                .background(.thinMaterial)
+                                .cornerRadius(10)
+                        } else {
+                            Text("Zaloguj")
+                                .bold()
+                                .padding()
+                                .frame(width: 360, height: 50)
+                                .background(Color("FieldColor"))
+                                .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
+                                .disabled(email.isEmpty || password.isEmpty || signInProcessing)
                         }
                     }
-                    .padding()
-                    .navigationTitle("Logowanie")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar{
-                        ToolbarItem(placement: .navigationBarTrailing){
-                            Button{
-                                hideKeyboard()
-                            }
-                        label: {
-                            Image(systemName: "keyboard.chevron.compact.down")
-                        }
-                        }
+                    .disabled(email.isEmpty || password.isEmpty || signInProcessing)
+                    if signInProcessing {
+                        ProgressView()
+                    }
+                    if !signInErrorMessage.isEmpty {
+                        Text("Failed signing in: \(signInErrorMessage)")
+                            .foregroundColor(.red)
+                    }
                 }
+                .padding()
+                .navigationTitle("Logowanie")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar{
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        Button{
+                            hideKeyboard()
+                        }
+                    label: {
+                        Image(systemName: "keyboard.chevron.compact.down")
+                    }
+                    }
                 }
             }
             .gesture(DragGesture().onChanged{_ in hideKeyboard()})
@@ -151,8 +147,9 @@ struct SignInView: View {
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("samplepassw"))
-        SignInView(loggedIn: .constant(false), email: .constant("sample@email.com"), password: .constant("samplepassw"))
+        //        SignInView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("samplepassw"))
+        //        SignInView(loggedIn: .constant(false), email: .constant("sample@email.com"), password: .constant("samplepassw"))
+        SignInView()
     }
 }
 

@@ -121,6 +121,14 @@ struct EnrollmentListView: View {
                             }
                         }
                     }
+                    ToolbarItem(placement: .navigationBarLeading){
+                        HStack {
+                            Text("")
+                            NavigationLink(destination: SignInView()){
+                                Image(systemName: "person.crop.circle")
+                            }
+                        }
+                    }
                 }
             }
         }

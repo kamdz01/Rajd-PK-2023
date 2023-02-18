@@ -13,20 +13,21 @@ import FirebaseStorage
 struct FirebaseImage : View {
     @State var isLoading = false
     @State var ifError = false
-    @State var imageID: String
+    @Binding var imageID: String
     @State private var imageURL = URL(string: "")
     @State var image = UIImage()
+    @State var ifShown = false
     
     var body: some View {
         ZStack{
             if (!ifError){
                 Image(uiImage: image)
                     .resizable()
-                    //.frame(maxHeight: 450)
+                //.frame(maxHeight: 450)
                     .scaledToFit()
                     .id(image)
-                    .transition(.scale.animation(.easeOut(duration: 0.08)))
-                    
+                    .transition(.scale.animation(.easeOut(duration: 0.15)))
+                
             }
             else{
                 Text("Błąd podczas ładowania obrazka")
@@ -36,30 +37,22 @@ struct FirebaseImage : View {
                 ProgressView()
             }
         }
-        .onAppear(perform: loadImageToMem)
-    }
-    
-    ///////////////////////////////////////////////////////////////THIS ONE IS NOT USED RN
-    func loadImageFromFirebase(){
-        self.isLoading = true
-        let storage = Storage.storage().reference(withPath: "images/\(imageID)")
-        storage.downloadURL { (url, error) in
-            if error != nil {
-                print((error?.localizedDescription)!)
-                isLoading = false
-                ifError = true
-                return
+        .onAppear{
+            if (!ifShown){
+                loadImageToMem()
+                ifShown = true
             }
-            print("Download success")
-            self.imageURL = url!
-            isLoading = false
-            return
+        }
+        .onChange(of: imageID){ id in
+            loadImageToMem()
         }
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     func loadImageToMem(){
-        self.isLoading = true
+        if (isLoading){
+            return
+        }
+        isLoading = true
         let storage = Storage.storage().reference(withPath: "images/\(imageID)")
         storage.getData(maxSize: ((2048 * 2048) as Int64) ) { data, error in
             if error != nil {
@@ -67,9 +60,10 @@ struct FirebaseImage : View {
                 ifError = true
                 return
             }
-            image = UIImage(data: data!)!
-            isLoading = false
             print("Download success")
+            image = UIImage(data: data!)!
+            ifError = false
+            isLoading = false
             return
         }
     }
@@ -77,6 +71,6 @@ struct FirebaseImage : View {
 
 struct FirebaseImage_Previews : PreviewProvider {
     static var previews: some View {
-        FirebaseImage(imageID: "N2_t.png")
+        FirebaseImage(imageID: .constant("N2_t.png"))
     }
 }

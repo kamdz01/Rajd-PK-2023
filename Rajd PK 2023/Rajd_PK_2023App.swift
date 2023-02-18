@@ -121,7 +121,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
             }
             else if (collection as! String == "Enrollments"){
-                ActiveEnrollment.shared.isActive = true
+                ActiveEnrollment.shared.getEnrollment(id: documentID as! String){enrollment in
+                    if (enrollment.id != "-1"){
+                        ActiveEnrollment.shared.isActive = true
+                        ActiveEnrollment.shared.enrollment = enrollment
+                    }
+                }
             }
         }
         completionHandler()

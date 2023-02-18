@@ -14,6 +14,18 @@ struct TimetableView: View {
                 LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
                 Text("Tu będzie harmonogram")
             }
+            .navigationTitle("Harmonogram")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar{
+                ToolbarItem(placement: .navigationBarLeading){
+                    HStack {
+                        Text("")
+                        NavigationLink(destination: SignInView()){
+                            Image(systemName: "person.crop.circle")
+                        }
+                    }
+                }
+            }
         }
     }
 }

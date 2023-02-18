@@ -1,20 +1,20 @@
 //
-//  ContactsView.swift
+//  RoutesView.swift
 //  Rajd PK 2023
 //
-//  Created by Kamil Dziedzic on 15/12/2022.
+//  Created by Kamil Dziedzic on 17/02/2023.
 //
 
 import SwiftUI
 
-struct FAQView: View {
+struct RoutesView: View {
     var body: some View {
         NavigationView{
             ZStack {
                 LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
-                Text("Tu będzie FAQ")
+                Text("Tu będą trasy")
             }
-            .navigationTitle("FAQ")
+            .navigationTitle("Trasy")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .navigationBarLeading){
@@ -30,8 +30,8 @@ struct FAQView: View {
     }
 }
 
-struct ContactsView_Previews: PreviewProvider {
+struct RoutesView_Previews: PreviewProvider {
     static var previews: some View {
-        FAQView()
+        RoutesView()
     }
 }

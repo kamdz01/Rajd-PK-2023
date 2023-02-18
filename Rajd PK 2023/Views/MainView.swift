@@ -29,37 +29,45 @@ struct MainView: View {
                 .tag(1)
             EnrollmentListView(loggedIn: $loggedIn)
                 .tabItem {
-                    //Image(systemName: "megaphone.fill")
-                    Image("notifications-icon")
+                    Image(systemName: "square.and.pencil")
+                    //Image("notifications-icon")
                     Text("Zapisy")
                 }
                 .tag(2)
             
-            InfoView()
+            FAQView()
                 .tabItem {
-                    //Image(systemName: "mappin.circle.fill")
-                    Image("schedule-icon")
-                    Text("Informacje")
+                    Image(systemName: "questionmark.square")
+                    //Image("schedule-icon")
+                    Text("FAQ")
                 }
                 .tag(3)
             
-            SignInView(loggedIn: $loggedIn, email: $email, password: $password)
+            TimetableView()
                 .tabItem {
-                    //Image(systemName: "person.circle.fill")
-                    Image("FAQ-icon")
-                    Text("Logowanie")
+                    //Image(systemName: "mappin.circle.fill")
+                    Image("schedule-icon")
+                    Text("Harmonogram")
                 }
-                .tag(5)
+                .tag(4)
+            
+            RoutesView()
+                .tabItem {
+                    Image(systemName: "map")
+                    //Image("schedule-icon")
+                    Text("Trasy")
+                }
+                .tag(4)
+
         }
-        .onChange(of: activeAnnouncement.isActive){ isActive in
+        .onChange(of: activeAnnouncement.announcement.id){ change in
             if (activeAnnouncement.isActive){
                 selectedTab = 1
             }
         }
-        .onChange(of: activeEnrollment.isActive){ isActive in
+        .onChange(of: activeEnrollment.enrollment.id){ change in
             if (activeEnrollment.isActive){
                 selectedTab = 2
-                activeEnrollment.isActive = false
             }
         }
         .environmentObject(viewModel)
@@ -85,7 +93,6 @@ struct MainView: View {
             }
             else if (activeEnrollment.isActive){
                 selectedTab = 2
-                activeEnrollment.isActive = false
             }
         }
         

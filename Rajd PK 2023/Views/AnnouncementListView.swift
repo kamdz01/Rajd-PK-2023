@@ -79,7 +79,9 @@ struct AnnouncementListView: View {
             LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
             NavigationView {
                 VStack {
-                    NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: activeAnnouncement.announcement), isActive: $activeAnnouncement.isActive) { EmptyView() }
+                    if (activeAnnouncement.isActive){
+                        NavigationLink(destination: AnnouncementDetailView(announcement: activeAnnouncement.announcement), isActive: $activeAnnouncement.isActive) { EmptyView() }
+                    }
                     NavigationLink(destination: AnnouncementFormContainer(ifAdding: $ifAdding), isActive: $ifAdding) {
                         EmptyView()
                     }
@@ -122,6 +124,14 @@ struct AnnouncementListView: View {
                         if (loggedIn){
                             Button("Dodaj"){
                                 ifAdding = true
+                            }
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarLeading){
+                        HStack {
+                            Text("")
+                            NavigationLink(destination: SignInView()){
+                                Image(systemName: "person.crop.circle")
                             }
                         }
                     }
@@ -206,7 +216,7 @@ struct AnnouncementViewItem: View {
             }
             
             
-            NavigationLink(destination: AnnouncementDetailView(loggedIn: $loggedIn, announcement: announcement))
+            NavigationLink(destination: AnnouncementDetailView(announcement: announcement))
             {
                 EmptyView()
             }
