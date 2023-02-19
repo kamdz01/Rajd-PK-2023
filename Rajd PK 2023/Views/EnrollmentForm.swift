@@ -15,6 +15,7 @@ struct EnrollmentForm: View {
     @State var link: String = ""
     @State var sendNotification: Bool = true
     @Binding var ifAdding: Bool
+    @State var urlOK = true
     @AppStorage("loggedIn") var loggedIn = false
     
     @Environment(\.presentationMode) var presentationMode
@@ -29,6 +30,14 @@ struct EnrollmentForm: View {
                         FloatingTextField(title: "Tytuł", text: $title)
                         FloatingTextField(title: "Treść", text: $content)
                         FloatingTextField(title: "Link", text: $link)
+                            .onChange(of: link){link in
+                                urlOK = validateURL(url: link)
+                                //print(validateURL(url: link))
+                            }
+                        if(!urlOK){
+                            Text("Błędny adres strony internetowej")
+                                .foregroundColor(.red)
+                        }
                         Toggle("Wyślij z powiadomieniem", isOn: $sendNotification)
                             .onTapGesture {
                                 hideKeyboard()

@@ -167,11 +167,7 @@ struct EnrollmentViewItem: View {
                         Text(enrollment.content!)
                             .fontWeight(.medium)
                     }
-                    Link(destination: URL(string: enrollment.link ?? "")!, label: {
-                        Text("Link do formularza")
-                            .underline()
-                            .fontWeight(.medium)
-                    })
+                    LinkView(link: (enrollment.link ?? ""), text: "Link do formularza")
                 }
             }
             Spacer()

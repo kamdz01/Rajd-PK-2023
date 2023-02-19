@@ -51,13 +51,13 @@ struct MainView: View {
                 }
                 .tag(4)
             
-            RoutesView()
+            RoutesListView(loggedIn: $loggedIn)
                 .tabItem {
                     Image(systemName: "map")
                     //Image("schedule-icon")
                     Text("Trasy")
                 }
-                .tag(4)
+                .tag(5)
 
         }
         .onChange(of: activeAnnouncement.announcement.id){ change in

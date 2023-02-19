@@ -11,6 +11,7 @@ import Combine
 import FirebaseStorage
 
 struct FirebaseImage : View {
+    var path: String
     @State var isLoading = false
     @State var ifError = false
     @Binding var imageID: String
@@ -53,7 +54,7 @@ struct FirebaseImage : View {
             return
         }
         isLoading = true
-        let storage = Storage.storage().reference(withPath: "images/\(imageID)")
+        let storage = Storage.storage().reference(withPath: "\(path)\(imageID)")
         storage.getData(maxSize: ((2048 * 2048) as Int64) ) { data, error in
             if error != nil {
                 isLoading = false
@@ -71,6 +72,6 @@ struct FirebaseImage : View {
 
 struct FirebaseImage_Previews : PreviewProvider {
     static var previews: some View {
-        FirebaseImage(imageID: .constant("N2_t.png"))
+        FirebaseImage(path: "", imageID: .constant("N2_t.png"))
     }
 }

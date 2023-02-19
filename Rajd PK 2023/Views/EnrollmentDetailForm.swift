@@ -50,6 +50,12 @@ struct EnrollmentDetailForm: View {
                             Text("Link: \n\(link)")
                                 .multilineTextAlignment(.leading)
                                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                            if(!validateURL(url: link)){
+                                Text("Błędny adres strony internetowej")
+                                    .foregroundColor(.red)
+                                    .multilineTextAlignment(.leading)
+                                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                            }
                         }
                         .padding(/*@START_MENU_TOKEN@*/.all, 10.0/*@END_MENU_TOKEN@*/)
                         Button("Dodaj") {

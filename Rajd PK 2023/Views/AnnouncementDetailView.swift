@@ -47,7 +47,7 @@ struct AnnouncementDetails: View {
                 ScrollView{
                     VStack {
                         if (announcement.isImage ?? false){
-                            FirebaseImage(imageID: .constant("\(announcement.id!).jpg"))
+                            FirebaseImage(path: "images/", imageID: .constant("\(announcement.id!).jpg"))
                         }
                         VStack(alignment: .leading) {
                             Text(announcement.title!).font(.title)
@@ -109,7 +109,7 @@ struct AnnouncementDetailsClicked: View {
                 ScrollView{
                     VStack {
                         if (activeAnnouncement.announcement.isImage ?? false){
-                            FirebaseImage(imageID: $imageID)
+                            FirebaseImage(path: "images/", imageID: $imageID)
                         }
                         VStack(alignment: .leading) {
                             Text(activeAnnouncement.announcement.title!).font(.title)

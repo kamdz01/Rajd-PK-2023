@@ -13,18 +13,38 @@ class FirebaseViewModel: ObservableObject {
     @Published var announcements = [Announcement]()
     @Published var enrollments = [Enrollment]()
     @Published var FAQs = [FAQ]()
-    @Published var Timetables = [Timetable]()
+    @Published var timetables = [Timetable]()
+    @Published var routes = [Route]()
+    
     var lastID = ""
     var db = Firestore.firestore()
     
     func fetchData() {
+        db.collection("Routes").addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No Routes")
+                return
+            }
+            
+            self.routes = documents.map { (queryDocumentSnapshot) -> Route in
+                let data = queryDocumentSnapshot.data()
+                let id = queryDocumentSnapshot.documentID
+                let title = data["title"] as? String ?? ""
+                let content = data["content"] as? String ?? ""
+                let image = data["image"] as? String ?? ""
+                let link = data["link"] as? String ?? ""
+                let hidden = data["hidden"] as? Bool ?? true
+                return Route(id: id, title: title, content: content, link: link, image: image, hidden: hidden)
+            }
+        }
+        
         db.collection("Timetables").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No Timetables")
                 return
             }
             
-            self.Timetables = documents.map { (queryDocumentSnapshot) -> Timetable in
+            self.timetables = documents.map { (queryDocumentSnapshot) -> Timetable in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
                 let day = data["day"] as? String ?? ""

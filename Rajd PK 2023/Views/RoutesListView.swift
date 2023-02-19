@@ -1,25 +1,25 @@
 //
-//  TimetableView.swift
+//  RoutesView.swift
 //  Rajd PK 2023
 //
-//  Created by Kamil Dziedzic on 15/12/2022.
+//  Created by Kamil Dziedzic on 17/02/2023.
 //
 
 import SwiftUI
 
-struct TimetablesList: View{
+struct RoutesList: View{
     
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
     
     var body: some View{
-        List(viewModel.timetables) { timetable in
-            if(!(timetable.day ?? "").isEmpty) {
+        List(viewModel.routes) { route in
+            if(!(route.title ?? "").isEmpty && !(route.hidden ?? true)) {
                 if #available(iOS 15.0, *) {
-                    TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
+                    RoutesViewItem(loggedIn: $loggedIn, route: route)
                         .listRowSeparator(.hidden)
                 } else {
-                    TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
+                    RoutesViewItem(loggedIn: $loggedIn, route: route)
                         .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
                 }
             }
@@ -27,7 +27,7 @@ struct TimetablesList: View{
     }
 }
 
-struct TimetablesListView: View {
+struct RoutesListView: View {
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
     
@@ -37,7 +37,7 @@ struct TimetablesListView: View {
             NavigationView {
                 VStack {
                     if #available(iOS 16.0, *) {
-                        TimetablesList(loggedIn: $loggedIn)
+                        RoutesList(loggedIn: $loggedIn)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -49,7 +49,7 @@ struct TimetablesListView: View {
                             .scrollContentBackground(.hidden)
                     }
                     else if #available(iOS 15.0, *) {
-                        TimetablesList(loggedIn: $loggedIn)
+                        RoutesList(loggedIn: $loggedIn)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -59,7 +59,7 @@ struct TimetablesListView: View {
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
-                        TimetablesList(loggedIn: $loggedIn)
+                        RoutesList(loggedIn: $loggedIn)
                             .onAppear() {
                                 self.viewModel.fetchData()
                                 UITableView.appearance().backgroundColor = UIColor.clear
@@ -68,7 +68,7 @@ struct TimetablesListView: View {
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     }
                 }
-                .navigationTitle("Harmonogram")
+                .navigationTitle("Trasy")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar{
                     ToolbarItem(placement: .navigationBarLeading){
@@ -85,11 +85,12 @@ struct TimetablesListView: View {
     }
 }
 
-struct TimetablesViewItem: View {
+struct RoutesViewItem: View {
     
     @Binding var loggedIn: Bool
-    let timetable: Timetable
+    let route: Route
     @State var tapped = false
+    
     var body: some View {
         ZStack{
             Button(action: {
@@ -100,7 +101,7 @@ struct TimetablesViewItem: View {
             if(!tapped){
                 HStack{
                     VStack(alignment: .center) {
-                        Text("\(timetable.day!)")
+                        Text("\(route.title!)")
                             .font(.title2)
                             .fontWeight(.semibold)
                             .lineLimit(2)
@@ -113,33 +114,20 @@ struct TimetablesViewItem: View {
                     HStack{
                         Spacer()
                         VStack(alignment: .center) {
-                            Text("\(timetable.day!)")
+                            Text("\(route.title!)")
                                 .font(.title2)
                                 .fontWeight(.semibold)
                                 .padding(.bottom, 1.0)
                         }
                         Spacer()
                     }
-                    VStack(alignment: .leading){
-                        if (timetable.name1 != nil && timetable.content1 != nil){
-                            Text("\(timetable.name1!):")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                            Text("\(timetable.content1!)")
-                        }
-                        if (timetable.name2 != nil && timetable.content2 != nil){
-                            Text("\(timetable.name2!):")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                            Text("\(timetable.content2!)")
-                        }
-                        if (timetable.name3 != nil && timetable.content3 != nil){
-                            Text("\(timetable.name3!):")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                            Text("\(timetable.content3!)")
-                        }
+                    if ((route.image ?? "") != ""){
+                        FirebaseImage(path: "routes/", imageID: .constant("\(route.image!)"))
                     }
+                    Text("\(route.content!)")
+                        .padding(.bottom, 1.0)
+                    
+                    LinkView(link: route.link ?? "", text: "Link do trasy")
                 }
             }
         }
@@ -151,10 +139,10 @@ struct TimetablesViewItem: View {
     }
 }
 
-struct TimetablesListView_Previews: PreviewProvider {
+struct RoutesListView_Previews: PreviewProvider {
     static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        TimetablesListView(loggedIn: .constant(true))
+        RoutesListView(loggedIn: .constant(true))
             .environmentObject(viewModel)
     }
 }

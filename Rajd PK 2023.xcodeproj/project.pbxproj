@@ -10,6 +10,8 @@
 		AA160E4729703E1B004B5605 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA160E4629703E1B004B5605 /* FloatingTextField.swift */; };
 		AA1D755829A23FF7008206C2 /* FAQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D755729A23FF7008206C2 /* FAQ.swift */; };
 		AA1D755A29A250B1008206C2 /* Timetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D755929A250B1008206C2 /* Timetable.swift */; };
+		AA1D755C29A260F8008206C2 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D755B29A260F8008206C2 /* Route.swift */; };
+		AA1D755E29A2679B008206C2 /* LinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D755D29A2679B008206C2 /* LinkView.swift */; };
 		AA32A030296F4F61002E321B /* Rajd_PK_2023App.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A02F296F4F61002E321B /* Rajd_PK_2023App.swift */; };
 		AA32A037296F4F62002E321B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA32A036296F4F62002E321B /* Preview Assets.xcassets */; };
 		AA32A055296F4FB6002E321B /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A040296F4FB6002E321B /* Announcement.swift */; };
@@ -31,7 +33,7 @@
 		AA32A06C296F51A0002E321B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A06B296F51A0002E321B /* FirebaseMessaging */; };
 		AA32A06E296F51A0002E321B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A06D296F51A0002E321B /* FirebaseStorage */; };
 		AA72873B296F5DE6000C573F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA72873A296F5DE6000C573F /* GoogleService-Info.plist */; };
-		AA74943D29A02F76001A2DA7 /* RoutesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74943C29A02F76001A2DA7 /* RoutesView.swift */; };
+		AA74943D29A02F76001A2DA7 /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74943C29A02F76001A2DA7 /* RoutesListView.swift */; };
 		AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB862996E8C50056AB1B /* Enrollment.swift */; };
 		AA8FBB892996EAD20056AB1B /* EnrollmentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */; };
 		AAD8842F299A61F2005B7E0C /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD8842E299A61F2005B7E0C /* PushNotificationSender.swift */; };
@@ -47,6 +49,8 @@
 		AA160E4629703E1B004B5605 /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		AA1D755729A23FF7008206C2 /* FAQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQ.swift; sourceTree = "<group>"; };
 		AA1D755929A250B1008206C2 /* Timetable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timetable.swift; sourceTree = "<group>"; };
+		AA1D755B29A260F8008206C2 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		AA1D755D29A2679B008206C2 /* LinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkView.swift; sourceTree = "<group>"; };
 		AA32A02C296F4F61002E321B /* Rajd PK 2023.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rajd PK 2023.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA32A02F296F4F61002E321B /* Rajd_PK_2023App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rajd_PK_2023App.swift; sourceTree = "<group>"; };
 		AA32A036296F4F62002E321B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -66,7 +70,7 @@
 		AA32A050296F4FB6002E321B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA32A06F296F5321002E321B /* Rajd-PK-2023-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rajd-PK-2023-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AA72873A296F5DE6000C573F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AA74943C29A02F76001A2DA7 /* RoutesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesView.swift; sourceTree = "<group>"; };
+		AA74943C29A02F76001A2DA7 /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
 		AA8FBB862996E8C50056AB1B /* Enrollment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enrollment.swift; sourceTree = "<group>"; };
 		AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentListView.swift; sourceTree = "<group>"; };
 		AA9CF8A6296F63F200920C2A /* Rajd PK 2023.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rajd PK 2023.entitlements"; sourceTree = "<group>"; };
@@ -140,6 +144,7 @@
 			children = (
 				AA32A040296F4FB6002E321B /* Announcement.swift */,
 				AA8FBB862996E8C50056AB1B /* Enrollment.swift */,
+				AA1D755B29A260F8008206C2 /* Route.swift */,
 				AA1D755729A23FF7008206C2 /* FAQ.swift */,
 				AA1D755929A250B1008206C2 /* Timetable.swift */,
 			);
@@ -171,8 +176,9 @@
 				AAD88432299A912C005B7E0C /* EnrollmentDetailForm.swift */,
 				AA32A046296F4FB6002E321B /* FAQListView.swift */,
 				AA32A047296F4FB6002E321B /* TimetablesListView.swift */,
-				AA74943C29A02F76001A2DA7 /* RoutesView.swift */,
+				AA74943C29A02F76001A2DA7 /* RoutesListView.swift */,
 				AA32A049296F4FB6002E321B /* FirebaseImage.swift */,
+				AA1D755D29A2679B008206C2 /* LinkView.swift */,
 				AA32A04A296F4FB6002E321B /* BottomSheet.swift */,
 				AA32A04D296F4FB6002E321B /* SignInView.swift */,
 			);
@@ -285,8 +291,9 @@
 				AA32A062296F4FB6002E321B /* MainView.swift in Sources */,
 				AAF83C0629784070000EDDB1 /* ActiveAnnouncement.swift in Sources */,
 				AA8FBB892996EAD20056AB1B /* EnrollmentListView.swift in Sources */,
-				AA74943D29A02F76001A2DA7 /* RoutesView.swift in Sources */,
+				AA74943D29A02F76001A2DA7 /* RoutesListView.swift in Sources */,
 				AA32A05C296F4FB6002E321B /* FirebaseImage.swift in Sources */,
+				AA1D755C29A260F8008206C2 /* Route.swift in Sources */,
 				AA1D755829A23FF7008206C2 /* FAQ.swift in Sources */,
 				AA32A063296F4FB6002E321B /* ContentView.swift in Sources */,
 				AA32A05E296F4FB6002E321B /* AnnouncementListView.swift in Sources */,
@@ -294,6 +301,7 @@
 				AA32A05D296F4FB6002E321B /* BottomSheet.swift in Sources */,
 				AA1D755A29A250B1008206C2 /* Timetable.swift in Sources */,
 				AA32A059296F4FB6002E321B /* FAQListView.swift in Sources */,
+				AA1D755E29A2679B008206C2 /* LinkView.swift in Sources */,
 				AA160E4729703E1B004B5605 /* FloatingTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
