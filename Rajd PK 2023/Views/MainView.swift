@@ -35,7 +35,7 @@ struct MainView: View {
                 }
                 .tag(2)
             
-            FAQView()
+            FAQListView(loggedIn: $loggedIn)
                 .tabItem {
                     Image(systemName: "questionmark.square")
                     //Image("schedule-icon")
@@ -43,7 +43,7 @@ struct MainView: View {
                 }
                 .tag(3)
             
-            TimetableView()
+            TimetablesListView(loggedIn: $loggedIn)
                 .tabItem {
                     //Image(systemName: "mappin.circle.fill")
                     Image("schedule-icon")

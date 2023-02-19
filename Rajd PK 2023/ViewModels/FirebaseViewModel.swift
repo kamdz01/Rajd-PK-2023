@@ -12,10 +12,47 @@ class FirebaseViewModel: ObservableObject {
     
     @Published var announcements = [Announcement]()
     @Published var enrollments = [Enrollment]()
+    @Published var FAQs = [FAQ]()
+    @Published var Timetables = [Timetable]()
     var lastID = ""
     var db = Firestore.firestore()
     
     func fetchData() {
+        db.collection("Timetables").addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No Timetables")
+                return
+            }
+            
+            self.Timetables = documents.map { (queryDocumentSnapshot) -> Timetable in
+                let data = queryDocumentSnapshot.data()
+                let id = queryDocumentSnapshot.documentID
+                let day = data["day"] as? String ?? ""
+                let name1 = data["name1"] as? String ?? ""
+                let content1 = data["content1"] as? String ?? ""
+                let name2 = data["name2"] as? String ?? ""
+                let content2 = data["content2"] as? String ?? ""
+                let name3 = data["name3"] as? String ?? ""
+                let content3 = data["content3"] as? String ?? ""
+                return Timetable(id: id, day: day, name1: name1, content1: content1, name2: name2, content2: content2, name3: name3, content3: content3)
+            }
+        }
+        
+        db.collection("FAQs").addSnapshotListener { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("No FAQs")
+                return
+            }
+            
+            self.FAQs = documents.map { (queryDocumentSnapshot) -> FAQ in
+                let data = queryDocumentSnapshot.data()
+                let id = queryDocumentSnapshot.documentID
+                let question = data["question"] as? String ?? ""
+                let answer = data["answer"] as? String ?? ""
+                return FAQ(id: id, question: question, answer: answer)
+            }
+        }
+        
         db.collection("Enrollments").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No enrollments")

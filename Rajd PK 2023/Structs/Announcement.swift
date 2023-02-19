@@ -6,8 +6,8 @@
 //
 
 import Foundation
-
 import SwiftUI
+
 struct Announcement: Codable, Identifiable {
     var id: String?
     var title: String?

@@ -6,8 +6,8 @@
 //
 
 import Foundation
-
 import SwiftUI
+
 struct Enrollment: Codable, Identifiable {
     var id: String?
     var title: String?
