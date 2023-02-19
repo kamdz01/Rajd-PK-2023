@@ -151,7 +151,7 @@ struct AnnouncementDetailForm: View {
     
     
     func uploadImage(imageId: String){
-        let imageData = inputImage?.jpegData(compressionQuality: 0.8)
+        let imageData = inputImage?.jpegData(compressionQuality: 0.1)
         let storageRef = Storage.storage().reference()
         let riversRef = storageRef.child("images/\(imageId).jpg")
         let uploadTask = riversRef.putData(imageData!, metadata: nil) { (metadata, error) in

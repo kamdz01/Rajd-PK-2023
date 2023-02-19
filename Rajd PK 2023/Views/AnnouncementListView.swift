@@ -164,6 +164,7 @@ struct AnnouncementViewItem: View {
                                     Text(announcement.title!)
                                         .font(.title)
                                         .fontWeight(.semibold)
+                                        .lineLimit(2)
                                     Spacer()
                                 }
                                 Spacer()
@@ -180,6 +181,7 @@ struct AnnouncementViewItem: View {
                             }
                             Text(announcement.subTitle!).font(.title3)
                                 .fontWeight(.medium)
+                                .lineLimit(2)
                             Text(announcement.content!)
                                 .fontWeight(.medium)
                                 .lineLimit(2)
@@ -191,6 +193,7 @@ struct AnnouncementViewItem: View {
                                 VStack {
                                     Text(announcement.title!)
                                         .font(.title)
+                                        .lineLimit(2)
                                     Spacer()
                                 }
                                 Spacer()
@@ -206,6 +209,7 @@ struct AnnouncementViewItem: View {
                                 
                             }
                             Text(announcement.subTitle!).font(.title3)
+                                .lineLimit(2)
                             Text(announcement.content!)
                                 .lineLimit(2)
                         }
