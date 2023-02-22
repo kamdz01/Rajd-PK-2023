@@ -122,16 +122,18 @@ struct AnnouncementListView: View {
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing){
                         if (loggedIn){
-                            Button("Dodaj"){
+                            Button(action: {
                                 ifAdding = true
-                            }
+                            }, label: {
+                                Image("plus-icon")
+                            })
                         }
                     }
                     ToolbarItem(placement: .navigationBarLeading){
                         HStack {
                             Text("")
                             NavigationLink(destination: SignInView()){
-                                Image(systemName: "person.crop.circle")
+                                Image("login-icon")
                             }
                         }
                     }

@@ -75,7 +75,7 @@ struct RoutesListView: View {
                         HStack {
                             Text("")
                             NavigationLink(destination: SignInView()){
-                                Image(systemName: "person.crop.circle")
+                                Image("login-icon")
                             }
                         }
                     }
@@ -98,36 +98,38 @@ struct RoutesViewItem: View {
                     tapped.toggle()
                 }
             }) {}
-            if(!tapped){
-                HStack{
-                    VStack(alignment: .center) {
-                        Text("\(route.title!)")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .lineLimit(2)
-                            .padding(.bottom, 1.0)
+            VStack{
+                if(!tapped){
+                    HStack{
+                        VStack(alignment: .center) {
+                            Text("\(route.title!)")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .lineLimit(2)
+                                .padding(.bottom, 1.0)
+                        }
                     }
                 }
-            }
-            else{
-                VStack{
+                else{
                     HStack{
-                        Spacer()
                         VStack(alignment: .center) {
                             Text("\(route.title!)")
                                 .font(.title2)
                                 .fontWeight(.semibold)
                                 .padding(.bottom, 1.0)
                         }
-                        Spacer()
                     }
-                    if ((route.image ?? "") != ""){
-                        FirebaseImage(path: "routes/", imageID: .constant("\(route.image!)"))
+                    VStack{
+                        
+                        if ((route.image ?? "") != ""){
+                            FirebaseImage(path: "routes/", imageID: .constant("\(route.image!)"))
+                        }
+                        Text("\(route.content!)")
+                            .padding(.bottom, 1.0)
+                        
+                        LinkView(link: route.link ?? "", text: "Link do trasy")
                     }
-                    Text("\(route.content!)")
-                        .padding(.bottom, 1.0)
-                    
-                    LinkView(link: route.link ?? "", text: "Link do trasy")
+                    .transition(.scale.animation(.easeOut(duration: 0.1)))
                 }
             }
         }

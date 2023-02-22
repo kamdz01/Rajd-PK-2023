@@ -22,30 +22,26 @@ struct MainView: View {
         TabView(selection: $selectedTab) {
             AnnouncementListView(loggedIn: $loggedIn)
                 .tabItem {
-                    //Image(systemName: "megaphone.fill")
-                    Image("notifications-icon")
+                    Image("notification-icon")
                     Text("Ogłoszenia")
                 }
                 .tag(1)
             EnrollmentListView(loggedIn: $loggedIn)
                 .tabItem {
-                    Image(systemName: "square.and.pencil")
-                    //Image("notifications-icon")
+                    Image("write-icon")
                     Text("Zapisy")
                 }
                 .tag(2)
             
             FAQListView(loggedIn: $loggedIn)
                 .tabItem {
-                    Image(systemName: "questionmark.square")
-                    //Image("schedule-icon")
+                    Image("FAQ-icon")
                     Text("FAQ")
                 }
                 .tag(3)
             
             TimetablesListView(loggedIn: $loggedIn)
                 .tabItem {
-                    //Image(systemName: "mappin.circle.fill")
                     Image("schedule-icon")
                     Text("Harmonogram")
                 }
@@ -53,8 +49,7 @@ struct MainView: View {
             
             RoutesListView(loggedIn: $loggedIn)
                 .tabItem {
-                    Image(systemName: "map")
-                    //Image("schedule-icon")
+                    Image("routes-icon")
                     Text("Trasy")
                 }
                 .tag(5)

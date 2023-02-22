@@ -75,7 +75,7 @@ struct TimetablesListView: View {
                         HStack {
                             Text("")
                             NavigationLink(destination: SignInView()){
-                                Image(systemName: "person.crop.circle")
+                                Image("login-icon")
                             }
                         }
                     }
@@ -97,19 +97,19 @@ struct TimetablesViewItem: View {
                     tapped.toggle()
                 }
             }) {}
-            if(!tapped){
-                HStack{
-                    VStack(alignment: .center) {
-                        Text("\(timetable.day!)")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .lineLimit(2)
-                            .padding(.bottom, 1.0)
+            VStack{
+                if(!tapped){
+                    HStack{
+                        VStack(alignment: .center) {
+                            Text("\(timetable.day!)")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .lineLimit(2)
+                                .padding(.bottom, 1.0)
+                        }
                     }
                 }
-            }
-            else{
-                VStack{
+                else{
                     HStack{
                         Spacer()
                         VStack(alignment: .center) {
@@ -140,6 +140,7 @@ struct TimetablesViewItem: View {
                             Text("\(timetable.content3!)")
                         }
                     }
+                    .transition(.scale.animation(.easeOut(duration: 0.1)))
                 }
             }
         }

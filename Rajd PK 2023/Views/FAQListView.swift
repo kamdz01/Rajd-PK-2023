@@ -75,7 +75,7 @@ struct FAQListView: View {
                         HStack {
                             Text("")
                             NavigationLink(destination: SignInView()){
-                                Image(systemName: "person.crop.circle")
+                                Image("login-icon")
                             }
                         }
                     }
@@ -109,6 +109,7 @@ struct FAQViewItem: View {
                         Text("\(faq.answer!)")
                             .font(.title3)
                             .lineLimit(2)
+                            .transition(.scale.animation(.easeOut(duration: 0.1)))
                     }
                 }
                 else{
@@ -120,6 +121,7 @@ struct FAQViewItem: View {
                         
                         Text("\(faq.answer!)")
                             .font(.title3)
+                            .transition(.scale.animation(.easeOut(duration: 0.1)))
                     }
                 }
             }
