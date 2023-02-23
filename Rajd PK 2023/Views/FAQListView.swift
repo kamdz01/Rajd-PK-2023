@@ -11,16 +11,24 @@ struct FAQList: View{
     
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
+    @Binding var tabClicked: Bool
     
     var body: some View{
-        List(viewModel.FAQs) { faq in
-            if(!(faq.question ?? "").isEmpty && !(faq.answer ?? "").isEmpty) {
-                if #available(iOS 15.0, *) {
-                    FAQViewItem(loggedIn: $loggedIn, faq: faq)
-                        .listRowSeparator(.hidden)
-                } else {
-                    FAQViewItem(loggedIn: $loggedIn, faq: faq)
-                        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+        ScrollViewReader { proxy in
+            List(viewModel.FAQs) { faq in
+                if(!(faq.question ?? "").isEmpty && !(faq.answer ?? "").isEmpty) {
+                    if #available(iOS 15.0, *) {
+                        FAQViewItem(loggedIn: $loggedIn, faq: faq)
+                            .listRowSeparator(.hidden)
+                    } else {
+                        FAQViewItem(loggedIn: $loggedIn, faq: faq)
+                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                    }
+                }
+            }
+            .onChange(of: tabClicked){ clicked in
+                withAnimation{
+                    proxy.scrollTo(viewModel.FAQs[0].id, anchor: .top)
                 }
             }
         }
@@ -30,6 +38,7 @@ struct FAQList: View{
 struct FAQListView: View {
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
+    @Binding var tabClicked: Bool
     
     var body: some View {
         ZStack{
@@ -37,7 +46,7 @@ struct FAQListView: View {
             NavigationView {
                 VStack {
                     if #available(iOS 16.0, *) {
-                        FAQList(loggedIn: $loggedIn)
+                        FAQList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -49,7 +58,7 @@ struct FAQListView: View {
                             .scrollContentBackground(.hidden)
                     }
                     else if #available(iOS 15.0, *) {
-                        FAQList(loggedIn: $loggedIn)
+                        FAQList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -59,7 +68,7 @@ struct FAQListView: View {
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
-                        FAQList(loggedIn: $loggedIn)
+                        FAQList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                                 UITableView.appearance().backgroundColor = UIColor.clear
@@ -137,7 +146,7 @@ struct FAQViewItem: View {
 struct FAQListView_Previews: PreviewProvider {
     static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        FAQListView(loggedIn: .constant(true))
+        FAQListView(loggedIn: .constant(true), tabClicked: .constant(true))
             .environmentObject(viewModel)
     }
 }

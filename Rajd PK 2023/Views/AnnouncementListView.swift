@@ -13,55 +13,64 @@ struct AnnouncementList: View{
     @EnvironmentObject var viewModel: FirebaseViewModel
     @State private var chosenDelete = false
     @State private var announcementToDeleteID = ""
+    @Binding var tabClicked: Bool
+    
     
     var body: some View{
-        List(viewModel.announcements) { announcement in
-            if(!(announcement.content ?? "").isEmpty && !(announcement.title ?? "").isEmpty &&
-               !(announcement.hidden ?? false)) {
-                let dateArr = announcement.date?.components(separatedBy: " ")
-                if #available(iOS 15.0, *) {
-                    AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
-                        .contextMenu {
-                            if (loggedIn){
-                                Button(role: .destructive) {
-                                    chosenDelete = true
-                                    announcementToDeleteID = announcement.id ?? ""
-                                } label: {
-                                    Label("Usuń", systemImage: "trash.fill")
+        ScrollViewReader { proxy in
+            List(viewModel.announcements) { announcement in
+                if(!(announcement.content ?? "").isEmpty && !(announcement.title ?? "").isEmpty &&
+                   !(announcement.hidden ?? false)) {
+                    let dateArr = announcement.date?.components(separatedBy: " ")
+                    if #available(iOS 15.0, *) {
+                        AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
+                            .contextMenu {
+                                if (loggedIn){
+                                    Button(role: .destructive) {
+                                        chosenDelete = true
+                                        announcementToDeleteID = announcement.id ?? ""
+                                    } label: {
+                                        Label("Usuń", systemImage: "trash.fill")
+                                    }
                                 }
                             }
-                        }
-                        .listRowSeparator(.hidden)
-                } else {
-                    AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
-                        .contextMenu {
-                            if (loggedIn){
-                                Button() {
-                                    chosenDelete = true
-                                    announcementToDeleteID = announcement.id ?? ""
-                                } label: {
-                                    Label("Usuń", systemImage: "trash.fill")
+                            .listRowSeparator(.hidden)
+                    } else {
+                        AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
+                            .contextMenu {
+                                if (loggedIn){
+                                    Button() {
+                                        chosenDelete = true
+                                        announcementToDeleteID = announcement.id ?? ""
+                                    } label: {
+                                        Label("Usuń", systemImage: "trash.fill")
+                                    }
+                                    .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
                                 }
-                                .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
                             }
-                        }
-                        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                    }
                 }
             }
-        }
-        .actionSheet(isPresented: $chosenDelete) {
-            ActionSheet(
-                title: Text("Czy na pewno chcesz usunąć to ogłoszenie?"),
-                buttons: [
-                    .destructive(Text("Usuń")) {
-                        self.viewModel.hideAnnouncement(id: announcementToDeleteID)
-                        chosenDelete = false
-                    },
-                    .default(Text("Anuluj")) {
-                        chosenDelete = false
-                    },
-                ]
-            )
+            .onChange(of: tabClicked){ clicked in
+                withAnimation{
+                    proxy.scrollTo(viewModel.announcements[0].id, anchor: .top)
+                }
+            }
+            .actionSheet(isPresented: $chosenDelete) {
+                ActionSheet(
+                    title: Text("Czy na pewno chcesz usunąć to ogłoszenie?"),
+                    buttons: [
+                        .destructive(Text("Usuń")) {
+                            self.viewModel.hideAnnouncement(id: announcementToDeleteID)
+                            chosenDelete = false
+                        },
+                        .default(Text("Anuluj")) {
+                            chosenDelete = false
+                        },
+                    ]
+                )
+            }
         }
     }
 }
@@ -73,6 +82,7 @@ struct AnnouncementListView: View {
     @EnvironmentObject var viewModel: FirebaseViewModel
     @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
     @State var ifAdding = false
+    @Binding var tabClicked: Bool
     
     var body: some View {
         ZStack{
@@ -86,7 +96,7 @@ struct AnnouncementListView: View {
                         EmptyView()
                     }
                     if #available(iOS 16.0, *) {
-                        AnnouncementList(loggedIn: $loggedIn)
+                        AnnouncementList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -98,7 +108,7 @@ struct AnnouncementListView: View {
                             .scrollContentBackground(.hidden)
                     }
                     else if #available(iOS 15.0, *) {
-                        AnnouncementList(loggedIn: $loggedIn)
+                        AnnouncementList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -108,7 +118,7 @@ struct AnnouncementListView: View {
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
-                        AnnouncementList(loggedIn: $loggedIn)
+                        AnnouncementList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 UITableView.appearance().backgroundColor = UIColor.clear
                                 UITableViewCell.appearance().backgroundColor = UIColor.clear
@@ -240,7 +250,7 @@ struct AnnouncementViewItem: View {
 struct AnnouncementsView_Previews: PreviewProvider {
     static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        AnnouncementListView(loggedIn: .constant(true))
+        AnnouncementListView(loggedIn: .constant(true), tabClicked: .constant(true))
             .environmentObject(viewModel)
         MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
             .previewDisplayName("MainView")

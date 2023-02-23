@@ -11,16 +11,24 @@ struct RoutesList: View{
     
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
+    @Binding var tabClicked: Bool
     
     var body: some View{
-        List(viewModel.routes) { route in
-            if(!(route.title ?? "").isEmpty && !(route.hidden ?? true)) {
-                if #available(iOS 15.0, *) {
-                    RoutesViewItem(loggedIn: $loggedIn, route: route)
-                        .listRowSeparator(.hidden)
-                } else {
-                    RoutesViewItem(loggedIn: $loggedIn, route: route)
-                        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+        ScrollViewReader { proxy in
+            List(viewModel.routes) { route in
+                if(!(route.title ?? "").isEmpty && !(route.hidden ?? true)) {
+                    if #available(iOS 15.0, *) {
+                        RoutesViewItem(loggedIn: $loggedIn, route: route)
+                            .listRowSeparator(.hidden)
+                    } else {
+                        RoutesViewItem(loggedIn: $loggedIn, route: route)
+                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                    }
+                }
+            }
+            .onChange(of: tabClicked){ clicked in
+                withAnimation{
+                    proxy.scrollTo(viewModel.routes[0].id, anchor: .top)
                 }
             }
         }
@@ -30,6 +38,7 @@ struct RoutesList: View{
 struct RoutesListView: View {
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
+    @Binding var tabClicked: Bool
     
     var body: some View {
         ZStack{
@@ -37,7 +46,7 @@ struct RoutesListView: View {
             NavigationView {
                 VStack {
                     if #available(iOS 16.0, *) {
-                        RoutesList(loggedIn: $loggedIn)
+                        RoutesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -49,7 +58,7 @@ struct RoutesListView: View {
                             .scrollContentBackground(.hidden)
                     }
                     else if #available(iOS 15.0, *) {
-                        RoutesList(loggedIn: $loggedIn)
+                        RoutesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -59,7 +68,7 @@ struct RoutesListView: View {
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
-                        RoutesList(loggedIn: $loggedIn)
+                        RoutesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                                 UITableView.appearance().backgroundColor = UIColor.clear
@@ -144,7 +153,7 @@ struct RoutesViewItem: View {
 struct RoutesListView_Previews: PreviewProvider {
     static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        RoutesListView(loggedIn: .constant(true))
+        RoutesListView(loggedIn: .constant(true), tabClicked: .constant(true))
             .environmentObject(viewModel)
     }
 }

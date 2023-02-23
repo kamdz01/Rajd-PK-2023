@@ -14,40 +14,44 @@ struct MainView: View {
     @Binding var password: String
     @StateObject var viewModel = FirebaseViewModel()
     @State var selectedTab = 1
+    @State var tabClicked = false
+
     
     @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
     @ObservedObject var activeEnrollment = ActiveEnrollment.shared
     
     var body: some View {
-        TabView(selection: $selectedTab) {
-            AnnouncementListView(loggedIn: $loggedIn)
+        TabView(selection: $selectedTab.onUpdate {
+            tabClicked.toggle()
+        }) {
+            AnnouncementListView(loggedIn: $loggedIn, tabClicked: $tabClicked)
                 .tabItem {
                     Image("notification-icon")
                     Text("Ogłoszenia")
                 }
                 .tag(1)
-            EnrollmentListView(loggedIn: $loggedIn)
+            EnrollmentListView(loggedIn: $loggedIn, tabClicked: $tabClicked)
                 .tabItem {
                     Image("write-icon")
                     Text("Zapisy")
                 }
                 .tag(2)
             
-            FAQListView(loggedIn: $loggedIn)
+            FAQListView(loggedIn: $loggedIn, tabClicked: $tabClicked)
                 .tabItem {
                     Image("FAQ-icon")
                     Text("FAQ")
                 }
                 .tag(3)
             
-            TimetablesListView(loggedIn: $loggedIn)
+            TimetablesListView(loggedIn: $loggedIn, tabClicked: $tabClicked)
                 .tabItem {
                     Image("schedule-icon")
                     Text("Harmonogram")
                 }
                 .tag(4)
             
-            RoutesListView(loggedIn: $loggedIn)
+            RoutesListView(loggedIn: $loggedIn, tabClicked: $tabClicked)
                 .tabItem {
                     Image("routes-icon")
                     Text("Trasy")
@@ -93,6 +97,19 @@ struct MainView: View {
             }
         }
         
+    }
+}
+
+extension Binding {
+    func onUpdate(_ closure: @escaping () -> Void) -> Binding<Value> {
+        Binding(get: {
+            wrappedValue
+        }, set: { newValue in
+            withAnimation{
+                wrappedValue = newValue
+                closure()
+            }
+        })
     }
 }
 

@@ -11,16 +11,24 @@ struct TimetablesList: View{
     
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
+    @Binding var tabClicked: Bool
     
     var body: some View{
-        List(viewModel.timetables) { timetable in
-            if(!(timetable.day ?? "").isEmpty) {
-                if #available(iOS 15.0, *) {
-                    TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
-                        .listRowSeparator(.hidden)
-                } else {
-                    TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
-                        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+        ScrollViewReader { proxy in
+            List(viewModel.timetables) { timetable in
+                if(!(timetable.day ?? "").isEmpty) {
+                    if #available(iOS 15.0, *) {
+                        TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
+                            .listRowSeparator(.hidden)
+                    } else {
+                        TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
+                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                    }
+                }
+            }
+            .onChange(of: tabClicked){ clicked in
+                withAnimation{
+                    proxy.scrollTo(viewModel.timetables[0].id, anchor: .top)
                 }
             }
         }
@@ -30,6 +38,7 @@ struct TimetablesList: View{
 struct TimetablesListView: View {
     @Binding var loggedIn: Bool
     @EnvironmentObject var viewModel: FirebaseViewModel
+    @Binding var tabClicked: Bool
     
     var body: some View {
         ZStack{
@@ -37,7 +46,7 @@ struct TimetablesListView: View {
             NavigationView {
                 VStack {
                     if #available(iOS 16.0, *) {
-                        TimetablesList(loggedIn: $loggedIn)
+                        TimetablesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -49,7 +58,7 @@ struct TimetablesListView: View {
                             .scrollContentBackground(.hidden)
                     }
                     else if #available(iOS 15.0, *) {
-                        TimetablesList(loggedIn: $loggedIn)
+                        TimetablesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -59,7 +68,7 @@ struct TimetablesListView: View {
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
-                        TimetablesList(loggedIn: $loggedIn)
+                        TimetablesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                                 UITableView.appearance().backgroundColor = UIColor.clear
@@ -155,7 +164,7 @@ struct TimetablesViewItem: View {
 struct TimetablesListView_Previews: PreviewProvider {
     static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        TimetablesListView(loggedIn: .constant(true))
+        TimetablesListView(loggedIn: .constant(true), tabClicked: .constant(true))
             .environmentObject(viewModel)
     }
 }

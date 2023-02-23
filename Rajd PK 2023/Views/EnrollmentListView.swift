@@ -13,54 +13,62 @@ struct EnrollmentList: View{
     @EnvironmentObject var viewModel: FirebaseViewModel
     @State private var chosenDelete = false
     @State private var enrollmentToDeleteID = ""
+    @Binding var tabClicked: Bool
     
     var body: some View{
-        List(viewModel.enrollments) { enrollment in
-            if(!(enrollment.link ?? "").isEmpty && !(enrollment.title ?? "").isEmpty && !(enrollment.hidden ?? true)) {
-                let dateArr = enrollment.date?.components(separatedBy: " ")
-                if #available(iOS 15.0, *) {
-                    EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
-                        .listRowSeparator(.hidden)
-                        .contextMenu {
-                            if (loggedIn){
-                                Button(role: .destructive) {
-                                    chosenDelete = true
-                                    enrollmentToDeleteID = enrollment.id ?? ""
-                                } label: {
-                                    Label("Usuń", systemImage: "trash.fill")
+        ScrollViewReader { proxy in
+            List(viewModel.enrollments) { enrollment in
+                if(!(enrollment.link ?? "").isEmpty && !(enrollment.title ?? "").isEmpty && !(enrollment.hidden ?? true)) {
+                    let dateArr = enrollment.date?.components(separatedBy: " ")
+                    if #available(iOS 15.0, *) {
+                        EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
+                            .listRowSeparator(.hidden)
+                            .contextMenu {
+                                if (loggedIn){
+                                    Button(role: .destructive) {
+                                        chosenDelete = true
+                                        enrollmentToDeleteID = enrollment.id ?? ""
+                                    } label: {
+                                        Label("Usuń", systemImage: "trash.fill")
+                                    }
                                 }
                             }
-                        }
-                } else {
-                    EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
-                        .contextMenu {
-                            if (loggedIn){
-                                Button() {
-                                    chosenDelete = true
-                                    enrollmentToDeleteID = enrollment.id ?? ""
-                                } label: {
-                                    Label("Usuń", systemImage: "trash.fill")
+                    } else {
+                        EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
+                            .contextMenu {
+                                if (loggedIn){
+                                    Button() {
+                                        chosenDelete = true
+                                        enrollmentToDeleteID = enrollment.id ?? ""
+                                    } label: {
+                                        Label("Usuń", systemImage: "trash.fill")
+                                    }
+                                    .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
                                 }
-                                .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
                             }
-                        }
-                        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                    }
                 }
             }
-        }
-        .actionSheet(isPresented: $chosenDelete) {
-            ActionSheet(
-                title: Text("Czy na pewno chcesz usunąć te zapisy?"),
-                buttons: [
-                    .destructive(Text("Usuń")) {
-                        self.viewModel.hideEnrollment(id: enrollmentToDeleteID )
-                        chosenDelete = false
-                    },
-                    .default(Text("Anuluj")) {
-                        chosenDelete = false
-                    },
-                ]
-            )
+            .onChange(of: tabClicked){ clicked in
+                withAnimation{
+                    proxy.scrollTo(viewModel.enrollments[0].id, anchor: .top)
+                }
+            }
+            .actionSheet(isPresented: $chosenDelete) {
+                ActionSheet(
+                    title: Text("Czy na pewno chcesz usunąć te zapisy?"),
+                    buttons: [
+                        .destructive(Text("Usuń")) {
+                            self.viewModel.hideEnrollment(id: enrollmentToDeleteID )
+                            chosenDelete = false
+                        },
+                        .default(Text("Anuluj")) {
+                            chosenDelete = false
+                        },
+                    ]
+                )
+            }
         }
     }
 }
@@ -70,6 +78,7 @@ struct EnrollmentListView: View {
     @EnvironmentObject var viewModel: FirebaseViewModel
     @ObservedObject var activeEnrollment = ActiveEnrollment.shared
     @State var ifAdding = false
+    @Binding var tabClicked: Bool
     
     var body: some View {
         ZStack{
@@ -80,7 +89,7 @@ struct EnrollmentListView: View {
                         EmptyView()
                     }
                     if #available(iOS 16.0, *) {
-                        EnrollmentList(loggedIn: $loggedIn)
+                        EnrollmentList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -92,7 +101,7 @@ struct EnrollmentListView: View {
                             .scrollContentBackground(.hidden)
                     }
                     else if #available(iOS 15.0, *) {
-                        EnrollmentList(loggedIn: $loggedIn)
+                        EnrollmentList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                             }
@@ -102,7 +111,7 @@ struct EnrollmentListView: View {
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
-                        EnrollmentList(loggedIn: $loggedIn)
+                        EnrollmentList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
                                 self.viewModel.fetchData()
                                 UITableView.appearance().backgroundColor = UIColor.clear
@@ -184,7 +193,7 @@ struct EnrollmentViewItem: View {
 struct EnrollmentListView_Previews: PreviewProvider {
     static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        EnrollmentListView(loggedIn: .constant(true))
+        EnrollmentListView(loggedIn: .constant(true), tabClicked: .constant(true))
             .environmentObject(viewModel)
         ContentView()
             .previewDisplayName(/*@START_MENU_TOKEN@*/"ContentView"/*@END_MENU_TOKEN@*/)
