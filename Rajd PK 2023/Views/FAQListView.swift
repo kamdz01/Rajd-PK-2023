@@ -26,6 +26,7 @@ struct FAQList: View{
                     }
                 }
             }
+            .listStyle(InsetGroupedListStyle())
             .onChange(of: tabClicked){ clicked in
                 withAnimation{
                     proxy.scrollTo(viewModel.FAQs[0].id, anchor: .top)

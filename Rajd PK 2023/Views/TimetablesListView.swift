@@ -26,6 +26,7 @@ struct TimetablesList: View{
                     }
                 }
             }
+            .listStyle(InsetGroupedListStyle())
             .onChange(of: tabClicked){ clicked in
                 withAnimation{
                     proxy.scrollTo(viewModel.timetables[0].id, anchor: .top)

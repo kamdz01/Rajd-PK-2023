@@ -105,10 +105,10 @@ extension Binding {
         Binding(get: {
             wrappedValue
         }, set: { newValue in
-            withAnimation{
+            //withAnimation{
                 wrappedValue = newValue
                 closure()
-            }
+            //}
         })
     }
 }
