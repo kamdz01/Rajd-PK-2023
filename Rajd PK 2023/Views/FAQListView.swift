@@ -109,11 +109,16 @@ struct FAQViewItem: View {
             VStack {
                 if (!tapped){
                     Group{
-                        Text("\(faq.question!):")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .lineLimit(2)
+                        HStack {
+                            Spacer()
+                            Text("\(faq.question!):")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .lineLimit(2)
                             .padding(.bottom, 1.0)
+                            Spacer()
+                            Image(systemName: "chevron.down")
+                        }
                         
                         Text("\(faq.answer!)")
                             .font(.title3)
@@ -123,10 +128,15 @@ struct FAQViewItem: View {
                 }
                 else{
                     Group{
-                        Text("\(faq.question!):")
-                            .font(.title2)
-                            .fontWeight(.semibold)
+                        HStack {
+                            Spacer()
+                            Text("\(faq.question!):")
+                                .font(.title2)
+                                .fontWeight(.semibold)
                             .padding(.bottom, 1.0)
+                            Spacer()
+                            Image(systemName: "chevron.up")
+                        }
                         
                         Text("\(faq.answer!)")
                             .font(.title3)

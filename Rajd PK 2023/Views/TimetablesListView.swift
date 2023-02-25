@@ -109,6 +109,7 @@ struct TimetablesViewItem: View {
             VStack{
                 if(!tapped){
                     HStack{
+                        Spacer()
                         VStack(alignment: .center) {
                             Text("\(timetable.day!)")
                                 .font(.title2)
@@ -116,6 +117,8 @@ struct TimetablesViewItem: View {
                                 .lineLimit(2)
                                 .padding(.bottom, 1.0)
                         }
+                        Spacer()
+                        Image(systemName: "chevron.down")
                     }
                 }
                 else{
@@ -128,6 +131,7 @@ struct TimetablesViewItem: View {
                                 .padding(.bottom, 1.0)
                         }
                         Spacer()
+                        Image(systemName: "chevron.up")
                     }
                     VStack(alignment: .leading){
                         if (timetable.name1 != nil && timetable.content1 != nil){

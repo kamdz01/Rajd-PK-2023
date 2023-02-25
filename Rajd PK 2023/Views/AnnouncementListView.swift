@@ -228,16 +228,13 @@ struct AnnouncementViewItem: View {
                     }
                 }
                 Spacer()
-                //Image(systemName: "forward.frame.fill")
             }
-            
-            
             NavigationLink(destination: AnnouncementDetailView(announcement: announcement))
             {
                 EmptyView()
             }
-            .buttonStyle(PlainButtonStyle())
-            .opacity(0.0)
+//            .buttonStyle(PlainButtonStyle())
+//            .opacity(0.0)
             
         }
         .padding(.vertical, 5.0)
