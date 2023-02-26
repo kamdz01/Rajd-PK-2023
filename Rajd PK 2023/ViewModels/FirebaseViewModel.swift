@@ -29,8 +29,8 @@ class FirebaseViewModel: ObservableObject {
             self.routes = documents.map { (queryDocumentSnapshot) -> Route in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
-                let title = data["title"] as? String ?? ""
-                let content = data["content"] as? String ?? ""
+                let title = (data["title"] as? String ?? "").replaceNl()
+                let content = (data["content"] as? String ?? "").replaceNl()
                 let image = data["image"] as? String ?? ""
                 let link = data["link"] as? String ?? ""
                 let hidden = data["hidden"] as? Bool ?? true
@@ -47,15 +47,16 @@ class FirebaseViewModel: ObservableObject {
             self.timetables = documents.map { (queryDocumentSnapshot) -> Timetable in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
-                let day = data["day"] as? String ?? ""
-                let name1 = data["name1"] as? String ?? ""
-                let content1 = data["content1"] as? String ?? ""
-                let name2 = data["name2"] as? String ?? ""
-                let content2 = data["content2"] as? String ?? ""
-                let name3 = data["name3"] as? String ?? ""
-                let content3 = data["content3"] as? String ?? ""
+                let day = (data["day"] as? String ?? "").replaceNl()
+                let name1 = (data["name1"] as? String ?? "").replaceNl()
+                let content1 = (data["content1"] as? String ?? "").replaceNl()
+                let name2 = (data["name2"] as? String ?? "").replaceNl()
+                let content2 = (data["content2"] as? String ?? "").replaceNl()
+                let name3 = (data["name3"] as? String ?? "").replaceNl()
+                let content3 = (data["content3"] as? String ?? "").replaceNl()
                 return Timetable(id: id, day: day, name1: name1, content1: content1, name2: name2, content2: content2, name3: name3, content3: content3)
             }
+            self.timetables.sort(by: {$0.day! < $1.day!})
         }
         
         db.collection("FAQs").addSnapshotListener { (querySnapshot, error) in
@@ -67,8 +68,8 @@ class FirebaseViewModel: ObservableObject {
             self.FAQs = documents.map { (queryDocumentSnapshot) -> FAQ in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
-                let question = data["question"] as? String ?? ""
-                let answer = data["answer"] as? String ?? ""
+                let question = (data["question"] as? String ?? "").replaceNl()
+                let answer = (data["answer"] as? String ?? "").replaceNl()
                 return FAQ(id: id, question: question, answer: answer)
             }
         }
@@ -213,5 +214,13 @@ class FirebaseViewModel: ObservableObject {
                     print("Document successfully written!")
                 }
             }
+    }
+}
+
+extension String
+{
+    func replaceNl() -> String
+    {
+       return self.replacingOccurrences(of: "\\n", with: "\n", range: nil)
     }
 }
