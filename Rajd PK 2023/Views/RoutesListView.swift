@@ -20,7 +20,6 @@ struct RoutesList: View{
                     ForEach(viewModel.routes) {route in
                         if(!(route.title ?? "").isEmpty && !(route.hidden ?? true)) {
                             RoutesViewItem(loggedIn: $loggedIn, route: route)
-                                .animation(.easeOut(duration: 0.1))
                         }
                     }
                     .onChange(of: tabClicked){ clicked in
@@ -142,7 +141,7 @@ struct RoutesViewItem: View {
             }
         }
         .onTapGesture {
-            withAnimation(.easeOut) {
+            withAnimation(.easeOut(duration: 0.1)) {
                 tapped.toggle()
             }
         }

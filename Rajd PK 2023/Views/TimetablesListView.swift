@@ -20,7 +20,6 @@ struct TimetablesList: View{
                     ForEach(viewModel.timetables) {timetable in
                         if(!(timetable.day ?? "").isEmpty) {
                             TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
-                                .animation(.easeOut(duration: 0.1))
                         }
                     }
                     .onChange(of: tabClicked){ clicked in
@@ -154,7 +153,7 @@ struct TimetablesViewItem: View {
             }
         }
         .onTapGesture {
-            withAnimation(.easeOut) {
+            withAnimation(.easeOut(duration: 0.1)) {
                 tapped.toggle()
             }
         }

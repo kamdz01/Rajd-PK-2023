@@ -20,7 +20,6 @@ struct FAQList: View{
                     ForEach(viewModel.FAQs) {faq in
                         if(!(faq.question ?? "").isEmpty && !(faq.answer ?? "").isEmpty) {
                             FAQViewItem(loggedIn: $loggedIn, faq: faq)
-                                .animation(.easeOut(duration: 0.1))
                         }
                     }
                     .onChange(of: tabClicked){ clicked in
@@ -137,7 +136,7 @@ struct FAQViewItem: View {
             }
         }
         .onTapGesture {
-            withAnimation() {
+            withAnimation(.easeOut(duration: 0.1)) {
                 tapped.toggle()
             }
         }

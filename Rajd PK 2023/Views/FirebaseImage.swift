@@ -57,15 +57,24 @@ struct FirebaseImage : View {
         let storage = Storage.storage().reference(withPath: "\(path)\(imageID)")
         storage.getData(maxSize: ((2048 * 2048) as Int64) ) { data, error in
             if error != nil {
+                print("Download fail")
                 isLoading = false
                 ifError = true
                 return
             }
-            print("Download success")
-            image = UIImage(data: data!)!
-            ifError = false
-            isLoading = false
-            return
+            if (data != nil){
+                print("Download success")
+                image = UIImage(data: data!)!
+                ifError = false
+                isLoading = false
+                return
+            }
+            else{
+                print("Download fail")
+                ifError = true
+                isLoading = false
+                return
+            }
         }
     }
 }
