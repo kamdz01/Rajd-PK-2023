@@ -58,6 +58,10 @@ struct AnnouncementDetailForm: View {
                     content = ""
                     showingAdvancedOptions = false
                     priority = false
+                    uploadProgressImg = 0.0
+                    uploadProgressDoc = 0
+                    inputImage = nil
+                    sendNotification = true
                 }
             }
             else if ifAdded == 0{
@@ -145,6 +149,17 @@ struct AnnouncementDetailForm: View {
                         .font(.title2)
                         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                 }
+                .onAppear{
+                    title = ""
+                    subTitle = ""
+                    content = ""
+                    showingAdvancedOptions = false
+                    priority = false
+                    uploadProgressImg = 0.0
+                    uploadProgressDoc = 0
+                    inputImage = nil
+                    sendNotification = true
+                }
             }
         }
     }
@@ -153,13 +168,13 @@ struct AnnouncementDetailForm: View {
     func uploadImage(imageId: String){
         let imageData = inputImage?.jpegData(compressionQuality: 0.1)
         let storageRef = Storage.storage().reference()
-        let riversRef = storageRef.child("images/\(imageId).jpg")
-        let uploadTask = riversRef.putData(imageData!, metadata: nil) { (metadata, error) in
+        let imagesRef = storageRef.child("images/\(imageId).jpg")
+        let uploadTask = imagesRef.putData(imageData!, metadata: nil) { (metadata, error) in
             guard let metadata = metadata else {
                 return
             }
             _ = metadata.size
-            riversRef.downloadURL { (url, error) in
+            imagesRef.downloadURL { (url, error) in
                 guard url != nil else {
                     return
                 }
@@ -180,15 +195,10 @@ struct AnnouncementDetailForm: View {
                 sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel)
             }
             ifAdded = 1
-            uploadProgressImg = 0.0
-            inputImage = nil
         }
         uploadTask.observe(.failure) { snapshot in
             print("Upload error")
             ifAdded = -1
-            uploadProgressImg = 0.0
-            uploadProgressDoc = 0
-            inputImage = nil
             self.viewModel.hideAnnouncement(id: imageId )
         }
     }

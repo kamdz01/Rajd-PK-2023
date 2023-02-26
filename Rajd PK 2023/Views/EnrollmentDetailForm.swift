@@ -33,6 +33,12 @@ struct EnrollmentDetailForm: View {
                         .frame(width: 150.0, height: 150.0)
                     Text("Poprawnie dodano twoje ogłoszenie")
                 }
+                .onAppear{
+                    title = ""
+                    link = ""
+                    content = ""
+                    showingAdvancedOptions = false
+                }
             }
             else if ifAdded == 0{
                 ScrollView{
@@ -72,16 +78,10 @@ struct EnrollmentDetailForm: View {
                                             sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Enrollments", viewModel: viewModel)
                                         }
                                         ifAdded = 1
-                                    
-                                    
                                 }
                                 else {
-                                    ifAdded = 3
+                                    ifAdded = -1
                                 }
-                                title = ""
-                                link = ""
-                                content = ""
-                                showingAdvancedOptions = false
                             }
                         }
                         .padding(.horizontal, 20.0)
@@ -104,6 +104,12 @@ struct EnrollmentDetailForm: View {
                     Text("Błąd podczas dodawania zapisów")
                         .font(.title2)
                         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                }
+                .onAppear{
+                    title = ""
+                    link = ""
+                    content = ""
+                    showingAdvancedOptions = false
                 }
             }
         }

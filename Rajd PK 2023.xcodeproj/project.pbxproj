@@ -36,6 +36,7 @@
 		AA74943D29A02F76001A2DA7 /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74943C29A02F76001A2DA7 /* RoutesListView.swift */; };
 		AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB862996E8C50056AB1B /* Enrollment.swift */; };
 		AA8FBB892996EAD20056AB1B /* EnrollmentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */; };
+		AAB1DB8A29AC04E400C612FB /* LogInErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB1DB8929AC04E400C612FB /* LogInErrorView.swift */; };
 		AAD8842F299A61F2005B7E0C /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD8842E299A61F2005B7E0C /* PushNotificationSender.swift */; };
 		AAD88431299A8C9E005B7E0C /* EnrollmentForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD88430299A8C9E005B7E0C /* EnrollmentForm.swift */; };
 		AAD88433299A912C005B7E0C /* EnrollmentDetailForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD88432299A912C005B7E0C /* EnrollmentDetailForm.swift */; };
@@ -74,6 +75,7 @@
 		AA8FBB862996E8C50056AB1B /* Enrollment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enrollment.swift; sourceTree = "<group>"; };
 		AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentListView.swift; sourceTree = "<group>"; };
 		AA9CF8A6296F63F200920C2A /* Rajd PK 2023.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rajd PK 2023.entitlements"; sourceTree = "<group>"; };
+		AAB1DB8929AC04E400C612FB /* LogInErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInErrorView.swift; sourceTree = "<group>"; };
 		AAD8842E299A61F2005B7E0C /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		AAD88430299A8C9E005B7E0C /* EnrollmentForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentForm.swift; sourceTree = "<group>"; };
 		AAD88432299A912C005B7E0C /* EnrollmentDetailForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentDetailForm.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				AA32A04C296F4FB6002E321B /* AnnouncementForm.swift */,
 				AA32A048296F4FB6002E321B /* AnnouncementDetailForm.swift */,
 				AAD88430299A8C9E005B7E0C /* EnrollmentForm.swift */,
+				AAB1DB8929AC04E400C612FB /* LogInErrorView.swift */,
 				AAD88432299A912C005B7E0C /* EnrollmentDetailForm.swift */,
 				AA32A046296F4FB6002E321B /* FAQListView.swift */,
 				AA32A047296F4FB6002E321B /* TimetablesListView.swift */,
@@ -278,6 +281,7 @@
 				AA32A061296F4FB6002E321B /* AnnouncementDetailView.swift in Sources */,
 				AAD8842F299A61F2005B7E0C /* PushNotificationSender.swift in Sources */,
 				AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */,
+				AAB1DB8A29AC04E400C612FB /* LogInErrorView.swift in Sources */,
 				AA32A05F296F4FB6002E321B /* AnnouncementForm.swift in Sources */,
 				AA32A058296F4FB6002E321B /* FirebaseViewModel.swift in Sources */,
 				AAD88435299AA0BA005B7E0C /* ActiveEnrollment.swift in Sources */,

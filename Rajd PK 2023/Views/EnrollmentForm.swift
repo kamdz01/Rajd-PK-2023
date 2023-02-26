@@ -18,7 +18,7 @@ struct EnrollmentForm: View {
     @State var urlOK = true
     @AppStorage("loggedIn") var loggedIn = false
     
-    @Environment(\.presentationMode) var presentationMode
+    //@Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -79,23 +79,30 @@ struct EnrollmentForm: View {
                 }
             }
         }
-        .onChange(of: loggedIn){ loggedIn in
-            presentationMode.wrappedValue.dismiss()
-        }
+//        .onChange(of: loggedIn){ loggedIn in
+//            presentationMode.wrappedValue.dismiss()
+//        }
     }
 }
 
 
 struct EnrollmentFormContainer: View{
     @Binding var ifAdding: Bool
+    @AppStorage("loggedIn") var loggedIn = false
+    
     var body: some View{
-        if #available(iOS 16.0, *) {
-            EnrollmentForm(ifAdding: $ifAdding)
-                .scrollContentBackground(.hidden)
-                .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
-        } else {
-            EnrollmentForm(ifAdding: $ifAdding)
-                .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
+        if(loggedIn){
+            if #available(iOS 16.0, *) {
+                EnrollmentForm(ifAdding: $ifAdding)
+                    .scrollContentBackground(.hidden)
+                    .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
+            } else {
+                EnrollmentForm(ifAdding: $ifAdding)
+                    .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
+            }
+        }
+        else{
+            LogInErrorView()
         }
     }
 }

@@ -21,7 +21,7 @@ struct AnnouncementForm: View {
     @Binding var ifAdding: Bool
     @AppStorage("loggedIn") var loggedIn = false
     
-    @Environment(\.presentationMode) var presentationMode
+    //@Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -118,9 +118,9 @@ struct AnnouncementForm: View {
                 }
             }
         }
-        .onChange(of: loggedIn){ loggedIn in
-            presentationMode.wrappedValue.dismiss()
-        }
+//        .onChange(of: loggedIn){ loggedIn in
+//            presentationMode.wrappedValue.dismiss()
+//        }
     }
     func loadImage() {
         guard let inputImage = inputImage else {
@@ -133,14 +133,21 @@ struct AnnouncementForm: View {
 
 struct AnnouncementFormContainer: View{
     @Binding var ifAdding: Bool
+    @AppStorage("loggedIn") var loggedIn = false
+    
     var body: some View{
-        if #available(iOS 16.0, *) {
-            AnnouncementForm(ifAdding: $ifAdding)
-                .scrollContentBackground(.hidden)
-                .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
-        } else {
-            AnnouncementForm(ifAdding: $ifAdding)
-                .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
+        if(loggedIn){
+            if #available(iOS 16.0, *) {
+                AnnouncementForm(ifAdding: $ifAdding)
+                    .scrollContentBackground(.hidden)
+                    .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
+            } else {
+                AnnouncementForm(ifAdding: $ifAdding)
+                    .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
+            }
+        }
+        else{
+            LogInErrorView()
         }
     }
 }
