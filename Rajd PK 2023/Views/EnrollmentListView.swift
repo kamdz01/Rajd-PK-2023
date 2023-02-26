@@ -46,7 +46,7 @@ struct EnrollmentList: View{
                     }
                     .onChange(of: tabClicked){ clicked in
                         withAnimation{
-                            proxy.scrollTo(viewModel.enrollments[0].id, anchor: .top)
+                            proxy.scrollTo(viewModel.enrollments[0].id, anchor: .bottom)
                         }
                     }
                     .actionSheet(isPresented: $chosenDelete) {

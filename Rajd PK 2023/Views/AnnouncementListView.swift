@@ -48,7 +48,7 @@ struct AnnouncementList: View{
                     }
                     .onChange(of: tabClicked){ clicked in
                         withAnimation{
-                            proxy.scrollTo(viewModel.announcements[0].id, anchor: .top)
+                            proxy.scrollTo(viewModel.announcements[0].id, anchor: .bottom)
                         }
                     }
                     .actionSheet(isPresented: $chosenDelete) {
