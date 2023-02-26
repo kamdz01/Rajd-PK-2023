@@ -17,58 +17,54 @@ struct EnrollmentList: View{
     
     var body: some View{
         ScrollViewReader { proxy in
-            List(viewModel.enrollments) { enrollment in
-                if(!(enrollment.link ?? "").isEmpty && !(enrollment.title ?? "").isEmpty && !(enrollment.hidden ?? true)) {
-                    let dateArr = enrollment.date?.components(separatedBy: " ")
-                    if #available(iOS 15.0, *) {
-                        EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
-                            .listRowSeparator(.hidden)
-                            .contextMenu {
-                                if (loggedIn){
-                                    Button(role: .destructive) {
-                                        chosenDelete = true
-                                        enrollmentToDeleteID = enrollment.id ?? ""
-                                    } label: {
-                                        Label("Usuń", systemImage: "trash.fill")
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.enrollments) { enrollment in
+                        if(!(enrollment.link ?? "").isEmpty && !(enrollment.title ?? "").isEmpty && !(enrollment.hidden ?? true)) {
+                            let dateArr = enrollment.date?.components(separatedBy: " ")
+                            EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
+                                .contextMenu {
+                                    if (loggedIn){
+                                        if #available(iOS 15.0, *) {
+                                            Button(role: .destructive) {
+                                                chosenDelete = true
+                                                enrollmentToDeleteID = enrollment.id ?? ""
+                                            } label: {
+                                                Label("Usuń", systemImage: "trash.fill")
+                                            }
+                                        } else {
+                                            Button() {
+                                                chosenDelete = true
+                                                enrollmentToDeleteID = enrollment.id ?? ""
+                                            } label: {
+                                                Label("Usuń", systemImage: "trash.fill")
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                    } else {
-                        EnrollmentViewItem(loggedIn: $loggedIn, enrollment: enrollment, dateArr: dateArr)
-                            .contextMenu {
-                                if (loggedIn){
-                                    Button() {
-                                        chosenDelete = true
-                                        enrollmentToDeleteID = enrollment.id ?? ""
-                                    } label: {
-                                        Label("Usuń", systemImage: "trash.fill")
-                                    }
-                                    .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
-                                }
-                            }
-                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                        }
+                    }
+                    .onChange(of: tabClicked){ clicked in
+                        withAnimation{
+                            proxy.scrollTo(viewModel.enrollments[0].id, anchor: .top)
+                        }
+                    }
+                    .actionSheet(isPresented: $chosenDelete) {
+                        ActionSheet(
+                            title: Text("Czy na pewno chcesz usunąć te zapisy?"),
+                            buttons: [
+                                .destructive(Text("Usuń")) {
+                                    self.viewModel.hideEnrollment(id: enrollmentToDeleteID )
+                                    chosenDelete = false
+                                },
+                                .default(Text("Anuluj")) {
+                                    chosenDelete = false
+                                },
+                            ]
+                        )
                     }
                 }
-            }
-            .listStyle(InsetGroupedListStyle())
-            .onChange(of: tabClicked){ clicked in
-                withAnimation{
-                    proxy.scrollTo(viewModel.enrollments[0].id, anchor: .top)
-                }
-            }
-            .actionSheet(isPresented: $chosenDelete) {
-                ActionSheet(
-                    title: Text("Czy na pewno chcesz usunąć te zapisy?"),
-                    buttons: [
-                        .destructive(Text("Usuń")) {
-                            self.viewModel.hideEnrollment(id: enrollmentToDeleteID )
-                            chosenDelete = false
-                        },
-                        .default(Text("Anuluj")) {
-                            chosenDelete = false
-                        },
-                    ]
-                )
+                .padding(.all)
             }
         }
     }
@@ -153,41 +149,44 @@ struct EnrollmentViewItem: View {
     let enrollment: Enrollment
     let dateArr: [String]?
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Group{
-                    HStack {
-                        VStack {
-                            Text(enrollment.title!)
-                                .font(.title)
-                                .fontWeight(.semibold)
+        ZStack {
+            RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))
+            HStack {
+                VStack(alignment: .leading) {
+                    Group{
+                        HStack {
+                            VStack {
+                                Text(enrollment.title!)
+                                    .font(.title)
+                                    .fontWeight(.semibold)
+                                Spacer()
+                            }
                             Spacer()
+                            VStack {
+                                Text(dateArr?[0] ?? "")
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                                Text(dateArr?[1] ?? "")
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                            }
+                            
                         }
-                        Spacer()
-                        VStack {
-                            Text(dateArr?[0] ?? "")
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
-                            Text(dateArr?[1] ?? "")
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
-                            Spacer()
+                        if (enrollment.content != ""){
+                            Text(enrollment.content!)
+                                .fontWeight(.medium)
                         }
-                        
+                        LinkView(link: (enrollment.link ?? ""), text: "Link do formularza")
                     }
-                    if (enrollment.content != ""){
-                        Text(enrollment.content!)
-                            .fontWeight(.medium)
-                    }
-                    LinkView(link: (enrollment.link ?? ""), text: "Link do formularza")
                 }
+                Spacer()
             }
-            Spacer()
         }
+        .padding()
         .padding(.vertical, 5.0)
-        .padding(.horizontal, -7.0)
-        .padding(7.0)
-        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))        .padding(.horizontal, 7.0)
+            .padding(.vertical, 4.0))
     }
 }
 

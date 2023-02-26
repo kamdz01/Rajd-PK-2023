@@ -15,23 +15,22 @@ struct TimetablesList: View{
     
     var body: some View{
         ScrollViewReader { proxy in
-            List(viewModel.timetables) { timetable in
-                if(!(timetable.day ?? "").isEmpty) {
-                    if #available(iOS 15.0, *) {
-                        TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
-                            .listRowSeparator(.hidden)
-                    } else {
-                        TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
-                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.timetables) {timetable in
+                        if(!(timetable.day ?? "").isEmpty) {
+                            TimetablesViewItem(loggedIn: $loggedIn, timetable: timetable)
+                                .animation(.easeOut(duration: 0.1))
+                        }
+                    }
+                    .onChange(of: tabClicked){ clicked in
+                        withAnimation{
+                            proxy.scrollTo(viewModel.timetables[0].id, anchor: .top)
+                        }
                     }
                 }
             }
-            .listStyle(InsetGroupedListStyle())
-            .onChange(of: tabClicked){ clicked in
-                withAnimation{
-                    proxy.scrollTo(viewModel.timetables[0].id, anchor: .top)
-                }
-            }
+            .padding()
         }
     }
 }
@@ -102,11 +101,7 @@ struct TimetablesViewItem: View {
     @State var tapped = false
     var body: some View {
         ZStack{
-            Button(action: {
-                withAnimation(.easeOut) {
-                    tapped.toggle()
-                }
-            }) {}
+            RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))
             VStack{
                 if(!tapped){
                     HStack{
@@ -158,11 +153,15 @@ struct TimetablesViewItem: View {
                 }
             }
         }
+        .onTapGesture {
+            withAnimation(.easeOut) {
+                tapped.toggle()
+            }
+        }
+        .padding()
         .padding(.vertical, 5.0)
-        .padding(.horizontal, -7.0)
-        .padding(7.0)
-        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
-        .background(Color(.init(srgbRed: 1, green: 1, blue: 1, alpha: 0)))
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))        .padding(.horizontal, 7.0)
+            .padding(.vertical, 4.0))
     }
 }
 

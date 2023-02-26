@@ -18,59 +18,55 @@ struct AnnouncementList: View{
     
     var body: some View{
         ScrollViewReader { proxy in
-            List(viewModel.announcements) { announcement in
-                if(!(announcement.content ?? "").isEmpty && !(announcement.title ?? "").isEmpty &&
-                   !(announcement.hidden ?? false)) {
-                    let dateArr = announcement.date?.components(separatedBy: " ")
-                    if #available(iOS 15.0, *) {
-                        AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
-                            .contextMenu {
-                                if (loggedIn){
-                                    Button(role: .destructive) {
-                                        chosenDelete = true
-                                        announcementToDeleteID = announcement.id ?? ""
-                                    } label: {
-                                        Label("Usuń", systemImage: "trash.fill")
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.announcements) { announcement in
+                        if(!(announcement.content ?? "").isEmpty && !(announcement.title ?? "").isEmpty &&
+                           !(announcement.hidden ?? false)) {
+                            let dateArr = announcement.date?.components(separatedBy: " ")
+                            AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
+                                .contextMenu {
+                                    if (loggedIn){
+                                        if #available(iOS 15.0, *) {
+                                            Button(role: .destructive) {
+                                                chosenDelete = true
+                                                announcementToDeleteID = announcement.id ?? ""
+                                            } label: {
+                                                Label("Usuń", systemImage: "trash.fill")
+                                            }
+                                        } else {
+                                            Button() {
+                                                chosenDelete = true
+                                                announcementToDeleteID = announcement.id ?? ""
+                                            } label: {
+                                                Label("Usuń", systemImage: "trash.fill")
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                            .listRowSeparator(.hidden)
-                    } else {
-                        AnnouncementViewItem(loggedIn: $loggedIn, announcement: announcement, dateArr: dateArr)
-                            .contextMenu {
-                                if (loggedIn){
-                                    Button() {
-                                        chosenDelete = true
-                                        announcementToDeleteID = announcement.id ?? ""
-                                    } label: {
-                                        Label("Usuń", systemImage: "trash.fill")
-                                    }
-                                    .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
-                                }
-                            }
-                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+                        }
+                    }
+                    .onChange(of: tabClicked){ clicked in
+                        withAnimation{
+                            proxy.scrollTo(viewModel.announcements[0].id, anchor: .top)
+                        }
+                    }
+                    .actionSheet(isPresented: $chosenDelete) {
+                        ActionSheet(
+                            title: Text("Czy na pewno chcesz usunąć to ogłoszenie?"),
+                            buttons: [
+                                .destructive(Text("Usuń")) {
+                                    self.viewModel.hideAnnouncement(id: announcementToDeleteID)
+                                    chosenDelete = false
+                                },
+                                .default(Text("Anuluj")) {
+                                    chosenDelete = false
+                                },
+                            ]
+                        )
                     }
                 }
-            }
-            .listStyle(InsetGroupedListStyle())
-            .onChange(of: tabClicked){ clicked in
-                withAnimation{
-                    proxy.scrollTo(viewModel.announcements[0].id, anchor: .top)
-                }
-            }
-            .actionSheet(isPresented: $chosenDelete) {
-                ActionSheet(
-                    title: Text("Czy na pewno chcesz usunąć to ogłoszenie?"),
-                    buttons: [
-                        .destructive(Text("Usuń")) {
-                            self.viewModel.hideAnnouncement(id: announcementToDeleteID)
-                            chosenDelete = false
-                        },
-                        .default(Text("Anuluj")) {
-                            chosenDelete = false
-                        },
-                    ]
-                )
+                .padding()
             }
         }
     }
@@ -161,87 +157,84 @@ struct AnnouncementViewItem: View {
     let announcement: Announcement
     let dateArr: [String]?
     var body: some View {
-        ZStack(alignment: .leading) {
-            HStack {
-                if (announcement.priority ?? true){
-                    Rectangle()
-                        .fill(.red)
-                        .frame(width: 4)
-                        .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                }
-                VStack(alignment: .leading) {
-                    if (announcement.priority ?? false){
-                        Group{
-                            HStack {
-                                VStack {
-                                    Text(announcement.title!)
-                                        .font(.title)
-                                        .fontWeight(.semibold)
-                                        .lineLimit(2)
+        NavigationLink(destination: AnnouncementDetailView(announcement: announcement))
+        {
+            ZStack(alignment: .leading) {
+                HStack {
+                    if (announcement.priority ?? true){
+                        Rectangle()
+                            .fill(.red)
+                            .frame(width: 4)
+                            .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
+                    }
+                    VStack(alignment: .leading) {
+                        if (announcement.priority ?? false){
+                            Group{
+                                HStack {
+                                    VStack {
+                                        Text(announcement.title!)
+                                            .font(.title)
+                                            .fontWeight(.semibold)
+                                            .lineLimit(2)
+                                        Spacer()
+                                    }
                                     Spacer()
+                                    VStack {
+                                        Text(dateArr?[0] ?? "")
+                                            .font(.footnote)
+                                            .foregroundColor(.secondary)
+                                        Text(dateArr?[1] ?? "")
+                                            .font(.footnote)
+                                            .foregroundColor(.secondary)
+                                        Spacer()
+                                    }
+                                    
                                 }
-                                Spacer()
-                                VStack {
-                                    Text(dateArr?[0] ?? "")
-                                        .font(.footnote)
-                                        .foregroundColor(.secondary)
-                                    Text(dateArr?[1] ?? "")
-                                        .font(.footnote)
-                                        .foregroundColor(.secondary)
-                                    Spacer()
-                                }
-                                
+                                Text(announcement.subTitle!).font(.title3)
+                                    .fontWeight(.medium)
+                                    .lineLimit(2)
+                                Text(announcement.content!)
+                                    .fontWeight(.medium)
+                                    .lineLimit(2)
                             }
-                            Text(announcement.subTitle!).font(.title3)
-                                .fontWeight(.medium)
-                                .lineLimit(2)
-                            Text(announcement.content!)
-                                .fontWeight(.medium)
-                                .lineLimit(2)
+                        }
+                        else {
+                            Group{
+                                HStack {
+                                    VStack {
+                                        Text(announcement.title!)
+                                            .font(.title)
+                                            .lineLimit(2)
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                    VStack {
+                                        Text(dateArr?[0] ?? "")
+                                            .font(.footnote)
+                                            .foregroundColor(.secondary)
+                                        Text(dateArr?[1] ?? "")
+                                            .font(.footnote)
+                                            .foregroundColor(.secondary)
+                                        Spacer()
+                                    }
+                                    
+                                }
+                                Text(announcement.subTitle!).font(.title3)
+                                    .lineLimit(2)
+                                Text(announcement.content!)
+                                    .lineLimit(2)
+                            }
                         }
                     }
-                    else {
-                        Group{
-                            HStack {
-                                VStack {
-                                    Text(announcement.title!)
-                                        .font(.title)
-                                        .lineLimit(2)
-                                    Spacer()
-                                }
-                                Spacer()
-                                VStack {
-                                    Text(dateArr?[0] ?? "")
-                                        .font(.footnote)
-                                        .foregroundColor(.secondary)
-                                    Text(dateArr?[1] ?? "")
-                                        .font(.footnote)
-                                        .foregroundColor(.secondary)
-                                    Spacer()
-                                }
-                                
-                            }
-                            Text(announcement.subTitle!).font(.title3)
-                                .lineLimit(2)
-                            Text(announcement.content!)
-                                .lineLimit(2)
-                        }
-                    }
+                    Spacer()
                 }
-                Spacer()
+                
             }
-            NavigationLink(destination: AnnouncementDetailView(announcement: announcement))
-            {
-                EmptyView()
-            }
-//            .buttonStyle(PlainButtonStyle())
-//            .opacity(0.0)
-            
+            .padding()
+            .padding(.vertical, 5.0)
+            .background(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))       .padding(.horizontal, 7.0)
+                .padding(.vertical, 4.0))
         }
-        .padding(.vertical, 5.0)
-        .padding(.horizontal, -7.0)
-        .padding(7.0)
-        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
     }
 }
 

@@ -15,23 +15,22 @@ struct RoutesList: View{
     
     var body: some View{
         ScrollViewReader { proxy in
-            List(viewModel.routes) { route in
-                if(!(route.title ?? "").isEmpty && !(route.hidden ?? true)) {
-                    if #available(iOS 15.0, *) {
-                        RoutesViewItem(loggedIn: $loggedIn, route: route)
-                            .listRowSeparator(.hidden)
-                    } else {
-                        RoutesViewItem(loggedIn: $loggedIn, route: route)
-                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.routes) {route in
+                        if(!(route.title ?? "").isEmpty && !(route.hidden ?? true)) {
+                            RoutesViewItem(loggedIn: $loggedIn, route: route)
+                                .animation(.easeOut(duration: 0.1))
+                        }
+                    }
+                    .onChange(of: tabClicked){ clicked in
+                        withAnimation{
+                            proxy.scrollTo(viewModel.routes[0].id, anchor: .top)
+                        }
                     }
                 }
             }
-            .listStyle(InsetGroupedListStyle())
-            .onChange(of: tabClicked){ clicked in
-                withAnimation{
-                    proxy.scrollTo(viewModel.routes[0].id, anchor: .top)
-                }
-            }
+            .padding()
         }
     }
 }
@@ -103,11 +102,7 @@ struct RoutesViewItem: View {
     
     var body: some View {
         ZStack{
-            Button(action: {
-                withAnimation(.easeOut) {
-                    tapped.toggle()
-                }
-            }) {}
+            RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))
             VStack{
                 if(!tapped){
                     HStack{
@@ -146,11 +141,15 @@ struct RoutesViewItem: View {
                 }
             }
         }
+        .onTapGesture {
+            withAnimation(.easeOut) {
+                tapped.toggle()
+            }
+        }
+        .padding()
         .padding(.vertical, 5.0)
-        .padding(.horizontal, -7.0)
-        .padding(7.0)
-        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
-        .background(Color(.init(srgbRed: 1, green: 1, blue: 1, alpha: 0)))
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))        .padding(.horizontal, 7.0)
+            .padding(.vertical, 4.0))
     }
 }
 

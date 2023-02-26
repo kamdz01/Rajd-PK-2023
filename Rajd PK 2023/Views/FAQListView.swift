@@ -15,22 +15,21 @@ struct FAQList: View{
     
     var body: some View{
         ScrollViewReader { proxy in
-            List(viewModel.FAQs) { faq in
-                if(!(faq.question ?? "").isEmpty && !(faq.answer ?? "").isEmpty) {
-                    if #available(iOS 15.0, *) {
-                        FAQViewItem(loggedIn: $loggedIn, faq: faq)
-                            .listRowSeparator(.hidden)
-                    } else {
-                        FAQViewItem(loggedIn: $loggedIn, faq: faq)
-                            .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.FAQs) {faq in
+                        if(!(faq.question ?? "").isEmpty && !(faq.answer ?? "").isEmpty) {
+                            FAQViewItem(loggedIn: $loggedIn, faq: faq)
+                                .animation(.easeOut(duration: 0.1))
+                        }
+                    }
+                    .onChange(of: tabClicked){ clicked in
+                        withAnimation{
+                            proxy.scrollTo(viewModel.FAQs[0].id, anchor: .top)
+                        }
                     }
                 }
-            }
-            .listStyle(InsetGroupedListStyle())
-            .onChange(of: tabClicked){ clicked in
-                withAnimation{
-                    proxy.scrollTo(viewModel.FAQs[0].id, anchor: .top)
-                }
+                .padding()
             }
         }
     }
@@ -102,54 +101,50 @@ struct FAQViewItem: View {
     @State var tapped = false
     var body: some View {
         ZStack{
-            Button(action: {
-                withAnimation(.easeOut) {
-                    tapped.toggle()
-                }
-            }) {}
+            RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))
             VStack {
                 if (!tapped){
-                    Group{
-                        HStack {
-                            Spacer()
-                            Text("\(faq.question!):")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                                .lineLimit(2)
-                            .padding(.bottom, 1.0)
-                            Spacer()
-                            Image(systemName: "chevron.down")
-                        }
-                        
-                        Text("\(faq.answer!)")
-                            .font(.title3)
+                    HStack {
+                        Spacer()
+                        Text("\(faq.question!):")
+                            .font(.title2)
+                            .fontWeight(.semibold)
                             .lineLimit(2)
-                            .transition(.scale.animation(.easeOut(duration: 0.1)))
+                            .padding(.bottom, 1.0)
+                        Spacer()
+                        Image(systemName: "chevron.down")
                     }
+                    
+                    Text("\(faq.answer!)")
+                        .font(.title3)
+                        .lineLimit(2)
                 }
                 else{
-                    Group{
-                        HStack {
-                            Spacer()
-                            Text("\(faq.question!):")
-                                .font(.title2)
-                                .fontWeight(.semibold)
+                    HStack {
+                        Spacer()
+                        Text("\(faq.question!):")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .lineLimit(nil)
                             .padding(.bottom, 1.0)
-                            Spacer()
-                            Image(systemName: "chevron.up")
-                        }
-                        
-                        Text("\(faq.answer!)")
-                            .font(.title3)
-                            .transition(.scale.animation(.easeOut(duration: 0.1)))
+                        Spacer()
+                        Image(systemName: "chevron.up")
                     }
+                    
+                    Text("\(faq.answer!)")
+                        .font(.title3)
                 }
             }
         }
+        .onTapGesture {
+            withAnimation() {
+                tapped.toggle()
+            }
+        }
+        .padding()
         .padding(.vertical, 5.0)
-        .padding(.horizontal, -7.0)
-        .padding(7.0)
-        .listRowBackground(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor")).padding(7.0))
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))        .padding(.horizontal, 7.0)
+            .padding(.vertical, 4.0))
     }
 }
 
