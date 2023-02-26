@@ -46,11 +46,7 @@ struct RoutesListView: View {
                 VStack {
                     if #available(iOS 16.0, *) {
                         RoutesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
-                            .onAppear() {
-                                self.viewModel.fetchData()
-                            }
                             .refreshable {
-                                self.viewModel.fetchData()
                                 print("ODSWIEŻONO")
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
@@ -58,18 +54,13 @@ struct RoutesListView: View {
                     }
                     else if #available(iOS 15.0, *) {
                         RoutesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
-                            .onAppear() {
-                                self.viewModel.fetchData()
-                            }
                             .refreshable {
-                                self.viewModel.fetchData()
                                 print("ODSWIEŻONO")
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
                         RoutesList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
-                                self.viewModel.fetchData()
                                 UITableView.appearance().backgroundColor = UIColor.clear
                                 UITableViewCell.appearance().backgroundColor = UIColor.clear
                             }

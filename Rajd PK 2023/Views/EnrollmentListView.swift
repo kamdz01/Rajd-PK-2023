@@ -87,11 +87,7 @@ struct EnrollmentListView: View {
                     }
                     if #available(iOS 16.0, *) {
                         EnrollmentList(loggedIn: $loggedIn, tabClicked: $tabClicked)
-                            .onAppear() {
-                                self.viewModel.fetchData()
-                            }
                             .refreshable {
-                                self.viewModel.fetchData()
                                 print("ODSWIEŻONO")
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
@@ -99,18 +95,13 @@ struct EnrollmentListView: View {
                     }
                     else if #available(iOS 15.0, *) {
                         EnrollmentList(loggedIn: $loggedIn, tabClicked: $tabClicked)
-                            .onAppear() {
-                                self.viewModel.fetchData()
-                            }
                             .refreshable {
-                                self.viewModel.fetchData()
                                 print("ODSWIEŻONO")
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     } else {
                         EnrollmentList(loggedIn: $loggedIn, tabClicked: $tabClicked)
                             .onAppear() {
-                                self.viewModel.fetchData()
                                 UITableView.appearance().backgroundColor = UIColor.clear
                                 UITableViewCell.appearance().backgroundColor = UIColor.clear
                             }

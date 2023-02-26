@@ -95,6 +95,7 @@ struct MainView: View {
             else if (activeEnrollment.isActive){
                 selectedTab = 2
             }
+            self.viewModel.fetchData()
         }
         
     }

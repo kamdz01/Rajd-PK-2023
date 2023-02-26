@@ -94,11 +94,7 @@ struct AnnouncementListView: View {
                     }
                     if #available(iOS 16.0, *) {
                         AnnouncementList(loggedIn: $loggedIn, tabClicked: $tabClicked)
-                            .onAppear() {
-                                self.viewModel.fetchData()
-                            }
                             .refreshable {
-                                self.viewModel.fetchData()
                                 print("ODSWIEŻONO")
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
@@ -106,11 +102,7 @@ struct AnnouncementListView: View {
                     }
                     else if #available(iOS 15.0, *) {
                         AnnouncementList(loggedIn: $loggedIn, tabClicked: $tabClicked)
-                            .onAppear() {
-                                self.viewModel.fetchData()
-                            }
                             .refreshable {
-                                self.viewModel.fetchData()
                                 print("ODSWIEŻONO")
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
@@ -119,7 +111,6 @@ struct AnnouncementListView: View {
                             .onAppear() {
                                 UITableView.appearance().backgroundColor = UIColor.clear
                                 UITableViewCell.appearance().backgroundColor = UIColor.clear
-                                self.viewModel.fetchData()
                             }
                             .background(LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom))
                     }
