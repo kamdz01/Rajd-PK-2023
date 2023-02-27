@@ -7,6 +7,8 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
+import SwiftUI
 
 class FirebaseViewModel: ObservableObject {
     
@@ -127,22 +129,22 @@ class FirebaseViewModel: ObservableObject {
                     if (data["collection"] as? String == "Announcements"){
                         if (diff.type == .modified) {
                             print("Modified image: \(diff.document.data())")
-                            print(self.fileManager.deleteImage(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", folderName: "temp"))
+                            self.loadImageToMem(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", path: "images/")
                         }
                         if (diff.type == .removed) {
                             print("Removed image: \(diff.document.data())")
-                            print(self.fileManager.deleteImage(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", folderName: "temp"))
+                            self.loadImageToMem(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", path: "images/")
                         }
                     }
                     else if (data["collection"] as? String == "Routes"){
                         if let imgName = self.routes.first(where: {$0.id == idChanged}) {
                             if (diff.type == .modified) {
                                 print("Modified image: \(diff.document.data())")
-                                print(self.fileManager.deleteImage(imageName: imgName.image ?? "err", folderName: "temp"))
+                                self.loadImageToMem(imageName: imgName.image ?? "err", path: "routes/")
                             }
                             if (diff.type == .removed) {
                                 print("Removed image: \(diff.document.data())")
-                                print(self.fileManager.deleteImage(imageName: imgName.image ?? "err", folderName: "temp"))
+                                self.loadImageToMem(imageName: imgName.image ?? "err", path: "routes/")
                             }
                         } else {
                             print("Błąd odczytu z bazy danych (img)")
@@ -153,6 +155,30 @@ class FirebaseViewModel: ObservableObject {
             }
     }
     
+    func loadImageToMem(imageName: String, path: String){
+        if self.fileManager.getImage(imageName: imageName, folderName: "temp") != nil{
+            let storage = Storage.storage().reference(withPath: "\(path)\(imageName)")
+            storage.getData(maxSize: ((2048 * 2048) as Int64) ) { data, error in
+                if error != nil {
+                    _ = self.fileManager.deleteImage(imageName: imageName , folderName: "temp")
+                    print("Download fail")
+                    return
+                }
+                if (data != nil){
+                    _ = self.fileManager.deleteImage(imageName: imageName , folderName: "temp")
+                    self.fileManager.saveImage(image: UIImage(data: data!)!, imageName: imageName, folderName: "temp")
+                    print("Download success")
+                    return
+                }
+                else{
+                    _ = self.fileManager.deleteImage(imageName: imageName , folderName: "temp")
+                    print("Download fail")
+                    return
+                }
+            }
+        }
+    }
+
     func getKey(completion: @escaping (String) -> Void){
         let docRef = db.collection("Keys").document("SERVER_KEY")
         var key = String()

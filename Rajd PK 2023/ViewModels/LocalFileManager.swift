@@ -13,7 +13,7 @@ class LocalFileManager {
     static let instance = LocalFileManager()
     private init() { }
     
-    func saveImage (image: UIImage, imageName: String, folderName: String) {
+    func saveImage(image: UIImage, imageName: String, folderName: String) {
         // create folder
         createFolderIfNeeded(folderName: folderName)
         // get path for image
@@ -29,7 +29,7 @@ class LocalFileManager {
         }
     }
     
-    func getImage (imageName: String, folderName: String) -> UIImage? {
+    func getImage(imageName: String, folderName: String) -> UIImage? {
         guard
             let url = getURLForImage(imageName: imageName, folderName: folderName),
             FileManager.default.fileExists(atPath: url.path) else {
@@ -38,7 +38,7 @@ class LocalFileManager {
         return UIImage(contentsOfFile: url.path)
     }
     
-    func deleteImage (imageName: String, folderName: String) -> Bool {
+    func deleteImage(imageName: String, folderName: String) -> Bool {
         //print("\(folderName)/\(imageName)")
         guard
             let url = getURLForImage(imageName: imageName, folderName: folderName) else { return false }
