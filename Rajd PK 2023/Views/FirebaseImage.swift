@@ -11,6 +11,7 @@ import Combine
 import FirebaseStorage
 
 struct FirebaseImage : View {
+    
     var path: String
     @State var isLoading = false
     @State var ifError = false
@@ -18,6 +19,7 @@ struct FirebaseImage : View {
     @State private var imageURL = URL(string: "")
     @State var image = UIImage()
     @State var ifShown = false
+    private let fileManager = LocalFileManager.instance
     
     var body: some View {
         ZStack{
@@ -40,12 +42,29 @@ struct FirebaseImage : View {
         }
         .onAppear{
             if (!ifShown){
-                loadImageToMem()
-                ifShown = true
+                if (nil != fileManager.getImage(imageName: imageID, folderName: "temp")){
+                    image = fileManager.getImage(imageName: imageID, folderName: "temp")!
+                    print ("Image already in storage")
+                    ifShown = true
+                }
+                else{
+                    loadImageToMem()
+                    print ("Image Downloaded to storage")
+                    ifShown = true
+                }
             }
         }
         .onChange(of: imageID){ id in
-            loadImageToMem()
+            if (nil != fileManager.getImage(imageName: imageID, folderName: "temp")){
+                image = fileManager.getImage(imageName: imageID, folderName: "temp")!
+                print ("Image already in storage")
+                ifShown = true
+            }
+            else{
+                loadImageToMem()
+                print ("Image Downloaded to storage")
+                ifShown = true
+            }
         }
     }
     
@@ -64,7 +83,8 @@ struct FirebaseImage : View {
             }
             if (data != nil){
                 print("Download success")
-                image = UIImage(data: data!)!
+                fileManager.saveImage(image: UIImage(data: data!)!, imageName: imageID, folderName: "temp")
+                image = fileManager.getImage(imageName: imageID, folderName: "temp") ?? UIImage(data: data!) ?? UIImage()
                 ifError = false
                 isLoading = false
                 return

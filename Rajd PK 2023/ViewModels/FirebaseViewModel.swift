@@ -15,6 +15,7 @@ class FirebaseViewModel: ObservableObject {
     @Published var FAQs = [FAQ]()
     @Published var timetables = [Timetable]()
     @Published var routes = [Route]()
+    private let fileManager = LocalFileManager.instance
     
     var lastID = ""
     var db = Firestore.firestore()
@@ -114,6 +115,42 @@ class FirebaseViewModel: ObservableObject {
             self.announcements.sort(by: {$0.date! > $1.date!})
             self.announcements.sort{$0.priority! && !$1.priority!}
         }
+        
+        db.collection("Images").addSnapshotListener { querySnapshot, error in
+                guard let snapshot = querySnapshot else {
+                    print("Error fetching snapshots: \(error!)")
+                    return
+                }
+                snapshot.documentChanges.forEach { diff in
+                    let data = diff.document.data()
+                    let idChanged = data["id"] as? String ?? "err"
+                    if (data["collection"] as? String == "Announcements"){
+                        if (diff.type == .modified) {
+                            print("Modified image: \(diff.document.data())")
+                            print(self.fileManager.deleteImage(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", folderName: "temp"))
+                        }
+                        if (diff.type == .removed) {
+                            print("Removed image: \(diff.document.data())")
+                            print(self.fileManager.deleteImage(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", folderName: "temp"))
+                        }
+                    }
+                    else if (data["collection"] as? String == "Routes"){
+                        if let imgName = self.routes.first(where: {$0.id == idChanged}) {
+                            if (diff.type == .modified) {
+                                print("Modified image: \(diff.document.data())")
+                                print(self.fileManager.deleteImage(imageName: imgName.image ?? "err", folderName: "temp"))
+                            }
+                            if (diff.type == .removed) {
+                                print("Removed image: \(diff.document.data())")
+                                print(self.fileManager.deleteImage(imageName: imgName.image ?? "err", folderName: "temp"))
+                            }
+                        } else {
+                            print("Błąd odczytu z bazy danych (img)")
+                            return
+                        }
+                    }
+                }
+            }
     }
     
     func getKey(completion: @escaping (String) -> Void){
@@ -156,6 +193,18 @@ class FirebaseViewModel: ObservableObject {
                     ifOk = "-1"
                 } else {
                     print("Document added with ID: \(ref!.documentID)")
+                    ///Adding to Images collection
+                    if(isImage){
+                        var refImg: DocumentReference? = nil
+                        refImg = self.db.collection("Images").addDocument(data: ["id": ref?.documentID ?? "err","collection": "Announcements","changed": false]) { err in
+                            if let err = err {
+                                print("Error adding document (Img): \(err)")
+                            } else {
+                                print("Document (Img) added with ID: \(refImg?.documentID ?? "err")")
+                            }
+                        }
+                    }
+                    ///___________________
                     if (ref?.documentID != nil && ifOk == "1"){
                         ifOk = ref!.documentID
                     }

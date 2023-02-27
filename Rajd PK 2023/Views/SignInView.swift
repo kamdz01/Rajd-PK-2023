@@ -17,6 +17,9 @@ struct SignInView: View {
     @State var signOutProcessing = false
     @State var signInProcessing = false
     @State var signInErrorMessage = ""
+    @State var presentAlert = false
+    
+    private let fileManager = LocalFileManager.instance
     
     var body: some View {
         
@@ -25,6 +28,7 @@ struct SignInView: View {
                 LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea(.all)
                 VStack{
+                    Spacer()
                     Text("Zalogowano jako: \n\(email)")
                         .font(.title2)
                     Button(action: {
@@ -45,7 +49,35 @@ struct SignInView: View {
                                 .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                         }
                     }
+                    Spacer()
+                    Button(action: {
+                        _ = fileManager.deleteFolder(folderName: "temp")
+                        presentAlert = true
+                    }) {
+                        if #available(iOS 15.0, *) {
+                            Text("Usuń dane aplikacji")
+                                .bold()
+                                .frame(width: 360, height: 50)
+                                .background(.thinMaterial)
+                                .cornerRadius(10)
+                        } else {
+                            Text("Usuń dane aplikacji")
+                                .bold()
+                                .padding()
+                                .frame(width: 360, height: 50)
+                                .background(Color("FieldColor"))
+                                .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
+                        }
+                    }
+                    .alert(isPresented: $presentAlert){
+                        Alert(
+                            title: Text("Usunięto wszystkie lokalne dane"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
+                    .padding(.bottom)
                 }
+                .padding()
                 .navigationTitle("Logowanie")
                 .navigationBarTitleDisplayMode(.inline)
             }
@@ -54,6 +86,7 @@ struct SignInView: View {
             ZStack {
                 LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
                 VStack(spacing: 15) {
+                    Spacer()
                     Text("Uwaga! Opcja logowania dostępna jest tylko dla Kadry Rajdu. Jeżeli jesteś uczestnikiem, nie musisz się logować.")
                         .padding()
                     SignInCredentialFields(email: $email, password: $password)
@@ -85,6 +118,33 @@ struct SignInView: View {
                         Text("Failed signing in: \(signInErrorMessage)")
                             .foregroundColor(.red)
                     }
+                    Spacer()
+                    Button(action: {
+                        _ = fileManager.deleteFolder(folderName: "temp")
+                        presentAlert = true
+                    }) {
+                        if #available(iOS 15.0, *) {
+                            Text("Usuń dane aplikacji")
+                                .bold()
+                                .frame(width: 360, height: 50)
+                                .background(.thinMaterial)
+                                .cornerRadius(10)
+                        } else {
+                            Text("Usuń dane aplikacji")
+                                .bold()
+                                .padding()
+                                .frame(width: 360, height: 50)
+                                .background(Color("FieldColor"))
+                                .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
+                        }
+                    }
+                    .alert(isPresented: $presentAlert){
+                        Alert(
+                            title: Text("Usunięto wszystkie lokalne dane"),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
+                    .padding(.bottom)
                 }
                 .padding()
                 .navigationTitle("Logowanie")
