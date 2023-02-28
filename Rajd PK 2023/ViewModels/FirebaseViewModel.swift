@@ -86,10 +86,10 @@ class FirebaseViewModel: ObservableObject {
             self.enrollments = documents.map { (queryDocumentSnapshot) -> Enrollment in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
-                let title = data["title"] as? String ?? ""
-                let content = data["content"] as? String ?? ""
+                let title = (data["title"] as? String ?? "").replaceNl()
+                let content = (data["content"] as? String ?? "").replaceNl()
                 let date = data["date"] as? String ?? ""
-                let link = data["link"] as? String ?? ""
+                let link = (data["link"] as? String ?? "").replaceNl()
                 let hidden = data["hidden"] as? Bool ?? true
                 return Enrollment(id: id, title: title, content: content, link: link, date: date, hidden: hidden)
             }
@@ -105,9 +105,9 @@ class FirebaseViewModel: ObservableObject {
             self.announcements = documents.map { (queryDocumentSnapshot) -> Announcement in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
-                let title = data["title"] as? String ?? ""
-                let subTitle = data["subTitle"] as? String ?? ""
-                let content = data["content"] as? String ?? ""
+                let title = (data["title"] as? String ?? "").replaceNl()
+                let subTitle = (data["subTitle"] as? String ?? "").replaceNl()
+                let content = (data["content"] as? String ?? "").replaceNl()
                 let hidden = data["hidden"] as? Bool ?? true
                 let date = data["date"] as? String ?? ""
                 let isImage = data["isImage"] as? Bool ?? false
@@ -296,6 +296,6 @@ extension String
 {
     func replaceNl() -> String
     {
-       return self.replacingOccurrences(of: "\\n", with: "\n", range: nil)
+        return self.replacingOccurrences(of: "\\n", with: "\n", range: nil).replacingOccurrences(of: "\n ", with: "\n", range: nil).replacingOccurrences(of: " \n", with: "\n", range: nil)
     }
 }
