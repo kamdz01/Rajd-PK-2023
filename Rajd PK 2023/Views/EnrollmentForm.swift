@@ -26,7 +26,7 @@ struct EnrollmentForm: View {
                 .ignoresSafeArea(.all)
             Form {
                 Group{
-                    Section(header: Text("Ogłoszenie:")){
+                    Section(header: Text("Zapisy:")){
                         FloatingTextField(title: "Tytuł", text: $title)
                         FloatingTextField(title: "Treść", text: $content)
                         FloatingTextField(title: "Link", text: $link)

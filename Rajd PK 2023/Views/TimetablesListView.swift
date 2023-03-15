@@ -151,7 +151,7 @@ struct TimetablesViewItem: View {
         .padding()
         .padding(.vertical, 5.0)
         .background(RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))        .padding(.horizontal, 7.0)
-            .padding(.vertical, 4.0))
+            .padding(.vertical, 3))
     }
 }
 
@@ -160,5 +160,8 @@ struct TimetablesListView_Previews: PreviewProvider {
     static var previews: some View {
         TimetablesListView(loggedIn: .constant(true), tabClicked: .constant(true))
             .environmentObject(viewModel)
+            .onAppear{
+                viewModel.fetchData()
+            }
     }
 }
