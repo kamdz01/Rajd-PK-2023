@@ -28,8 +28,8 @@ struct FAQList: View{
                         }
                     }
                 }
-                .padding()
             }
+            .padding()
         }
     }
 }
