@@ -329,13 +329,11 @@ struct SignInCredentialFields: View {
                     .background(.thinMaterial)
                     .cornerRadius(10)
                     .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
                 SecureField("Hasło", text: $password)
                     .padding()
                     .background(.thinMaterial)
                     .cornerRadius(10)
                     .padding(.bottom, 30)
-                    .disableAutocorrection(true)
             } else {
                 TextField("Email", text: $email)
                     .padding()
@@ -343,14 +341,13 @@ struct SignInCredentialFields: View {
                     .background(Color("FieldColor"))
                     .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                     .opacity(0.4)
-                    .disableAutocorrection(true)
+
                 SecureField("Hasło", text: $password)
                     .padding()
                     .cornerRadius(10)
                     .background(Color("FieldColor"))
                     .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                     .opacity(0.4)
-                    .disableAutocorrection(true)
             }
         }
     }

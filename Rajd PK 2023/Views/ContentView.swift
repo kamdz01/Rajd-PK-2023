@@ -39,35 +39,40 @@ struct ContentView: View {
     
     
     var body: some View {
-        if(verificated){
-            MainView(loggedIn: $loggedIn, email: $email, password: $password)
-                .environmentObject(viewModel)
-                .onAppear(){
-                    let center = UNUserNotificationCenter.current()
-                    center.getNotificationSettings { settings in
-                        guard (settings.authorizationStatus == .authorized) ||
-                                (settings.authorizationStatus == .provisional) else {
-                            @AppStorage("notificationAskCnt") var notificationAskCnt = 0
-                            print("No Notifications")
-                            if(notificationAskCnt >= 0){
-                                if(notificationAskCnt % 3 == 0 ){
-                                    showNotificationDialog = true
+        VStack{
+            if(verificated){
+                MainView(loggedIn: $loggedIn, email: $email, password: $password)
+                    .environmentObject(viewModel)
+                    .onAppear(){
+                        let center = UNUserNotificationCenter.current()
+                        center.getNotificationSettings { settings in
+                            guard (settings.authorizationStatus == .authorized) ||
+                                    (settings.authorizationStatus == .provisional) else {
+                                @AppStorage("notificationAskCnt") var notificationAskCnt = 0
+                                print("No Notifications")
+                                if(notificationAskCnt >= 0){
+                                    if(notificationAskCnt % 3 == 0 ){
+                                        showNotificationDialog = true
+                                    }
+                                    notificationAskCnt += 1
                                 }
-                                notificationAskCnt += 1
+                                return
                             }
-                            return
+                            print("Notifications OK")
                         }
-                        print("Notifications OK")
                     }
-                }
-                .sheet(isPresented: $showNotificationDialog){
-                    AskForPermNotifView(showNotificationDialog: $showNotificationDialog)
-                        .environment(\.scenePhase, scenePhase)
-                }
+                    .sheet(isPresented: $showNotificationDialog){
+                        AskForPermNotifView(showNotificationDialog: $showNotificationDialog)
+                            .environment(\.scenePhase, scenePhase)
+                    }
+            }
+            else{
+                VerificationView()
+                    .environmentObject(viewModel)
+            }
         }
-        else{
-            VerificationView()
-                .environmentObject(viewModel)
+        .onAppear(){
+            self.viewModel.fetchData()
         }
     }
 }

@@ -18,11 +18,19 @@ class FirebaseViewModel: ObservableObject {
     @Published var timetables = [Timetable]()
     @Published var routes = [Route]()
     private let fileManager = LocalFileManager.instance
+    private var ifFetched = false
     
     var lastID = ""
     var db = Firestore.firestore()
     
     func fetchData() {
+        if (ifFetched){
+            print("Detected more than one execution of fetchData() func. Posiible snapshot leak!")
+            return
+        }
+        
+        print("___________________Adding Snapshots___________________")
+        
         db.collection("Routes").addSnapshotListener { (querySnapshot, error) in
             guard let documents = querySnapshot?.documents else {
                 print("No Routes")
@@ -154,6 +162,7 @@ class FirebaseViewModel: ObservableObject {
                     }
                 }
             }
+        ifFetched = true
     }
     
     func loadImageToMem(imageName: String, path: String){

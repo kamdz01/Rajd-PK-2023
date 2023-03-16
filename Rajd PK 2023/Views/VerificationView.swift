@@ -17,6 +17,9 @@ struct VerificationView: View {
         ZStack{
             LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea(.all)
+                .onTapGesture {
+                    hideKeyboard()
+                }
             VStack{
                 Text("W celu weryfikacji podaj e-mail, na który został zakupiony bilet.")
                     .font(.title2)
@@ -26,7 +29,6 @@ struct VerificationView: View {
                         .background(.thinMaterial)
                         .cornerRadius(10)
                         .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
                 } else {
                     TextField("Email", text: $verificationEmail)
                         .padding()
@@ -34,7 +36,6 @@ struct VerificationView: View {
                         .background(Color("FieldColor"))
                         .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                         .opacity(0.4)
-                        .disableAutocorrection(true)
                 }
                 Button(action: {
                     hideKeyboard()
