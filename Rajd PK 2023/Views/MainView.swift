@@ -12,7 +12,8 @@ struct MainView: View {
     @Binding var loggedIn: Bool
     @Binding var email: String
     @Binding var password: String
-    @StateObject var viewModel = FirebaseViewModel()
+    
+    @EnvironmentObject var viewModel: FirebaseViewModel
     @State var selectedTab = 1
     @State var tabClicked = false
 
@@ -69,7 +70,6 @@ struct MainView: View {
                 selectedTab = 2
             }
         }
-        .environmentObject(viewModel)
         .onAppear{
             if (loggedIn == true){
                 Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
@@ -115,7 +115,9 @@ extension Binding {
 }
 
 struct MainView_Previews: PreviewProvider {
+    static let viewModel = FirebaseViewModel()
     static var previews: some View {
         MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
+            .environmentObject(viewModel)
     }
 }

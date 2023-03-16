@@ -146,10 +146,11 @@ class FirebaseViewModel: ObservableObject {
                                 print("Removed image: \(diff.document.data())")
                                 self.loadImageToMem(imageName: imgName.image ?? "err", path: "routes/")
                             }
-                        } else {
-                            print("Błąd odczytu z bazy danych (img)")
-                            return
                         }
+                    }
+                    else {
+                        print("Błąd odczytu z bazy danych (img)")
+                        return
                     }
                 }
             }

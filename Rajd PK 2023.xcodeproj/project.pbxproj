@@ -43,6 +43,8 @@
 		AAD88435299AA0BA005B7E0C /* ActiveEnrollment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD88434299AA0BA005B7E0C /* ActiveEnrollment.swift */; };
 		AAEA49352970016A004A740F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAEA49342970016A004A740F /* Assets.xcassets */; };
 		AAEF5E5C29AD13B700F242F2 /* LocalFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEF5E5B29AD13B700F242F2 /* LocalFileManager.swift */; };
+		AAF06E1329C3223300A45376 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF06E1229C3223300A45376 /* VerificationView.swift */; };
+		AAF06E1529C340A600A45376 /* AskForPermNotifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF06E1429C340A600A45376 /* AskForPermNotifView.swift */; };
 		AAF83C0429782D17000EDDB1 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAF83C0329782D17000EDDB1 /* Launch Screen.storyboard */; };
 		AAF83C0629784070000EDDB1 /* ActiveAnnouncement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF83C0529784070000EDDB1 /* ActiveAnnouncement.swift */; };
 /* End PBXBuildFile section */
@@ -83,6 +85,8 @@
 		AAD88434299AA0BA005B7E0C /* ActiveEnrollment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEnrollment.swift; sourceTree = "<group>"; };
 		AAEA49342970016A004A740F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAEF5E5B29AD13B700F242F2 /* LocalFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFileManager.swift; sourceTree = "<group>"; };
+		AAF06E1229C3223300A45376 /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
+		AAF06E1429C340A600A45376 /* AskForPermNotifView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskForPermNotifView.swift; sourceTree = "<group>"; };
 		AAF83C0329782D17000EDDB1 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "Rajd PK 2023/Launch Screen.storyboard"; sourceTree = SOURCE_ROOT; };
 		AAF83C0529784070000EDDB1 /* ActiveAnnouncement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveAnnouncement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -187,6 +191,8 @@
 				AA1D755D29A2679B008206C2 /* LinkView.swift */,
 				AA32A04A296F4FB6002E321B /* BottomSheet.swift */,
 				AA32A04D296F4FB6002E321B /* SignInView.swift */,
+				AAF06E1229C3223300A45376 /* VerificationView.swift */,
+				AAF06E1429C340A600A45376 /* AskForPermNotifView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -290,8 +296,10 @@
 				AA32A058296F4FB6002E321B /* FirebaseViewModel.swift in Sources */,
 				AAD88435299AA0BA005B7E0C /* ActiveEnrollment.swift in Sources */,
 				AA32A055296F4FB6002E321B /* Announcement.swift in Sources */,
+				AAF06E1529C340A600A45376 /* AskForPermNotifView.swift in Sources */,
 				AA32A05B296F4FB6002E321B /* AnnouncementDetailForm.swift in Sources */,
 				AA32A030296F4F61002E321B /* Rajd_PK_2023App.swift in Sources */,
+				AAF06E1329C3223300A45376 /* VerificationView.swift in Sources */,
 				AA32A05A296F4FB6002E321B /* TimetablesListView.swift in Sources */,
 				AA32A057296F4FB6002E321B /* ImagePicker.swift in Sources */,
 				AAD88431299A8C9E005B7E0C /* EnrollmentForm.swift in Sources */,

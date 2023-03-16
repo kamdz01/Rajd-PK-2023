@@ -98,7 +98,7 @@ struct TimetablesViewItem: View {
                         Spacer()
                         VStack(alignment: .center) {
                             Text("\(timetable.day!)")
-                                .font(.title2)
+                                .font(.title3)
                                 .fontWeight(.semibold)
                                 .lineLimit(2)
                                 .padding(.bottom, 1.0)
@@ -112,7 +112,7 @@ struct TimetablesViewItem: View {
                         Spacer()
                         VStack(alignment: .center) {
                             Text("\(timetable.day!)")
-                                .font(.title2)
+                                .font(.title3)
                                 .fontWeight(.semibold)
                                 .padding(.bottom, 1.0)
                         }
@@ -122,19 +122,16 @@ struct TimetablesViewItem: View {
                     VStack(alignment: .leading){
                         if (timetable.name1 != nil && timetable.content1 != nil){
                             Text("\(timetable.name1!):")
-                                .font(.title3)
                                 .fontWeight(.semibold)
                             Text("\(timetable.content1!)")
                         }
                         if (timetable.name2 != nil && timetable.content2 != nil){
                             Text("\(timetable.name2!):")
-                                .font(.title3)
                                 .fontWeight(.semibold)
                             Text("\(timetable.content2!)")
                         }
                         if (timetable.name3 != nil && timetable.content3 != nil){
                             Text("\(timetable.name3!):")
-                                .font(.title3)
                                 .fontWeight(.semibold)
                             Text("\(timetable.content3!)")
                         }

@@ -148,7 +148,7 @@ struct EnrollmentViewItem: View {
                         HStack {
                             VStack {
                                 Text(enrollment.title!)
-                                    .font(.title)
+                                    .font(.title2)
                                     .fontWeight(.semibold)
                                 Spacer()
                             }

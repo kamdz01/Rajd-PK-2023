@@ -11,13 +11,17 @@ import Firebase
 struct SignInView: View {
     
     @AppStorage("loggedIn") var loggedIn = false
+    @AppStorage("verificated") var verificated = false
     @AppStorage("email") var email = ""
     @AppStorage("password") var password = ""
     
+    @State var showNotificationBtn = true
     @State var signOutProcessing = false
     @State var signInProcessing = false
     @State var signInErrorMessage = ""
     @State var presentAlert = false
+    
+    @Environment (\.scenePhase) private var scenePhase
     
     private let fileManager = LocalFileManager.instance
     
@@ -72,14 +76,63 @@ struct SignInView: View {
                     .alert(isPresented: $presentAlert){
                         Alert(
                             title: Text("Usunięto wszystkie lokalne dane"),
-                            dismissButton: .default(Text("OK"))
+                            dismissButton: Alert.Button.default(Text("OK"), action: {
+//                                withAnimation(){
+//                                    verificated = false
+//                                }
+                            })
                         )
                     }
-                    .padding(.bottom)
+                    if(showNotificationBtn){
+                        Button(action: {
+                            if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            }
+                        }) {
+                            if #available(iOS 15.0, *) {
+                                Text("Włącz powiadomienia")
+                                    .bold()
+                                    .frame(width: 360, height: 50)
+                                    .background(.thinMaterial)
+                                    .cornerRadius(10)
+                            } else {
+                                Text("Włącz powiadomienia")
+                                    .bold()
+                                    .padding()
+                                    .frame(width: 360, height: 50)
+                                    .background(Color("FieldColor"))
+                                    .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
+                            }
+                        }
+                    }
                 }
                 .padding()
                 .navigationTitle("Logowanie")
                 .navigationBarTitleDisplayMode(.inline)
+            }
+            .onAppear(){
+                let center = UNUserNotificationCenter.current()
+                center.getNotificationSettings { settings in
+                    guard (settings.authorizationStatus == .authorized) ||
+                            (settings.authorizationStatus == .provisional) else {
+                        showNotificationBtn = true
+                        return
+                    }
+                    showNotificationBtn = false
+                }
+            }
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .active {
+                    let center = UNUserNotificationCenter.current()
+                    center.getNotificationSettings { settings in
+                        guard (settings.authorizationStatus == .authorized) ||
+                                (settings.authorizationStatus == .provisional) else {
+                            showNotificationBtn = true
+                            return
+                        }
+                        showNotificationBtn = false
+                    }
+                }
             }
         }
         else{
@@ -141,10 +194,35 @@ struct SignInView: View {
                     .alert(isPresented: $presentAlert){
                         Alert(
                             title: Text("Usunięto wszystkie lokalne dane"),
-                            dismissButton: .default(Text("OK"))
+                            dismissButton: Alert.Button.default(Text("OK"), action: {
+//                                withAnimation(){
+//                                    verificated = false
+//                                }
+                            })
                         )
                     }
-                    .padding(.bottom)
+                    if(showNotificationBtn){
+                        Button(action: {
+                            if let url = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(url) {
+                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            }
+                        }) {
+                            if #available(iOS 15.0, *) {
+                                Text("Włącz powiadomienia")
+                                    .bold()
+                                    .frame(width: 360, height: 50)
+                                    .background(.thinMaterial)
+                                    .cornerRadius(10)
+                            } else {
+                                Text("Włącz powiadomienia")
+                                    .bold()
+                                    .padding()
+                                    .frame(width: 360, height: 50)
+                                    .background(Color("FieldColor"))
+                                    .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
+                            }
+                        }
+                    }
                 }
                 .padding()
                 .navigationTitle("Logowanie")
@@ -161,6 +239,30 @@ struct SignInView: View {
                 }
             }
             .gesture(DragGesture().onChanged{_ in hideKeyboard()})
+            .onAppear(){
+                let center = UNUserNotificationCenter.current()
+                center.getNotificationSettings { settings in
+                    guard (settings.authorizationStatus == .authorized) ||
+                            (settings.authorizationStatus == .provisional) else {
+                        showNotificationBtn = true
+                        return
+                    }
+                    showNotificationBtn = false
+                }
+            }
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .active {
+                    let center = UNUserNotificationCenter.current()
+                    center.getNotificationSettings { settings in
+                        guard (settings.authorizationStatus == .authorized) ||
+                                (settings.authorizationStatus == .provisional) else {
+                            showNotificationBtn = true
+                            return
+                        }
+                        showNotificationBtn = false
+                    }
+                }
+            }
         }
     }
     
@@ -227,11 +329,13 @@ struct SignInCredentialFields: View {
                     .background(.thinMaterial)
                     .cornerRadius(10)
                     .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
                 SecureField("Hasło", text: $password)
                     .padding()
                     .background(.thinMaterial)
                     .cornerRadius(10)
                     .padding(.bottom, 30)
+                    .disableAutocorrection(true)
             } else {
                 TextField("Email", text: $email)
                     .padding()
@@ -239,12 +343,14 @@ struct SignInCredentialFields: View {
                     .background(Color("FieldColor"))
                     .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                     .opacity(0.4)
+                    .disableAutocorrection(true)
                 SecureField("Hasło", text: $password)
                     .padding()
                     .cornerRadius(10)
                     .background(Color("FieldColor"))
                     .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
                     .opacity(0.4)
+                    .disableAutocorrection(true)
             }
         }
     }

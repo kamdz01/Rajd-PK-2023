@@ -7,15 +7,21 @@
 
 import SwiftUI
 import Firebase
+import UserNotifications
 
 
 struct ContentView: View {
     @AppStorage("loggedIn") var loggedIn = false
+    @AppStorage("verificated") var verificated = false
     @AppStorage("email") var email = ""
     @AppStorage("password") var password = ""
+    @State var showNotificationDialog = false
+    @Environment (\.scenePhase) private var scenePhase
     
     @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
     @ObservedObject var activeEnrollment = ActiveEnrollment.shared
+    
+    @StateObject var viewModel = FirebaseViewModel()
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor(Color("TabColor"))
@@ -33,8 +39,36 @@ struct ContentView: View {
     
     
     var body: some View {
-        MainView(loggedIn: $loggedIn, email: $email, password: $password)
-            //.foregroundColor(/*@START_MENU_TOKEN@*/Color("TextColor")/*@END_MENU_TOKEN@*/)
+        if(verificated){
+            MainView(loggedIn: $loggedIn, email: $email, password: $password)
+                .environmentObject(viewModel)
+                .onAppear(){
+                    let center = UNUserNotificationCenter.current()
+                    center.getNotificationSettings { settings in
+                        guard (settings.authorizationStatus == .authorized) ||
+                                (settings.authorizationStatus == .provisional) else {
+                            @AppStorage("notificationAskCnt") var notificationAskCnt = 0
+                            print("No Notifications")
+                            if(notificationAskCnt >= 0){
+                                if(notificationAskCnt % 3 == 0 ){
+                                    showNotificationDialog = true
+                                }
+                                notificationAskCnt += 1
+                            }
+                            return
+                        }
+                        print("Notifications OK")
+                    }
+                }
+                .sheet(isPresented: $showNotificationDialog){
+                    AskForPermNotifView(showNotificationDialog: $showNotificationDialog)
+                        .environment(\.scenePhase, scenePhase)
+                }
+        }
+        else{
+            VerificationView()
+                .environmentObject(viewModel)
+        }
     }
 }
 

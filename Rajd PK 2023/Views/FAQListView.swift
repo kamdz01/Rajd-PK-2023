@@ -97,23 +97,18 @@ struct FAQViewItem: View {
                     HStack {
                         Spacer()
                         Text("\(faq.question!):")
-                            .font(.title2)
+                            .font(.title3)
                             .fontWeight(.semibold)
-                            .lineLimit(2)
                             .padding(.bottom, 1.0)
                         Spacer()
                         Image(systemName: "chevron.down")
                     }
-                    
-                    Text("\(faq.answer!)")
-                        .font(.title3)
-                        .lineLimit(2)
                 }
                 else{
                     HStack {
                         Spacer()
                         Text("\(faq.question!):")
-                            .font(.title2)
+                            .font(.title3)
                             .fontWeight(.semibold)
                             .lineLimit(nil)
                             .padding(.bottom, 1.0)
@@ -122,7 +117,6 @@ struct FAQViewItem: View {
                     }
                     
                     Text("\(faq.answer!)")
-                        .font(.title3)
                 }
             }
         }

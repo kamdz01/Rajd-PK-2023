@@ -99,7 +99,7 @@ struct RoutesViewItem: View {
                         Spacer()
                         VStack(alignment: .center) {
                             Text("\(route.title!)")
-                                .font(.title2)
+                                .font(.title3)
                                 .fontWeight(.semibold)
                                 .lineLimit(2)
                         }
@@ -112,7 +112,7 @@ struct RoutesViewItem: View {
                         Spacer()
                         VStack(alignment: .center) {
                             Text("\(route.title!)")
-                                .font(.title2)
+                                .font(.title3)
                                 .fontWeight(.semibold)
                         }
                         Spacer()

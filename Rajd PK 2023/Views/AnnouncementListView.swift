@@ -164,7 +164,7 @@ struct AnnouncementViewItem: View {
                                 HStack {
                                     VStack {
                                         Text(announcement.title!)
-                                            .font(.title)
+                                            .font(.title2)
                                             .fontWeight(.semibold)
                                             .lineLimit(2)
                                         Spacer()
@@ -194,7 +194,7 @@ struct AnnouncementViewItem: View {
                                 HStack {
                                     VStack {
                                         Text(announcement.title!)
-                                            .font(.title)
+                                            .font(.title2)
                                             .lineLimit(2)
                                         Spacer()
                                     }
