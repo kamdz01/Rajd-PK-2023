@@ -102,7 +102,7 @@ struct AnnouncementDetailForm: View {
                             .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
                         }
                         .padding(/*@START_MENU_TOKEN@*/.all, 10.0/*@END_MENU_TOKEN@*/)
-                        Button("Dodaj") {
+                        Button(action: {
                             Task{
                                 lastID = await self.viewModel.addAnnouncement(title: title, subTitle: subTitle, content: content, hidden: false, isImage: (inputImage != nil), priority: priority)
                                 
@@ -127,12 +127,10 @@ struct AnnouncementDetailForm: View {
                                     ifAdded = -1
                                 }
                             }
+                        }) {
+                            Text("Dodaj")
+                                .MainButtonBold(bgColor: .red)
                         }
-                        .padding(.horizontal, 20.0)
-                        .padding(.vertical, 10.0)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .clipShape(Capsule())
                     }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     

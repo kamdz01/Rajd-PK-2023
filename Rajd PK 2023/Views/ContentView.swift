@@ -24,8 +24,13 @@ struct ContentView: View {
     @StateObject var viewModel = FirebaseViewModel()
     
     init() {
-        UITabBar.appearance().backgroundColor = UIColor(Color("TabColor"))
-        UITabBar.appearance().barTintColor = UIColor(Color("TabColor"))
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().backgroundColor = UIColor(Color("TabColor"))
+            UITabBar.appearance().barTintColor = UIColor(Color("TabColor"))
+        }
+        else{
+            UITabBar.appearance().backgroundColor = UIColor(Color("IOS14-bottom-bar"))
+        }
         UINavigationBar.appearance().barTintColor = UIColor(Color("TabColor"))
         if #available(iOS 16.0, *) {}
         else{

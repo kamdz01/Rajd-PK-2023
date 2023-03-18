@@ -20,41 +20,17 @@ struct VerificationView: View {
                 .onTapGesture {
                     hideKeyboard()
                 }
-            VStack{
+            VStack(spacing: 15){
                 Text("W celu weryfikacji podaj e-mail, na który został zakupiony bilet.")
                     .font(.title2)
-                if #available(iOS 15.0, *) {
-                    TextField("Email", text: $verificationEmail)
-                        .padding()
-                        .background(.thinMaterial)
-                        .cornerRadius(10)
-                        .textInputAutocapitalization(.never)
-                } else {
-                    TextField("Email", text: $verificationEmail)
-                        .padding()
-                        .cornerRadius(10)
-                        .background(Color("FieldColor"))
-                        .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                        .opacity(0.4)
-                }
+                TextField("Email", text: $verificationEmail)
+                    .MainTextField()
                 Button(action: {
                     hideKeyboard()
                     findEmail(email: verificationEmail)
                 }) {
-                    if #available(iOS 15.0, *) {
-                        Text("Zaloguj")
-                            .bold()
-                            .frame(width: 360, height: 50)
-                            .background(.thinMaterial)
-                            .cornerRadius(10)
-                    } else {
-                        Text("Zaloguj")
-                            .bold()
-                            .padding()
-                            .frame(width: 360, height: 50)
-                            .background(Color("FieldColor"))
-                            .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                    }
+                    Text("Zaloguj")
+                        .MainButtonBold()
                 }
                 if !errorMessage.isEmpty {
                     Text("Błąd: \(errorMessage)")
@@ -99,5 +75,6 @@ struct VerificationView_Previews: PreviewProvider {
             .onAppear{
                 viewModel.fetchData()
             }
+        ContentView()
     }
 }

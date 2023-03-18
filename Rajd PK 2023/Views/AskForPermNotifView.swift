@@ -17,7 +17,7 @@ struct AskForPermNotifView: View {
     var body: some View {
         ZStack{
             LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom).ignoresSafeArea(.all)
-            VStack{
+            VStack(spacing: 15){
                 if (NotificationsOK == 0){
                     Image(systemName: "xmark.circle")
                         .resizable()
@@ -31,40 +31,14 @@ struct AskForPermNotifView: View {
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
                         }
                     }) {
-                        if #available(iOS 15.0, *) {
-                            Text("Chcę powiadomienia!")
-                                .bold()
-                                .frame(width: 360, height: 50)
-                                .background(.thinMaterial)
-                                .cornerRadius(10)
-                        } else {
-                            Text("Chcę powiadomienia!")
-                                .bold()
-                                .padding()
-                                .frame(width: 360, height: 50)
-                                .background(Color("FieldColor"))
-                                .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                        }
+                        Text("Chcę powiadomienia!")
+                            .MainButtonBold()
                     }
                     Button(action: {
                         chosenNotToAsk.toggle()
                     }) {
-                        if #available(iOS 15.0, *) {
-                            Text("Nie chcę, nie pytaj więcej")
-                                .bold()
-                                .frame(width: 360, height: 50)
-                                .background(.thinMaterial)
-                                .cornerRadius(10)
-                                .foregroundColor(.red)
-                        } else {
-                            Text("Nie chcę, nie pytaj więcej")
-                                .bold()
-                                .padding()
-                                .frame(width: 360, height: 50)
-                                .background(Color("FieldColor"))
-                                .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                                .foregroundColor(.red)
-                        }
+                        Text("Nie chcę, nie pytaj więcej")
+                            .MainButtonBold()
                     }
                     .actionSheet(isPresented: $chosenNotToAsk) {
                         ActionSheet(
@@ -84,22 +58,8 @@ struct AskForPermNotifView: View {
                     Button(action: {
                         showNotificationDialog.toggle()
                     }) {
-                        if #available(iOS 15.0, *) {
-                            Text("Nie chcę")
-                                .bold()
-                                .frame(width: 360, height: 50)
-                                .background(.thinMaterial)
-                                .cornerRadius(10)
-                                .foregroundColor(.red)
-                        } else {
-                            Text("Nie chcę")
-                                .bold()
-                                .padding()
-                                .frame(width: 360, height: 50)
-                                .background(Color("FieldColor"))
-                                .cornerRadius(/*@START_MENU_TOKEN@*/10.0/*@END_MENU_TOKEN@*/)
-                                .foregroundColor(.red)
-                        }
+                        Text("Nie chcę")
+                            .MainButtonBold()
                     }
                     
                 }

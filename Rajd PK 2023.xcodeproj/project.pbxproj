@@ -32,9 +32,12 @@
 		AA32A06A296F51A0002E321B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A069296F51A0002E321B /* FirebaseFirestore */; };
 		AA32A06C296F51A0002E321B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A06B296F51A0002E321B /* FirebaseMessaging */; };
 		AA32A06E296F51A0002E321B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A06D296F51A0002E321B /* FirebaseStorage */; };
+		AA6AD0F329C65B870002FED6 /* MainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6AD0F229C65B870002FED6 /* MainButton.swift */; };
 		AA74943D29A02F76001A2DA7 /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74943C29A02F76001A2DA7 /* RoutesListView.swift */; };
 		AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB862996E8C50056AB1B /* Enrollment.swift */; };
 		AA8FBB892996EAD20056AB1B /* EnrollmentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */; };
+		AAA69C6829C67909001022B7 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA69C6729C67909001022B7 /* MainTextField.swift */; };
+		AAA69C6A29C67BA0001022B7 /* MainSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA69C6929C67BA0001022B7 /* MainSecureField.swift */; };
 		AAB1DB8A29AC04E400C612FB /* LogInErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB1DB8929AC04E400C612FB /* LogInErrorView.swift */; };
 		AAC7646A29C26A0A008B8832 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAC7646929C26A0A008B8832 /* GoogleService-Info.plist */; };
 		AAD8842F299A61F2005B7E0C /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD8842E299A61F2005B7E0C /* PushNotificationSender.swift */; };
@@ -73,10 +76,13 @@
 		AA32A04F296F4FB6002E321B /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		AA32A050296F4FB6002E321B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA32A06F296F5321002E321B /* Rajd-PK-2023-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rajd-PK-2023-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AA6AD0F229C65B870002FED6 /* MainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainButton.swift; sourceTree = "<group>"; };
 		AA74943C29A02F76001A2DA7 /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
 		AA8FBB862996E8C50056AB1B /* Enrollment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enrollment.swift; sourceTree = "<group>"; };
 		AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentListView.swift; sourceTree = "<group>"; };
 		AA9CF8A6296F63F200920C2A /* Rajd PK 2023.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rajd PK 2023.entitlements"; sourceTree = "<group>"; };
+		AAA69C6729C67909001022B7 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
+		AAA69C6929C67BA0001022B7 /* MainSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSecureField.swift; sourceTree = "<group>"; };
 		AAB1DB8929AC04E400C612FB /* LogInErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInErrorView.swift; sourceTree = "<group>"; };
 		AAC7646929C26A0A008B8832 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AAD8842E299A61F2005B7E0C /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
@@ -133,6 +139,8 @@
 				AA32A045296F4FB6002E321B /* Views */,
 				AA32A042296F4FB6002E321B /* ViewModels */,
 				AA32A03F296F4FB6002E321B /* Structs */,
+				AA6AD0F129C65B530002FED6 /* Modifiers */,
+				AA6AD0F429C664A50002FED6 /* Extensions */,
 				AAF83C0729784077000EDDB1 /* Classes */,
 				AA32A035296F4F62002E321B /* Preview Content */,
 			);
@@ -195,6 +203,23 @@
 				AAF06E1429C340A600A45376 /* AskForPermNotifView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		AA6AD0F129C65B530002FED6 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				AAA69C6729C67909001022B7 /* MainTextField.swift */,
+				AAA69C6929C67BA0001022B7 /* MainSecureField.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		AA6AD0F429C664A50002FED6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AA6AD0F229C65B870002FED6 /* MainButton.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		AAF83C0729784077000EDDB1 /* Classes */ = {
@@ -287,6 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAA69C6829C67909001022B7 /* MainTextField.swift in Sources */,
 				AA32A061296F4FB6002E321B /* AnnouncementDetailView.swift in Sources */,
 				AAD8842F299A61F2005B7E0C /* PushNotificationSender.swift in Sources */,
 				AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */,
@@ -301,6 +327,7 @@
 				AA32A030296F4F61002E321B /* Rajd_PK_2023App.swift in Sources */,
 				AAF06E1329C3223300A45376 /* VerificationView.swift in Sources */,
 				AA32A05A296F4FB6002E321B /* TimetablesListView.swift in Sources */,
+				AAA69C6A29C67BA0001022B7 /* MainSecureField.swift in Sources */,
 				AA32A057296F4FB6002E321B /* ImagePicker.swift in Sources */,
 				AAD88431299A8C9E005B7E0C /* EnrollmentForm.swift in Sources */,
 				AA32A060296F4FB6002E321B /* SignInView.swift in Sources */,
@@ -316,6 +343,7 @@
 				AAD88433299A912C005B7E0C /* EnrollmentDetailForm.swift in Sources */,
 				AA32A05D296F4FB6002E321B /* BottomSheet.swift in Sources */,
 				AA1D755A29A250B1008206C2 /* Timetable.swift in Sources */,
+				AA6AD0F329C65B870002FED6 /* MainButton.swift in Sources */,
 				AA32A059296F4FB6002E321B /* FAQListView.swift in Sources */,
 				AA1D755E29A2679B008206C2 /* LinkView.swift in Sources */,
 				AA160E4729703E1B004B5605 /* FloatingTextField.swift in Sources */,

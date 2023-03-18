@@ -64,7 +64,7 @@ struct EnrollmentDetailForm: View {
                             }
                         }
                         .padding(/*@START_MENU_TOKEN@*/.all, 10.0/*@END_MENU_TOKEN@*/)
-                        Button("Dodaj") {
+                        Button(action: {
                             Task{
                                 let lastID = await self.viewModel.addEnrollment(title: title, content: content, link: link, hidden: false)
                                 
@@ -83,12 +83,10 @@ struct EnrollmentDetailForm: View {
                                     ifAdded = -1
                                 }
                             }
+                        }) {
+                            Text("Dodaj")
+                                .MainButtonBold(bgColor: .red)
                         }
-                        .padding(.horizontal, 20.0)
-                        .padding(.vertical, 10.0)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .clipShape(Capsule())
                     }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     
