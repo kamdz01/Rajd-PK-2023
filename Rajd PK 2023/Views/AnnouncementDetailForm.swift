@@ -24,6 +24,7 @@ struct AnnouncementDetailForm: View {
     @Binding var content: String
     @Binding var priority: Bool
     @Binding var sendNotification: Bool
+    @State var addProcessing = false
     
     var body: some View {
         ZStack{
@@ -38,6 +39,9 @@ struct AnnouncementDetailForm: View {
                     if (inputImage != nil){
                         ProgressView("Wysyłanie zdjęcia w toku…", value: uploadProgressImg, total: 1.0)
                             .padding(10)
+                    }
+                    if addProcessing {
+                        ProgressView()
                     }
                 }
                 .padding()
@@ -82,28 +86,29 @@ struct AnnouncementDetailForm: View {
                                 .scaledToFit()
                         }
                         VStack(alignment: .leading){
-                                Text("Tytuł:")
+                            Text("Tytuł:")
                                 .multilineTextAlignment(.leading)
                                 .padding(/*@START_MENU_TOKEN@*/[.top, .leading, .trailing]/*@END_MENU_TOKEN@*/)
-                                Text(title)
+                            Text(title)
                                 .multilineTextAlignment(.leading)
                                 .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
                             Text("Podtytuł:")
-                            .multilineTextAlignment(.leading)
-                            .padding(/*@START_MENU_TOKEN@*/[.top, .leading, .trailing]/*@END_MENU_TOKEN@*/)
+                                .multilineTextAlignment(.leading)
+                                .padding(/*@START_MENU_TOKEN@*/[.top, .leading, .trailing]/*@END_MENU_TOKEN@*/)
                             Text(subTitle)
-                            .multilineTextAlignment(.leading)
-                            .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
+                                .multilineTextAlignment(.leading)
+                                .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
                             Text("Zawartość:")
-                            .multilineTextAlignment(.leading)
-                            .padding(/*@START_MENU_TOKEN@*/[.top, .leading, .trailing]/*@END_MENU_TOKEN@*/)
+                                .multilineTextAlignment(.leading)
+                                .padding(/*@START_MENU_TOKEN@*/[.top, .leading, .trailing]/*@END_MENU_TOKEN@*/)
                             Text(content)
-                            .multilineTextAlignment(.leading)
-                            .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
+                                .multilineTextAlignment(.leading)
+                                .padding(/*@START_MENU_TOKEN@*/[.leading, .bottom, .trailing]/*@END_MENU_TOKEN@*/)
                         }
                         .padding(/*@START_MENU_TOKEN@*/.all, 10.0/*@END_MENU_TOKEN@*/)
                         Button(action: {
                             Task{
+                                addProcessing = true
                                 lastID = await self.viewModel.addAnnouncement(title: title, subTitle: subTitle, content: content, hidden: false, isImage: (inputImage != nil), priority: priority)
                                 
                                 if lastID != "-1"{
@@ -117,11 +122,23 @@ struct AnnouncementDetailForm: View {
                                             let sender = PushNotificationSender()
                                             let title_l = title
                                             let content_l = content
-                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel)
+                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel){ result in
+                                                addProcessing = false
+                                                switch result {
+                                                case .failure(let error):
+                                                    print(error.localizedDescription)
+                                                    viewModel.hideAnnouncement(id: lastID)
+                                                    ifAdded = -1
+                                                case .success(_):
+                                                    ifAdded = 1
+                                                }
+                                            }
                                         }
-                                        ifAdded = 1
+                                        else {
+                                            addProcessing = false
+                                            ifAdded = 1
+                                        }
                                     }
-                                    
                                 }
                                 else {
                                     ifAdded = -1
@@ -130,6 +147,9 @@ struct AnnouncementDetailForm: View {
                         }) {
                             Text("Dodaj")
                                 .MainButtonBold(bgColor: .red)
+                        }
+                        if addProcessing {
+                            ProgressView()
                         }
                     }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
@@ -190,14 +210,28 @@ struct AnnouncementDetailForm: View {
                 let sender = PushNotificationSender()
                 let title_l = title
                 let content_l = content
-                sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel)
+                sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel) { result in
+                    addProcessing = false
+                    switch result {
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        self.viewModel.hideAnnouncement(id: imageId)
+                        ifAdded = -1
+                    case .success(_):
+                        ifAdded = 1
+                    }
+                }
             }
-            ifAdded = 1
+            else {
+                addProcessing = false
+                ifAdded = 1
+            }
         }
         uploadTask.observe(.failure) { snapshot in
             print("Upload error")
+            addProcessing = false
             ifAdded = -1
-            self.viewModel.hideAnnouncement(id: imageId )
+            self.viewModel.hideAnnouncement(id: imageId)
         }
     }
 }

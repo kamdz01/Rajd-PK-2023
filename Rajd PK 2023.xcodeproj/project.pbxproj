@@ -21,7 +21,6 @@
 		AA32A05A296F4FB6002E321B /* TimetablesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A047296F4FB6002E321B /* TimetablesListView.swift */; };
 		AA32A05B296F4FB6002E321B /* AnnouncementDetailForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A048296F4FB6002E321B /* AnnouncementDetailForm.swift */; };
 		AA32A05C296F4FB6002E321B /* FirebaseImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A049296F4FB6002E321B /* FirebaseImage.swift */; };
-		AA32A05D296F4FB6002E321B /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A04A296F4FB6002E321B /* BottomSheet.swift */; };
 		AA32A05E296F4FB6002E321B /* AnnouncementListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A04B296F4FB6002E321B /* AnnouncementListView.swift */; };
 		AA32A05F296F4FB6002E321B /* AnnouncementForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A04C296F4FB6002E321B /* AnnouncementForm.swift */; };
 		AA32A060296F4FB6002E321B /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A04D296F4FB6002E321B /* SignInView.swift */; };
@@ -68,7 +67,6 @@
 		AA32A047296F4FB6002E321B /* TimetablesListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimetablesListView.swift; sourceTree = "<group>"; };
 		AA32A048296F4FB6002E321B /* AnnouncementDetailForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementDetailForm.swift; sourceTree = "<group>"; };
 		AA32A049296F4FB6002E321B /* FirebaseImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseImage.swift; sourceTree = "<group>"; };
-		AA32A04A296F4FB6002E321B /* BottomSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
 		AA32A04B296F4FB6002E321B /* AnnouncementListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementListView.swift; sourceTree = "<group>"; };
 		AA32A04C296F4FB6002E321B /* AnnouncementForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnouncementForm.swift; sourceTree = "<group>"; };
 		AA32A04D296F4FB6002E321B /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
@@ -197,7 +195,6 @@
 				AA74943C29A02F76001A2DA7 /* RoutesListView.swift */,
 				AA32A049296F4FB6002E321B /* FirebaseImage.swift */,
 				AA1D755D29A2679B008206C2 /* LinkView.swift */,
-				AA32A04A296F4FB6002E321B /* BottomSheet.swift */,
 				AA32A04D296F4FB6002E321B /* SignInView.swift */,
 				AAF06E1229C3223300A45376 /* VerificationView.swift */,
 				AAF06E1429C340A600A45376 /* AskForPermNotifView.swift */,
@@ -341,7 +338,6 @@
 				AA32A063296F4FB6002E321B /* ContentView.swift in Sources */,
 				AA32A05E296F4FB6002E321B /* AnnouncementListView.swift in Sources */,
 				AAD88433299A912C005B7E0C /* EnrollmentDetailForm.swift in Sources */,
-				AA32A05D296F4FB6002E321B /* BottomSheet.swift in Sources */,
 				AA1D755A29A250B1008206C2 /* Timetable.swift in Sources */,
 				AA6AD0F329C65B870002FED6 /* MainButton.swift in Sources */,
 				AA32A059296F4FB6002E321B /* FAQListView.swift in Sources */,
@@ -475,7 +471,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rajd PK 2023/Rajd PK 2023.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Rajd PK 2023/Preview Content\"";
 				DEVELOPMENT_TEAM = HLJV9D8SW5;
 				ENABLE_PREVIEWS = YES;
@@ -512,7 +508,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rajd PK 2023/Rajd PK 2023.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Rajd PK 2023/Preview Content\"";
 				DEVELOPMENT_TEAM = HLJV9D8SW5;
 				ENABLE_PREVIEWS = YES;

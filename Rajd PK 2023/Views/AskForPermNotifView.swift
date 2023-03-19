@@ -83,7 +83,7 @@ struct AskForPermNotifView: View {
                 }
             }
             .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-
+            
             .onChange(of: scenePhase) { newPhase in
                 if newPhase == .active {
                     let center = UNUserNotificationCenter.current()

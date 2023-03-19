@@ -127,41 +127,41 @@ class FirebaseViewModel: ObservableObject {
         }
         
         db.collection("Images").addSnapshotListener { querySnapshot, error in
-                guard let snapshot = querySnapshot else {
-                    print("Error fetching snapshots: \(error!)")
-                    return
+            guard let snapshot = querySnapshot else {
+                print("Error fetching snapshots: \(error!)")
+                return
+            }
+            snapshot.documentChanges.forEach { diff in
+                let data = diff.document.data()
+                let idChanged = data["id"] as? String ?? "err"
+                if (data["collection"] as? String == "Announcements"){
+                    if (diff.type == .modified) {
+                        print("Modified image: \(diff.document.data())")
+                        self.loadImageToMem(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", path: "images/")
+                    }
+                    if (diff.type == .removed) {
+                        print("Removed image: \(diff.document.data())")
+                        self.loadImageToMem(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", path: "images/")
+                    }
                 }
-                snapshot.documentChanges.forEach { diff in
-                    let data = diff.document.data()
-                    let idChanged = data["id"] as? String ?? "err"
-                    if (data["collection"] as? String == "Announcements"){
+                else if (data["collection"] as? String == "Routes"){
+                    if let imgName = self.routes.first(where: {$0.id == idChanged}) {
                         if (diff.type == .modified) {
                             print("Modified image: \(diff.document.data())")
-                            self.loadImageToMem(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", path: "images/")
+                            self.loadImageToMem(imageName: imgName.image ?? "err", path: "routes/")
                         }
                         if (diff.type == .removed) {
                             print("Removed image: \(diff.document.data())")
-                            self.loadImageToMem(imageName: "\(idChanged.trimmingCharacters(in: .whitespacesAndNewlines)).jpg", path: "images/")
+                            self.loadImageToMem(imageName: imgName.image ?? "err", path: "routes/")
                         }
-                    }
-                    else if (data["collection"] as? String == "Routes"){
-                        if let imgName = self.routes.first(where: {$0.id == idChanged}) {
-                            if (diff.type == .modified) {
-                                print("Modified image: \(diff.document.data())")
-                                self.loadImageToMem(imageName: imgName.image ?? "err", path: "routes/")
-                            }
-                            if (diff.type == .removed) {
-                                print("Removed image: \(diff.document.data())")
-                                self.loadImageToMem(imageName: imgName.image ?? "err", path: "routes/")
-                            }
-                        }
-                    }
-                    else {
-                        print("Błąd odczytu z bazy danych (img)")
-                        return
                     }
                 }
+                else {
+                    print("Błąd odczytu z bazy danych (img)")
+                    return
+                }
             }
+        }
         ifFetched = true
     }
     
@@ -188,7 +188,7 @@ class FirebaseViewModel: ObservableObject {
             }
         }
     }
-
+    
     func getKey(completion: @escaping (String) -> Void){
         let docRef = db.collection("Keys").document("SERVER_KEY")
         var key = String()

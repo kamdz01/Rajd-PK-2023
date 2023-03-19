@@ -11,7 +11,7 @@ import SwiftUI
 struct FloatingTextField: View {
     let title: String
     let text: Binding<String>
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             if (!text.wrappedValue.isEmpty){

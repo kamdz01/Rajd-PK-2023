@@ -40,9 +40,10 @@ class PushNotificationSender {
     
     
     
-    func sendToTopic(title: String, body: String, id: String, collection: String, viewModel: FirebaseViewModel) {
+    func sendToTopic(title: String, body: String, id: String, collection: String, viewModel: FirebaseViewModel, completion: @escaping (Result<Bool, Error>) -> Void) {
+        var requestsFinished = 0
         var serverKey = ""
-        viewModel.getKey(){key in
+        viewModel.getKey() { key in
             serverKey = key
             let urlString = "https://fcm.googleapis.com/fcm/send"
             let url = NSURL(string: urlString)!
@@ -60,14 +61,33 @@ class PushNotificationSender {
             request_ios.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request_ios.setValue("key=\(serverKey)", forHTTPHeaderField: "Authorization")
             let task_ios =  URLSession.shared.dataTask(with: request_ios as URLRequest)  { (data, response, error) in
-                do {
-                    if let jsonData = data {
-                        if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
-                            NSLog("Received data:\n\(jsonDataDict))")
+                if (error != nil){
+                    DispatchQueue.main.async {
+                        print(error.debugDescription)
+                        completion(.failure(error!))
+                        return
+                    }
+                }
+                else {
+                    do {
+                        if let jsonData = data {
+                            if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
+                                NSLog("(NotifURLSession) Received data:\n\(jsonDataDict))")
+                            }
+                        }
+                    } catch let err as NSError {
+                        DispatchQueue.main.async {
+                            print(err.debugDescription)
+                            completion(.failure(err))
+                            return
                         }
                     }
-                } catch let err as NSError {
-                    print(err.debugDescription)
+                    DispatchQueue.main.async {
+                        requestsFinished += 1
+                        if (requestsFinished >= 2) {
+                            completion(.success(true))
+                        }
+                    }
                 }
             }
             task_ios.resume()
@@ -78,14 +98,34 @@ class PushNotificationSender {
             request_android.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request_android.setValue("key=\(serverKey)", forHTTPHeaderField: "Authorization")
             let task_android =  URLSession.shared.dataTask(with: request_android as URLRequest)  { (data, response, error) in
-                do {
-                    if let jsonData = data {
-                        if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
-                            NSLog("Received data:\n\(jsonDataDict))")
+                if (error != nil){
+                    DispatchQueue.main.async {
+                        print(error.debugDescription)
+                        completion(.failure(error!))
+                        return
+                    }
+                }
+                else
+                {
+                    do {
+                        if let jsonData = data {
+                            if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
+                                NSLog("(NotifURLSession) Received data:\n\(jsonDataDict))")
+                            }
+                        }
+                    } catch let err as NSError {
+                        DispatchQueue.main.async {
+                            print(err.debugDescription)
+                            completion(.failure(err))
+                            return
                         }
                     }
-                } catch let err as NSError {
-                    print(err.debugDescription)
+                    DispatchQueue.main.async {
+                        requestsFinished += 1
+                        if (requestsFinished >= 2) {
+                            completion(.success(true))
+                        }
+                    }
                 }
             }
             task_android.resume()

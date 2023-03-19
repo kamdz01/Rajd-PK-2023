@@ -62,7 +62,7 @@ struct VerificationView: View {
                         errorMessage = "Takiego e-maila nie ma w bazie danych"
                     }
                 }
-        }
+            }
     }
     
 }

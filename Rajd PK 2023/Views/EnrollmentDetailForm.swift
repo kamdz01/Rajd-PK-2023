@@ -20,6 +20,7 @@ struct EnrollmentDetailForm: View {
     @Binding var content: String
     @Binding var link: String
     @Binding var sendNotification: Bool
+    @State var addProcessing = false
     
     var body: some View {
         ZStack{
@@ -66,18 +67,32 @@ struct EnrollmentDetailForm: View {
                         .padding(/*@START_MENU_TOKEN@*/.all, 10.0/*@END_MENU_TOKEN@*/)
                         Button(action: {
                             Task{
+                                addProcessing = true
                                 let lastID = await self.viewModel.addEnrollment(title: title, content: content, link: link, hidden: false)
                                 
                                 if lastID != "-1"{
                                     uploadProgressDoc = 1
-
-                                        if (sendNotification){
-                                            let sender = PushNotificationSender()
-                                            let title_l = title
-                                            let content_l = content
-                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Enrollments", viewModel: viewModel)
+                                    
+                                    if (sendNotification){
+                                        let sender = PushNotificationSender()
+                                        let title_l = title
+                                        let content_l = content
+                                        sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Enrollments", viewModel: viewModel) { result in
+                                            addProcessing = false
+                                            switch result {
+                                            case .failure(let error):
+                                                print(error.localizedDescription)
+                                                viewModel.hideEnrollment(id: lastID)
+                                                ifAdded = -1
+                                            case .success(_):
+                                                ifAdded = 1
+                                            }
                                         }
+                                    }
+                                    else {
+                                        addProcessing = false
                                         ifAdded = 1
+                                    }
                                 }
                                 else {
                                     ifAdded = -1
@@ -86,6 +101,9 @@ struct EnrollmentDetailForm: View {
                         }) {
                             Text("Dodaj")
                                 .MainButtonBold(bgColor: .red)
+                        }
+                        if addProcessing {
+                            ProgressView()
                         }
                     }
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)

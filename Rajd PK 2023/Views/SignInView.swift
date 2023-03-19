@@ -53,9 +53,9 @@ struct SignInView: View {
                         Alert(
                             title: Text("Usunięto wszystkie lokalne dane"),
                             dismissButton: Alert.Button.default(Text("OK"), action: {
-//                                withAnimation(){
-//                                    verificated = false
-//                                }
+                                //                                withAnimation(){
+                                //                                    verificated = false
+                                //                                }
                             })
                         )
                     }
@@ -134,9 +134,9 @@ struct SignInView: View {
                         Alert(
                             title: Text("Usunięto wszystkie lokalne dane"),
                             dismissButton: Alert.Button.default(Text("OK"), action: {
-//                                withAnimation(){
-//                                    verificated = false
-//                                }
+                                //                                withAnimation(){
+                                //                                    verificated = false
+                                //                                }
                             })
                         )
                     }

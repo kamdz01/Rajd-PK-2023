@@ -16,7 +16,7 @@ struct MainView: View {
     @EnvironmentObject var viewModel: FirebaseViewModel
     @State var selectedTab = 1
     @State var tabClicked = false
-
+    
     
     @ObservedObject var activeAnnouncement = ActiveAnnouncement.shared
     @ObservedObject var activeEnrollment = ActiveEnrollment.shared
@@ -58,7 +58,7 @@ struct MainView: View {
                     Text("Trasy")
                 }
                 .tag(5)
-
+            
         }
         .onChange(of: activeAnnouncement.announcement.id){ change in
             if (activeAnnouncement.isActive){
@@ -106,8 +106,8 @@ extension Binding {
             wrappedValue
         }, set: { newValue in
             //withAnimation{
-                wrappedValue = newValue
-                closure()
+            wrappedValue = newValue
+            closure()
             //}
         })
     }

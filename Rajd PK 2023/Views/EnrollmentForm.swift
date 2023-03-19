@@ -79,9 +79,9 @@ struct EnrollmentForm: View {
                 }
             }
         }
-//        .onChange(of: loggedIn){ loggedIn in
-//            presentationMode.wrappedValue.dismiss()
-//        }
+        //        .onChange(of: loggedIn){ loggedIn in
+        //            presentationMode.wrappedValue.dismiss()
+        //        }
     }
 }
 

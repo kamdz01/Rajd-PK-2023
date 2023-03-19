@@ -118,9 +118,9 @@ struct AnnouncementForm: View {
                 }
             }
         }
-//        .onChange(of: loggedIn){ loggedIn in
-//            presentationMode.wrappedValue.dismiss()
-//        }
+        //        .onChange(of: loggedIn){ loggedIn in
+        //            presentationMode.wrappedValue.dismiss()
+        //        }
     }
     func loadImage() {
         guard let inputImage = inputImage else {

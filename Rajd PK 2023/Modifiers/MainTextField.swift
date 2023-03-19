@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct MainTextFieldMod: ViewModifier {
-
+    
     func body(content: Content) -> some View {
         if #available(iOS 15.0, *) {
             content
