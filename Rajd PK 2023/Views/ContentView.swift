@@ -84,7 +84,11 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     @AppStorage("loggedIn") var loggedIn = true
+    @AppStorage("verificated") var verificated = true
     static var previews: some View {
         ContentView()
+            .onAppear{
+                @AppStorage("verificated") var verificated = true
+            }
     }
 }

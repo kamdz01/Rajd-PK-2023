@@ -239,5 +239,9 @@ struct AnnouncementsView_Previews: PreviewProvider {
             }
         MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
             .previewDisplayName("MainView")
+            .environmentObject(viewModel)
+            .onAppear{
+                viewModel.fetchData()
+            }
     }
 }

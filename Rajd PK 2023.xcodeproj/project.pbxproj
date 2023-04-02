@@ -31,6 +31,7 @@
 		AA32A06A296F51A0002E321B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A069296F51A0002E321B /* FirebaseFirestore */; };
 		AA32A06C296F51A0002E321B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A06B296F51A0002E321B /* FirebaseMessaging */; };
 		AA32A06E296F51A0002E321B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA32A06D296F51A0002E321B /* FirebaseStorage */; };
+		AA65BD1A29D970E500258079 /* SwiftUIImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA65BD1929D970E500258079 /* SwiftUIImageViewer.swift */; };
 		AA6AD0F329C65B870002FED6 /* MainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6AD0F229C65B870002FED6 /* MainButton.swift */; };
 		AA74943D29A02F76001A2DA7 /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74943C29A02F76001A2DA7 /* RoutesListView.swift */; };
 		AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB862996E8C50056AB1B /* Enrollment.swift */; };
@@ -74,6 +75,7 @@
 		AA32A04F296F4FB6002E321B /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		AA32A050296F4FB6002E321B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA32A06F296F5321002E321B /* Rajd-PK-2023-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rajd-PK-2023-Info.plist"; sourceTree = SOURCE_ROOT; };
+		AA65BD1929D970E500258079 /* SwiftUIImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIImageViewer.swift; sourceTree = "<group>"; };
 		AA6AD0F229C65B870002FED6 /* MainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainButton.swift; sourceTree = "<group>"; };
 		AA74943C29A02F76001A2DA7 /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
 		AA8FBB862996E8C50056AB1B /* Enrollment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enrollment.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				AA74943C29A02F76001A2DA7 /* RoutesListView.swift */,
 				AA32A049296F4FB6002E321B /* FirebaseImage.swift */,
 				AA1D755D29A2679B008206C2 /* LinkView.swift */,
+				AA65BD1929D970E500258079 /* SwiftUIImageViewer.swift */,
 				AA32A04D296F4FB6002E321B /* SignInView.swift */,
 				AAF06E1229C3223300A45376 /* VerificationView.swift */,
 				AAF06E1429C340A600A45376 /* AskForPermNotifView.swift */,
@@ -320,6 +323,7 @@
 				AAD88435299AA0BA005B7E0C /* ActiveEnrollment.swift in Sources */,
 				AA32A055296F4FB6002E321B /* Announcement.swift in Sources */,
 				AAF06E1529C340A600A45376 /* AskForPermNotifView.swift in Sources */,
+				AA65BD1A29D970E500258079 /* SwiftUIImageViewer.swift in Sources */,
 				AA32A05B296F4FB6002E321B /* AnnouncementDetailForm.swift in Sources */,
 				AA32A030296F4F61002E321B /* Rajd_PK_2023App.swift in Sources */,
 				AAF06E1329C3223300A45376 /* VerificationView.swift in Sources */,

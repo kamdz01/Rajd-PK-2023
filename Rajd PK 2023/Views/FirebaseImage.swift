@@ -19,6 +19,7 @@ struct FirebaseImage : View {
     @State private var imageURL = URL(string: "")
     @State var image = UIImage()
     @State var ifShown = false
+    @State private var isImagePresented = false
     private let fileManager = LocalFileManager.instance
     
     var body: some View {
@@ -26,10 +27,32 @@ struct FirebaseImage : View {
             if (!ifError){
                 Image(uiImage: image)
                     .resizable()
-                //.frame(maxHeight: 450)
                     .scaledToFit()
                     .id(image)
                     .transition(.scale.animation(.easeOut(duration: 0.15)))
+                    .onTapGesture {
+                        isImagePresented = true
+                    }
+                    .fullScreenCover(isPresented: $isImagePresented) {
+                        ZStack {
+                            SwiftUIImageViewer(image: Image(uiImage: image))
+                            VStack{
+                                HStack{
+                                    Spacer()
+                                    Button {
+                                        isImagePresented = false
+                                    } label: {
+                                        Image(systemName: "xmark")
+                                            .font(.headline)
+                                            .clipShape(Circle())
+                                            .scaleEffect(1.5)
+                                    }
+                                    .padding()
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
                 
             }
             else{

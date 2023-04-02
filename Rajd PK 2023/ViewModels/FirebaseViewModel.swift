@@ -24,6 +24,8 @@ class FirebaseViewModel: ObservableObject {
     var db = Firestore.firestore()
     
     func fetchData() {
+        @AppStorage("favRoutesStr") var favRoutesStr = ""
+        
         if (ifFetched){
             print("Detected more than one execution of fetchData() func. Posiible snapshot leak!")
             return
@@ -47,6 +49,9 @@ class FirebaseViewModel: ObservableObject {
                 let hidden = data["hidden"] as? Bool ?? true
                 return Route(id: id, title: title, content: content, link: link, image: image, hidden: hidden)
             }
+            self.routes.sort(by: {$0.title! < $1.title!})
+            let favRoutes = favRoutesStr.components(separatedBy: ";")
+            self.routes.sort(by: {favRoutes.firstIndex(of: $0.id!) ?? -1 > favRoutes.firstIndex(of: $1.id!) ?? -1})
         }
         
         db.collection("Timetables").addSnapshotListener { (querySnapshot, error) in
@@ -83,6 +88,7 @@ class FirebaseViewModel: ObservableObject {
                 let answer = (data["answer"] as? String ?? "").replaceNl()
                 return FAQ(id: id, question: question, answer: answer)
             }
+            self.FAQs.sort(by: {$0.question! < $1.question!})
         }
         
         db.collection("Enrollments").addSnapshotListener { (querySnapshot, error) in
@@ -198,6 +204,18 @@ class FirebaseViewModel: ObservableObject {
                 key = data?["key"] as? String ?? "-1"
             }
             completion(key)
+        }
+    }
+    
+    func getLink(id: String, completion: @escaping (String) -> Void){
+        let docRef = db.collection("Links").document(id)
+        var link = String()
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                link = data?["link"] as? String ?? "-1"
+            }
+            completion(link)
         }
     }
     

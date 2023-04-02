@@ -24,12 +24,12 @@ struct FAQList: View{
                     }
                     .onChange(of: tabClicked){ clicked in
                         withAnimation{
-                            proxy.scrollTo(viewModel.FAQs[0].id, anchor: .top)
+                            proxy.scrollTo(viewModel.FAQs[0].id, anchor: .bottom)
                         }
                     }
                 }
+                .padding()
             }
-            .padding()
         }
     }
 }
@@ -96,9 +96,10 @@ struct FAQViewItem: View {
                 if (!tapped){
                     HStack {
                         Spacer()
-                        Text("\(faq.question!):")
+                        Text("\(faq.question!)")
                             .font(.title3)
                             .fontWeight(.semibold)
+                          //  .multilineTextAlignment(.center)
                             .padding(.bottom, 1.0)
                         Spacer()
                         Image(systemName: "chevron.down")
@@ -107,16 +108,18 @@ struct FAQViewItem: View {
                 else{
                     HStack {
                         Spacer()
-                        Text("\(faq.question!):")
+                        Text("\(faq.question!)")
                             .font(.title3)
                             .fontWeight(.semibold)
                             .lineLimit(nil)
+                          //  .multilineTextAlignment(.center)
                             .padding(.bottom, 1.0)
                         Spacer()
                         Image(systemName: "chevron.up")
                     }
                     
                     Text("\(faq.answer!)")
+                      //  .multilineTextAlignment(.center)
                 }
             }
         }

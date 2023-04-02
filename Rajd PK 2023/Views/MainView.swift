@@ -118,5 +118,8 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
             .environmentObject(viewModel)
+            .onAppear{
+                viewModel.fetchData()
+            }
     }
 }

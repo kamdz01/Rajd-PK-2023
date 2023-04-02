@@ -18,8 +18,6 @@ struct EnrollmentForm: View {
     @State var urlOK = true
     @AppStorage("loggedIn") var loggedIn = false
     
-    //@Environment(\.presentationMode) var presentationMode
-    
     var body: some View {
         ZStack {
             LinearGradient(colors: [Color("TabColor"), Color("BGBot")], startPoint: .top, endPoint: .bottom)
@@ -32,7 +30,6 @@ struct EnrollmentForm: View {
                         FloatingTextField(title: "Link", text: $link)
                             .onChange(of: link){link in
                                 urlOK = validateURL(url: link)
-                                //print(validateURL(url: link))
                             }
                         if(!urlOK){
                             Text("Błędny adres strony internetowej")
@@ -79,9 +76,6 @@ struct EnrollmentForm: View {
                 }
             }
         }
-        //        .onChange(of: loggedIn){ loggedIn in
-        //            presentationMode.wrappedValue.dismiss()
-        //        }
     }
 }
 
@@ -109,9 +103,14 @@ struct EnrollmentFormContainer: View{
 
 
 struct EnrollmentForm_Previews: PreviewProvider {
+    static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        EnrollmentForm(ifAdding: .constant(true))
+        EnrollmentFormContainer(ifAdding: .constant(true), loggedIn: true)
         MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
             .previewDisplayName("MainView")
+            .environmentObject(viewModel)
+            .onAppear{
+                viewModel.fetchData()
+            }
     }
 }

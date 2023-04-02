@@ -12,6 +12,7 @@ struct VerificationView: View {
     @EnvironmentObject var viewModel: FirebaseViewModel
     @State var verificationEmail = ""
     @State var errorMessage = ""
+    @State var statuteLink = ""
     
     var body: some View {
         ZStack{
@@ -20,24 +21,50 @@ struct VerificationView: View {
                 .onTapGesture {
                     hideKeyboard()
                 }
-            VStack(spacing: 15){
-                Text("W celu weryfikacji podaj e-mail, na który został zakupiony bilet.")
-                    .font(.title2)
-                TextField("Email", text: $verificationEmail)
-                    .MainTextField()
-                Button(action: {
-                    hideKeyboard()
-                    findEmail(email: verificationEmail)
-                }) {
-                    Text("Zaloguj")
-                        .MainButtonBold()
+            if (statuteLink == ""){
+                VStack(spacing: 15){
+                    Text("Do aktywacji aplikacji potrzebne jest połączenie z internetem")
+                        .font(.title2)
+                        .multilineTextAlignment(.center)
+                    ProgressView()
                 }
-                if !errorMessage.isEmpty {
-                    Text("Błąd: \(errorMessage)")
-                        .foregroundColor(.red)
+                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                .onAppear{
+                    viewModel.getLink(id: "STATUTE_LINK"){link in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+                            withAnimation{
+                                statuteLink = link
+                            }
+                        }
+                    }
                 }
             }
-            .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            else {
+                VStack(spacing: 15){
+                    Spacer()
+                    Text("W celu weryfikacji podaj e-mail, na który został zakupiony bilet.")
+                        .font(.title2)
+                        .multilineTextAlignment(.center)
+                    TextField("Email", text: $verificationEmail)
+                        .MainTextField()
+                    Button(action: {
+                        hideKeyboard()
+                        findEmail(email: verificationEmail)
+                    }) {
+                        Text("Zaloguj")
+                            .MainButtonBold()
+                    }
+                    if !errorMessage.isEmpty {
+                        Text("Błąd: \(errorMessage)")
+                            .foregroundColor(.red)
+                    }
+                    Spacer()
+                    Text("Klikając w przycisk \"Zaloguj\" akceptujesz regulamin Rajdu: ")
+                        .multilineTextAlignment(.center)
+                    LinkView(link: statuteLink, text: "Link do Regulaminu")
+                }
+                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+            }
         }
     }
     

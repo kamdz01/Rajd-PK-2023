@@ -24,12 +24,12 @@ struct RoutesList: View{
                     }
                     .onChange(of: tabClicked){ clicked in
                         withAnimation{
-                            proxy.scrollTo(viewModel.routes[0].id, anchor: .top)
+                            proxy.scrollTo(viewModel.routes[0].id, anchor: .bottom)
                         }
                     }
                 }
+                .padding()
             }
-            .padding()
         }
     }
 }
@@ -89,6 +89,8 @@ struct RoutesViewItem: View {
     @Binding var loggedIn: Bool
     let route: Route
     @State var tapped = false
+    @AppStorage("favRoutesStr") var favRoutesStr = ""
+    @EnvironmentObject var viewModel: FirebaseViewModel
     
     var body: some View {
         ZStack{
@@ -96,6 +98,30 @@ struct RoutesViewItem: View {
             VStack{
                 if(!tapped){
                     HStack{
+                        if(!favRoutesStr.contains(route.id!)){
+                            Image(systemName: "star")
+                                .onTapGesture {
+                                    if (!favRoutesStr.contains(route.id!)){
+                                        favRoutesStr = "\(favRoutesStr)\(route.id!);"
+                                    }
+                                    let favRoutes = favRoutesStr.components(separatedBy: ";")
+                                    withAnimation{
+                                        viewModel.routes.sort(by: {$0.title! < $1.title!})
+                                        viewModel.routes.sort(by: {favRoutes.firstIndex(of: $0.id!) ?? -1 > favRoutes.firstIndex(of: $1.id!) ?? -1})
+                                    }
+                                }
+                        }
+                        else{
+                            Image(systemName: "star.fill")
+                                .onTapGesture {
+                                    favRoutesStr = favRoutesStr.replacingOccurrences(of: "\(route.id!);", with: "")
+                                    let favRoutes = favRoutesStr.components(separatedBy: ";")
+                                    withAnimation{
+                                        viewModel.routes.sort(by: {$0.title! < $1.title!})
+                                        viewModel.routes.sort(by: {favRoutes.firstIndex(of: $0.id!) ?? -1 > favRoutes.firstIndex(of: $1.id!) ?? -1})
+                                    }
+                                }
+                        }
                         Spacer()
                         VStack(alignment: .center) {
                             Text("\(route.title!)")
@@ -109,6 +135,30 @@ struct RoutesViewItem: View {
                 }
                 else{
                     HStack{
+                        if(!favRoutesStr.contains(route.id!)){
+                            Image(systemName: "star")
+                                .onTapGesture {
+                                    if (!favRoutesStr.contains(route.id!)){
+                                        favRoutesStr = "\(favRoutesStr)\(route.id!);"
+                                    }
+                                    let favRoutes = favRoutesStr.components(separatedBy: ";")
+                                    withAnimation{
+                                        viewModel.routes.sort(by: {$0.title! < $1.title!})
+                                        viewModel.routes.sort(by: {favRoutes.firstIndex(of: $0.id!) ?? -1 > favRoutes.firstIndex(of: $1.id!) ?? -1})
+                                    }
+                                }
+                        }
+                        else{
+                            Image(systemName: "star.fill")
+                                .onTapGesture {
+                                    favRoutesStr = favRoutesStr.replacingOccurrences(of: "\(route.id!);", with: "")
+                                    let favRoutes = favRoutesStr.components(separatedBy: ";")
+                                    withAnimation{
+                                        viewModel.routes.sort(by: {$0.title! < $1.title!})
+                                        viewModel.routes.sort(by: {favRoutes.firstIndex(of: $0.id!) ?? -1 > favRoutes.firstIndex(of: $1.id!) ?? -1})
+                                    }
+                                }
+                        }
                         Spacer()
                         VStack(alignment: .center) {
                             Text("\(route.title!)")

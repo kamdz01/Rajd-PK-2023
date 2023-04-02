@@ -164,9 +164,14 @@ extension View {
 #endif
 
 struct AnnouncementForm_Previews: PreviewProvider {
+    static let viewModel = FirebaseViewModel()
     static var previews: some View {
-        AnnouncementFormContainer(ifAdding: .constant(true))
+        AnnouncementFormContainer(ifAdding: .constant(true), loggedIn: true)
         MainView(loggedIn: .constant(true), email: .constant("sample@email.com"), password: .constant("password"))
             .previewDisplayName("MainView")
+            .environmentObject(viewModel)
+            .onAppear{
+                viewModel.fetchData()
+            }
     }
 }
