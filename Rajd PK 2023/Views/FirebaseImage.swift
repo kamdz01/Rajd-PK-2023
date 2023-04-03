@@ -41,7 +41,7 @@ struct FirebaseImage : View {
                         }
                         .fullScreenCover(isPresented: $isImagePresented) {
                             ZStack {
-                                SwiftUIImageViewer(image: Image(uiImage: image))
+                                SwiftUIImageViewer(image: image)
                                 VStack{
                                     HStack{
                                         Spacer()
