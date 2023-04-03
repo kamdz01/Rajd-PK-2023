@@ -15,6 +15,7 @@ struct MainView: View {
     
     @EnvironmentObject var viewModel: FirebaseViewModel
     @State var selectedTab = 1
+    @State var prevSelectedTab = 1
     @State var tabClicked = false
     
     
@@ -23,7 +24,10 @@ struct MainView: View {
     
     var body: some View {
         TabView(selection: $selectedTab.onUpdate {
-            tabClicked.toggle()
+            if(selectedTab == prevSelectedTab){
+                tabClicked.toggle()
+            }
+            prevSelectedTab = selectedTab
         }) {
             AnnouncementListView(loggedIn: $loggedIn, tabClicked: $tabClicked)
                 .tabItem {

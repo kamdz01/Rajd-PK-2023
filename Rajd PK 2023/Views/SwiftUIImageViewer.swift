@@ -6,7 +6,7 @@ public struct SwiftUIImageViewer: View {
 
     @State private var scale: CGFloat = 1
     @State private var lastScale: CGFloat = 1
-    private var maxScale: CGFloat = 3
+    private var maxScale: CGFloat = 10
 
     @State private var offset: CGPoint = .zero
     @State private var lastTranslation: CGSize = .zero

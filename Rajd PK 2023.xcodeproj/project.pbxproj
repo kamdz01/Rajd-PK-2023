@@ -196,11 +196,11 @@
 				AA32A047296F4FB6002E321B /* TimetablesListView.swift */,
 				AA74943C29A02F76001A2DA7 /* RoutesListView.swift */,
 				AA32A049296F4FB6002E321B /* FirebaseImage.swift */,
-				AA1D755D29A2679B008206C2 /* LinkView.swift */,
 				AA65BD1929D970E500258079 /* SwiftUIImageViewer.swift */,
 				AA32A04D296F4FB6002E321B /* SignInView.swift */,
 				AAF06E1229C3223300A45376 /* VerificationView.swift */,
 				AAF06E1429C340A600A45376 /* AskForPermNotifView.swift */,
+				AA1D755D29A2679B008206C2 /* LinkView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

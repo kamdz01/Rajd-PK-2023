@@ -24,12 +24,13 @@ struct RoutesList: View{
                     }
                     .onChange(of: tabClicked){ clicked in
                         withAnimation{
-                            proxy.scrollTo(viewModel.routes[0].id, anchor: .bottom)
+                            proxy.scrollTo(viewModel.routes[0].id, anchor: .top)
                         }
                     }
                 }
-                .padding()
+                .padding([.leading, .bottom, .trailing])
             }
+            .padding(.top)
         }
     }
 }
@@ -177,7 +178,6 @@ struct RoutesViewItem: View {
                             .padding(.bottom, 1.0)
                         LinkView(link: route.link ?? "", text: "Link do trasy")
                     }
-                    .transition(.scale.animation(.easeOut(duration: 0.1)))
                 }
             }
         }

@@ -64,13 +64,14 @@ class FirebaseViewModel: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
                 let day = (data["day"] as? String ?? "").replaceNl()
+                let subTitle = (data["subTitle"] as? String ?? "").replaceNl()
                 let name1 = (data["name1"] as? String ?? "").replaceNl()
                 let content1 = (data["content1"] as? String ?? "").replaceNl()
                 let name2 = (data["name2"] as? String ?? "").replaceNl()
                 let content2 = (data["content2"] as? String ?? "").replaceNl()
                 let name3 = (data["name3"] as? String ?? "").replaceNl()
                 let content3 = (data["content3"] as? String ?? "").replaceNl()
-                return Timetable(id: id, day: day, name1: name1, content1: content1, name2: name2, content2: content2, name3: name3, content3: content3)
+                return Timetable(id: id, day: day, subTitle: subTitle, name1: name1, content1: content1, name2: name2, content2: content2, name3: name3, content3: content3)
             }
             self.timetables.sort(by: {$0.day! < $1.day!})
         }
@@ -174,7 +175,7 @@ class FirebaseViewModel: ObservableObject {
     func loadImageToMem(imageName: String, path: String){
         if self.fileManager.getImage(imageName: imageName, folderName: "temp") != nil{
             let storage = Storage.storage().reference(withPath: "\(path)\(imageName)")
-            storage.getData(maxSize: ((2048 * 2048) as Int64) ) { data, error in
+            storage.getData(maxSize: ((2048 * 2048 * 5 * 5) as Int64) ) { data, error in
                 if error != nil {
                     _ = self.fileManager.deleteImage(imageName: imageName , folderName: "temp")
                     print("Download fail")

@@ -11,6 +11,7 @@ import SwiftUI
 struct Timetable: Codable, Identifiable {
     var id: String?
     var day: String?
+    var subTitle: String?
     var name1: String?
     var content1: String?
     var name2: String?

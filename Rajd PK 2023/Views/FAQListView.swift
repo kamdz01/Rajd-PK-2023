@@ -24,12 +24,13 @@ struct FAQList: View{
                     }
                     .onChange(of: tabClicked){ clicked in
                         withAnimation{
-                            proxy.scrollTo(viewModel.FAQs[0].id, anchor: .bottom)
+                            proxy.scrollTo(viewModel.FAQs[0].id, anchor: .top)
                         }
                     }
                 }
-                .padding()
+                .padding([.leading, .bottom, .trailing])
             }
+            .padding(.top)
         }
     }
 }

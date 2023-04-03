@@ -24,12 +24,13 @@ struct TimetablesList: View{
                     }
                     .onChange(of: tabClicked){ clicked in
                         withAnimation{
-                            proxy.scrollTo(viewModel.timetables[0].id, anchor: .bottom)
+                            proxy.scrollTo(viewModel.timetables[0].id, anchor: .top)
                         }
                     }
                 }
-                .padding()
+                .padding([.leading, .bottom, .trailing])
             }
+            .padding(.top)
         }
     }
 }
@@ -114,29 +115,32 @@ struct TimetablesViewItem: View {
                             Text("\(timetable.day!)")
                                 .font(.title3)
                                 .fontWeight(.semibold)
-                                .padding(.bottom, 1.0)
+                                .padding(.bottom, 1.5)
                         }
                         Spacer()
                         Image(systemName: "chevron.up")
                     }
-                    VStack(alignment: .leading){
-                        if (timetable.name1 != nil && timetable.content1 != nil){
-                            Text("\(timetable.name1!):")
+                    if (timetable.subTitle != ""){
+                        Text("\(timetable.subTitle!)")
+                            .padding(.bottom, 1.5)
+                    }
+                    VStack(alignment: .leading, spacing: 5){
+                        if (timetable.name1 != "" && timetable.content1 != ""){
+                            Text("\(timetable.name1!)")
                                 .fontWeight(.semibold)
                             Text("\(timetable.content1!)")
                         }
-                        if (timetable.name2 != nil && timetable.content2 != nil){
-                            Text("\(timetable.name2!):")
+                        if (timetable.name2 != "" && timetable.content2 != ""){
+                            Text("\(timetable.name2!)")
                                 .fontWeight(.semibold)
                             Text("\(timetable.content2!)")
                         }
-                        if (timetable.name3 != nil && timetable.content3 != nil){
-                            Text("\(timetable.name3!):")
+                        if (timetable.name3 != "" && timetable.content3 != ""){
+                            Text("\(timetable.name3!)")
                                 .fontWeight(.semibold)
                             Text("\(timetable.content3!)")
                         }
                     }
-                    .transition(.scale.animation(.easeOut(duration: 0.1)))
                 }
             }
         }
