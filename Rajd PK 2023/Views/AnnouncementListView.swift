@@ -167,6 +167,7 @@ struct AnnouncementViewItem: View {
                                         Text(announcement.title!)
                                             .font(.title2)
                                             .fontWeight(.semibold)
+                                            .multilineTextAlignment(.leading)
                                             .lineLimit(2)
                                         Spacer()
                                     }
@@ -196,6 +197,7 @@ struct AnnouncementViewItem: View {
                                     VStack {
                                         Text(announcement.title!)
                                             .font(.title2)
+                                            .multilineTextAlignment(.leading)
                                             .lineLimit(2)
                                         Spacer()
                                     }

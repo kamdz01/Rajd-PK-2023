@@ -121,8 +121,7 @@ struct AnnouncementDetailForm: View {
                                         if (sendNotification){
                                             let sender = PushNotificationSender()
                                             let title_l = title
-                                            let content_l = content
-                                            sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel){ result in
+                                            sender.sendToTopic(title: "Pojawiło się nowe ogłoszenie!", body: title_l, id: lastID, collection: "Announcements", viewModel: viewModel){ result in
                                                 addProcessing = false
                                                 switch result {
                                                 case .failure(let error):
@@ -209,8 +208,7 @@ struct AnnouncementDetailForm: View {
             if (sendNotification){
                 let sender = PushNotificationSender()
                 let title_l = title
-                let content_l = content
-                sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Announcements", viewModel: viewModel) { result in
+                sender.sendToTopic(title: "Pojawiło się nowe ogłoszenie!", body: title_l, id: lastID, collection: "Announcements", viewModel: viewModel) { result in
                     addProcessing = false
                     switch result {
                     case .failure(let error):

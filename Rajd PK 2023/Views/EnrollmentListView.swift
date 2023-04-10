@@ -151,6 +151,7 @@ struct EnrollmentViewItem: View {
                                 Text(enrollment.title!)
                                     .font(.title2)
                                     .fontWeight(.semibold)
+                                    .multilineTextAlignment(.leading)
                                 Spacer()
                             }
                             Spacer()

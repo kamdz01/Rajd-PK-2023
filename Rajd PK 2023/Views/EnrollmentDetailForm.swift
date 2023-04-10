@@ -76,8 +76,7 @@ struct EnrollmentDetailForm: View {
                                     if (sendNotification){
                                         let sender = PushNotificationSender()
                                         let title_l = title
-                                        let content_l = content
-                                        sender.sendToTopic(title: title_l, body: content_l, id: lastID, collection: "Enrollments", viewModel: viewModel) { result in
+                                        sender.sendToTopic(title: "Pojawiły się nowe zapisy!", body: title_l, id: lastID, collection: "Enrollments", viewModel: viewModel) { result in
                                             addProcessing = false
                                             switch result {
                                             case .failure(let error):

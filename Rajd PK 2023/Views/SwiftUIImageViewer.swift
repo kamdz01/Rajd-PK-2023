@@ -107,11 +107,11 @@ struct SwiftUIImageViewer: UIViewRepresentable {
 
     func makeUIView(context: Context) -> PDFView {
         let view = PDFView()
-        view.maxScaleFactor = 10.0
-        view.minScaleFactor = 1.0
         view.document = PDFDocument()
         guard let page = PDFPage(image: image) else { return view }
         view.document?.insert(page, at: 0)
+        view.maxScaleFactor = 10.0
+        view.minScaleFactor = 1.0
         view.autoScales = true
         return view
     }

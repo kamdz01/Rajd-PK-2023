@@ -64,6 +64,7 @@ class FirebaseViewModel: ObservableObject {
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
                 let day = (data["day"] as? String ?? "").replaceNl()
+                let no = data["no"] as? Int ?? -1
                 let subTitle = (data["subTitle"] as? String ?? "").replaceNl()
                 let name1 = (data["name1"] as? String ?? "").replaceNl()
                 let content1 = (data["content1"] as? String ?? "").replaceNl()
@@ -71,9 +72,9 @@ class FirebaseViewModel: ObservableObject {
                 let content2 = (data["content2"] as? String ?? "").replaceNl()
                 let name3 = (data["name3"] as? String ?? "").replaceNl()
                 let content3 = (data["content3"] as? String ?? "").replaceNl()
-                return Timetable(id: id, day: day, subTitle: subTitle, name1: name1, content1: content1, name2: name2, content2: content2, name3: name3, content3: content3)
+                return Timetable(id: id, no: no, day: day, subTitle: subTitle, name1: name1, content1: content1, name2: name2, content2: content2, name3: name3, content3: content3)
             }
-            self.timetables.sort(by: {$0.day! < $1.day!})
+            self.timetables.sort(by: {$0.no! < $1.no!})
         }
         
         db.collection("FAQs").addSnapshotListener { (querySnapshot, error) in
@@ -85,11 +86,12 @@ class FirebaseViewModel: ObservableObject {
             self.FAQs = documents.map { (queryDocumentSnapshot) -> FAQ in
                 let data = queryDocumentSnapshot.data()
                 let id = queryDocumentSnapshot.documentID
+                let no = data["no"] as? Int ?? -1
                 let question = (data["question"] as? String ?? "").replaceNl()
                 let answer = (data["answer"] as? String ?? "").replaceNl()
-                return FAQ(id: id, question: question, answer: answer)
+                return FAQ(id: id, no: no, question: question, answer: answer)
             }
-            self.FAQs.sort(by: {$0.question! < $1.question!})
+            self.FAQs.sort(by: {$0.no! < $1.no!})
         }
         
         db.collection("Enrollments").addSnapshotListener { (querySnapshot, error) in

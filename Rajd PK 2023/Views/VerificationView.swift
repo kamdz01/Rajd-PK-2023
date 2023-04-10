@@ -42,7 +42,7 @@ struct VerificationView: View {
             else {
                 VStack(spacing: 15){
                     Spacer()
-                    Text("W celu weryfikacji podaj e-mail, na który został zakupiony bilet.")
+                    Text("Podaj kod weryfikacyjny wysłany na adres e-mail podany przy zakupie biletu. W przypadku braku maila z kodem skontaktuj się ze sztabem organizacyjnym Rajdu.")
                         .font(.title2)
                         .multilineTextAlignment(.center)
                     TextField("Email", text: $verificationEmail)

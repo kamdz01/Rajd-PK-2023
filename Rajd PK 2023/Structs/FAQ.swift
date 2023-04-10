@@ -10,6 +10,7 @@ import SwiftUI
 
 struct FAQ: Codable, Identifiable {
     var id: String?
+    var no: Int?
     var question: String?
     var answer: String?
 }

@@ -45,15 +45,17 @@ struct FirebaseImage : View {
                                 VStack{
                                     HStack{
                                         Spacer()
-                                        Button {
-                                            isImagePresented = false
-                                        } label: {
+                                        ZStack {
                                             Image(systemName: "xmark")
                                                 .font(.headline)
+                                                .padding(10)
+                                                .background(Color.secondary)
                                                 .clipShape(Circle())
-                                                .scaleEffect(1.5)
+                                                .onTapGesture {
+                                                    isImagePresented = false
+                                            }
                                         }
-                                        .padding()
+                                        .padding(5)
                                     }
                                     Spacer()
                                 }
