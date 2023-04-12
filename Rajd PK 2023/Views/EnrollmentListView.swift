@@ -143,38 +143,33 @@ struct EnrollmentViewItem: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10).fill(Color("FieldColor"))
-            HStack {
-                VStack(alignment: .leading) {
-                    Group{
-                        HStack {
-                            VStack {
-                                Text(enrollment.title!)
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
-                                    .multilineTextAlignment(.leading)
-                                Spacer()
-                            }
-                            Spacer()
-                            VStack {
-                                Text(dateArr?[0] ?? "")
-                                    .font(.footnote)
-                                    .foregroundColor(.secondary)
-                                Text(dateArr?[1] ?? "")
-                                    .font(.footnote)
-                                    .foregroundColor(.secondary)
-                                Spacer()
-                            }
-                            
-                        }
-                        if (enrollment.content != ""){
-                            Text(enrollment.content!)
-                                .fontWeight(.medium)
-                        }
-                        LinkView(link: (enrollment.link ?? ""), text: "Link do formularza")
+            VStack(alignment: .leading) {
+                HStack {
+                    VStack {
+                        Text(enrollment.title!)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.leading)
                     }
+                    Spacer()
+                    VStack {
+                        Text(dateArr?[0] ?? "")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                        Text(dateArr?[1] ?? "")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                    
                 }
-                Spacer()
+                .padding(.bottom, 1)
+                if (enrollment.content != ""){
+                    Text(enrollment.content!)
+                        .fontWeight(.medium)
+                }
+                LinkView(link: (enrollment.link ?? ""), text: "Link do formularza")
             }
+            Spacer()
         }
         .padding()
         .padding(.vertical, 5.0)

@@ -45,7 +45,7 @@ struct VerificationView: View {
                     Text("Podaj kod weryfikacyjny wysłany na adres e-mail podany przy zakupie biletu. W przypadku braku maila z kodem skontaktuj się ze sztabem organizacyjnym Rajdu.")
                         .font(.title2)
                         .multilineTextAlignment(.center)
-                    TextField("Email", text: $verificationEmail)
+                    TextField("Kod weryfikacyjny", text: $verificationEmail)
                         .MainTextField()
                     Button(action: {
                         hideKeyboard()

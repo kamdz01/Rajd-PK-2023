@@ -161,7 +161,6 @@ struct AnnouncementViewItem: View {
                     }
                     VStack(alignment: .leading) {
                         if (announcement.priority ?? false){
-                            Group{
                                 HStack {
                                     VStack {
                                         Text(announcement.title!)
@@ -169,7 +168,6 @@ struct AnnouncementViewItem: View {
                                             .fontWeight(.semibold)
                                             .multilineTextAlignment(.leading)
                                             .lineLimit(2)
-                                        Spacer()
                                     }
                                     Spacer()
                                     VStack {
@@ -179,27 +177,24 @@ struct AnnouncementViewItem: View {
                                         Text(dateArr?[1] ?? "")
                                             .font(.footnote)
                                             .foregroundColor(.secondary)
-                                        Spacer()
                                     }
                                     
                                 }
+                                .padding(.bottom, 1)
                                 Text(announcement.subTitle!).font(.title3)
                                     .fontWeight(.medium)
                                     .lineLimit(2)
                                 Text(announcement.content!)
                                     .fontWeight(.medium)
                                     .lineLimit(2)
-                            }
                         }
                         else {
-                            Group{
                                 HStack {
                                     VStack {
                                         Text(announcement.title!)
                                             .font(.title2)
                                             .multilineTextAlignment(.leading)
                                             .lineLimit(2)
-                                        Spacer()
                                     }
                                     Spacer()
                                     VStack {
@@ -209,20 +204,17 @@ struct AnnouncementViewItem: View {
                                         Text(dateArr?[1] ?? "")
                                             .font(.footnote)
                                             .foregroundColor(.secondary)
-                                        Spacer()
                                     }
-                                    
                                 }
+                                .padding(.bottom, 1)
                                 Text(announcement.subTitle!).font(.title3)
                                     .lineLimit(2)
                                 Text(announcement.content!)
                                     .lineLimit(2)
-                            }
                         }
                     }
                     Spacer()
                 }
-                
             }
             .padding()
             .padding(.vertical, 5.0)
