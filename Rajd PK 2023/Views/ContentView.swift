@@ -67,8 +67,8 @@ struct ContentView: View {
                             print("Notifications OK")
                         }
                         
-                        Messaging.messaging().subscribe(toTopic: "announcements_ios") { error in
-                            print("Subscribed to announcements_ios topic")
+                        Messaging.messaging().subscribe(toTopic: "notifications_ios") { error in
+                            print("Subscribed to notifications_ios topic")
                         }
                     }
                     .sheet(isPresented: $showNotificationDialog){

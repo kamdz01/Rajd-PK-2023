@@ -47,12 +47,12 @@ class PushNotificationSender {
             serverKey = key
             let urlString = "https://fcm.googleapis.com/fcm/send"
             let url = NSURL(string: urlString)!
-            let paramString_ios: [String : Any] = ["to" : "/topics/announcements_ios",
+            let paramString_ios: [String : Any] = ["to" : "/topics/notifications_ios",
                                                    "notification" : ["title" : title, "body" : body,"documentID": id, "collection": collection, "sound": "default"],
                                                    "data" : ["announcementID" : id],
             ]
             
-            let paramString_android: [String : Any] = ["to" : "/topics/announcements_android",
+            let paramString_android: [String : Any] = ["to" : "/topics/notifications_android",
                                                        "data" : ["title" : title, "body" : body,"documentID": id, "collection": collection]
             ]
             let request_ios = NSMutableURLRequest(url: url as URL)
