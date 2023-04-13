@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import UserNotifications
+import FirebaseMessaging
 
 
 struct ContentView: View {
@@ -64,6 +65,10 @@ struct ContentView: View {
                                 return
                             }
                             print("Notifications OK")
+                        }
+                        
+                        Messaging.messaging().subscribe(toTopic: "announcements_ios") { error in
+                            print("Subscribed to announcements_ios topic")
                         }
                     }
                     .sheet(isPresented: $showNotificationDialog){
