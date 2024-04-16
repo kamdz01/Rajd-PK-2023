@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "512x512.png",
+      "filename" : "logobeztla-male.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "61_epicki_rajd_pk_1024x1024_transparent 3.png",
+      "filename" : "logobeztla.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "61_epicki_rajd_pk_1024x1024_transparent 2.png",
+      "filename" : "logobeztla 1.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
