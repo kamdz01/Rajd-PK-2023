@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_72" orientation="portrait" appearance="light"/>
+    <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-KQ-fWX">
-                                <rect key="frame" x="-239.99999999999997" y="210" width="910" height="512"/>
+                                <rect key="frame" x="-88.333333333333314" y="295.33333333333337" width="606.66666666666652" height="341.33333333333337"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
@@ -35,9 +35,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="910" height="512"/>
+        <image name="Logo" width="606.66668701171875" height="341.33334350585938"/>
         <namedColor name="TabColor">
-            <color red="1" green="0.7686274509803922" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.40000000000000002" green="0.47058823529411764" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

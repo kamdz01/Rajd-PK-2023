@@ -34,13 +34,13 @@
 		AA32A063296F4FB6002E321B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A050296F4FB6002E321B /* ContentView.swift */; };
 		AA65BD1A29D970E500258079 /* SwiftUIImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA65BD1929D970E500258079 /* SwiftUIImageViewer.swift */; };
 		AA6AD0F329C65B870002FED6 /* MainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6AD0F229C65B870002FED6 /* MainButton.swift */; };
+		AA7274CE2BD6FEE800515A07 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AA7274CD2BD6FEE700515A07 /* GoogleService-Info.plist */; };
 		AA74943D29A02F76001A2DA7 /* RoutesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74943C29A02F76001A2DA7 /* RoutesListView.swift */; };
 		AA8FBB872996E8C50056AB1B /* Enrollment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB862996E8C50056AB1B /* Enrollment.swift */; };
 		AA8FBB892996EAD20056AB1B /* EnrollmentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */; };
 		AAA69C6829C67909001022B7 /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA69C6729C67909001022B7 /* MainTextField.swift */; };
 		AAA69C6A29C67BA0001022B7 /* MainSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA69C6929C67BA0001022B7 /* MainSecureField.swift */; };
 		AAB1DB8A29AC04E400C612FB /* LogInErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB1DB8929AC04E400C612FB /* LogInErrorView.swift */; };
-		AAC7646A29C26A0A008B8832 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAC7646929C26A0A008B8832 /* GoogleService-Info.plist */; };
 		AAD8842F299A61F2005B7E0C /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD8842E299A61F2005B7E0C /* PushNotificationSender.swift */; };
 		AAD88431299A8C9E005B7E0C /* EnrollmentForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD88430299A8C9E005B7E0C /* EnrollmentForm.swift */; };
 		AAD88433299A912C005B7E0C /* EnrollmentDetailForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD88432299A912C005B7E0C /* EnrollmentDetailForm.swift */; };
@@ -78,6 +78,7 @@
 		AA32A06F296F5321002E321B /* Rajd-PK-2023-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Rajd-PK-2023-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AA65BD1929D970E500258079 /* SwiftUIImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIImageViewer.swift; sourceTree = "<group>"; };
 		AA6AD0F229C65B870002FED6 /* MainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainButton.swift; sourceTree = "<group>"; };
+		AA7274CD2BD6FEE700515A07 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AA74943C29A02F76001A2DA7 /* RoutesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesListView.swift; sourceTree = "<group>"; };
 		AA8FBB862996E8C50056AB1B /* Enrollment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enrollment.swift; sourceTree = "<group>"; };
 		AA8FBB882996EAD20056AB1B /* EnrollmentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentListView.swift; sourceTree = "<group>"; };
@@ -85,7 +86,6 @@
 		AAA69C6729C67909001022B7 /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 		AAA69C6929C67BA0001022B7 /* MainSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSecureField.swift; sourceTree = "<group>"; };
 		AAB1DB8929AC04E400C612FB /* LogInErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInErrorView.swift; sourceTree = "<group>"; };
-		AAC7646929C26A0A008B8832 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		AAD8842E299A61F2005B7E0C /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		AAD88430299A8C9E005B7E0C /* EnrollmentForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentForm.swift; sourceTree = "<group>"; };
 		AAD88432299A912C005B7E0C /* EnrollmentDetailForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentDetailForm.swift; sourceTree = "<group>"; };
@@ -144,8 +144,8 @@
 				AA9CF8A6296F63F200920C2A /* Rajd PK 2023.entitlements */,
 				AAEA49342970016A004A740F /* Assets.xcassets */,
 				AA32A06F296F5321002E321B /* Rajd-PK-2023-Info.plist */,
-				AAC7646929C26A0A008B8832 /* GoogleService-Info.plist */,
 				AA32A02F296F4F61002E321B /* Rajd_PK_2023App.swift */,
+				AA7274CD2BD6FEE700515A07 /* GoogleService-Info.plist */,
 				AA32A045296F4FB6002E321B /* Views */,
 				AA32A042296F4FB6002E321B /* ViewModels */,
 				AA32A03F296F4FB6002E321B /* Structs */,
@@ -310,7 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA32A037296F4F62002E321B /* Preview Assets.xcassets in Resources */,
-				AAC7646A29C26A0A008B8832 /* GoogleService-Info.plist in Resources */,
+				AA7274CE2BD6FEE800515A07 /* GoogleService-Info.plist in Resources */,
 				AAEA49352970016A004A740F /* Assets.xcassets in Resources */,
 				AAF83C0429782D17000EDDB1 /* Launch Screen.storyboard in Resources */,
 			);

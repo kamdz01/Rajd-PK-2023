@@ -183,9 +183,11 @@ struct AnnouncementViewItem: View {
                                 .padding(.bottom, 1)
                                 Text(announcement.subTitle!).font(.title3)
                                     .fontWeight(.medium)
+                                    .multilineTextAlignment(.leading)
                                     .lineLimit(2)
                                 Text(announcement.content!)
                                     .fontWeight(.medium)
+                                    .multilineTextAlignment(.leading)
                                     .lineLimit(2)
                         }
                         else {
@@ -208,8 +210,10 @@ struct AnnouncementViewItem: View {
                                 }
                                 .padding(.bottom, 1)
                                 Text(announcement.subTitle!).font(.title3)
+                                    .multilineTextAlignment(.leading)
                                     .lineLimit(2)
                                 Text(announcement.content!)
+                                    .multilineTextAlignment(.leading)
                                     .lineLimit(2)
                         }
                     }
